@@ -61,9 +61,6 @@
   }%
   \item[]}{\end{list}}
 
-%% Ott
-\input{atrees-ott}
-
 \begin{document}
 
 \title{A Model of Co-intuitionistic Linear Logic in Dialectica Categories}
@@ -267,10 +264,32 @@ category in the category of prosets.
   \end{itemize}
 \end{definition}
 An example of a concrete colineale is the three element set
-$\mathsf{3} = \{0,\perp,1\}$ where $\perp$ stands for undefined\footnote{The full
-  definition of the colineale $\mathsf{3}$ can be found in the formal
-  development: ?}.  However, one must be careful when defining the
-colineale because it is possible to degenerate to classical logic.
+$\mathsf{3} = \{0,\perp,1\}$ where $\perp$ stands for
+undefined\footnote{The full definition of the colineale $\mathsf{3}$
+  can be found in the formal development: ?}.  However, one must be
+careful when defining the colineale $\mathsf{3}$ because it is
+possible to degenerate to classical logic.
+
+We now use colineales to define the category $\dial{L}$.  This
+category is given as a construction similar to the Chu construction.
+\begin{definition}
+  \label{def:dialect-category}
+  Suppose $(L, \leq, \bullet, e, \colimp)$ is a colineale.  Then the category $\dial{L}$ consists of 
+  \begin{itemize}
+  \item objects that are triples, $A = (\powerset{U},\powerset{X},\alpha)$, where $U$ and
+    $X$ are sets, and $\alpha : \powerset{U} \times \powerset{X} \to L$ is a multi-relation, and
+  \item maps that are pairs $(f,F) : (\powerset{U},\powerset{X},\alpha) \to (\powerset{V},\powerset{Y},\beta)$
+    where $f : \powerset{U} \to \powerset{V}$ and $F : \powerset{Y} \to \powerset{X}$ such that
+    \begin{itemize}
+    \item For any $u \in \powerset{U}$ and $y \in \powerset{Y}$, $\alpha(u,F(y)) \leq \beta(f(u),y)$.
+    \end{itemize}
+  \end{itemize}
+  Suppose $A = (\powerset{U},\powerset{X},\alpha)$, $B = (\powerset{V},\powerset{Y},\beta)$, and $C =
+  (\powerset{W},\powerset{Z},\gamma)$.  Then identities are given by $(\id_U,\id_X) : A \to
+  A$.  The composition of the maps $(f,F) : A \to B$ and $(g, G) : B
+  \to C$ is defined as $(f;g,G;F) : A \to C$.
+\end{definition}
+
 % section the_category_dialL (end)
 
 

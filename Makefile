@@ -15,17 +15,13 @@ all: pdf
 
 pdf : main.pdf
 
-main-output.tex : main.tex atrees.ott
-	$(OTT) $(OTT_FLAGS) -i atrees.ott -o atrees-ott.tex -tex_name_prefix ATrees \
-		-tex_filter main.tex main-output.tex
-
 # Now this takes the full LaTex translation and compiles it using
 # pdflatex.
-main.pdf : main-output.tex appendix-SSG-monoidal.tex ref.bib appendix-SMC.tex Makefile
-	$(PDFLATEX) -jobname=main main-output.tex
+main.pdf : main.tex ref.bib Makefile
+	$(PDFLATEX) -jobname=main main.tex
 	$(BIBTEX) main
-	$(PDFLATEX) -jobname=main main-output.tex
-	$(PDFLATEX) -jobname=main main-output.tex
+	$(PDFLATEX) -jobname=main main.tex
+	$(PDFLATEX) -jobname=main main.tex
 
 clean :
 	rm -f *.aux *.dvi *.ps *.log *-ott.tex *-output.tex *.bbl *.blg *.rel *.pdf
