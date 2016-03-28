@@ -1,0 +1,285 @@
+\documentclass{llncs}
+
+\usepackage{amssymb,amsmath}
+\usepackage{cmll}
+\usepackage{txfonts}
+\usepackage{graphicx}
+\usepackage{stmaryrd}
+\usepackage{todonotes}
+\usepackage{mathpartir}
+\usepackage{hyperref}
+\usepackage[barr]{xy}
+
+%% This renames Barr's \to to \mto.  This allows us to use \to for imp
+%% and \mto for a inline morphism.
+\let\mto\to
+\let\to\relax
+\newcommand{\to}{\rightarrow}
+
+% Commands that are useful for writing about type theory and programming language design.
+%% \newcommand{\case}[4]{\text{case}\ #1\ \text{of}\ #2\text{.}#3\text{,}#2\text{.}#4}
+\newcommand{\interp}[1]{\llbracket #1 \rrbracket}
+\newcommand{\normto}[0]{\rightsquigarrow^{!}}
+\newcommand{\join}[0]{\downarrow}
+\newcommand{\redto}[0]{\rightsquigarrow}
+\newcommand{\nat}[0]{\mathbb{N}}
+\newcommand{\fun}[2]{\lambda #1.#2}
+\newcommand{\CRI}[0]{\text{CR-Norm}}
+\newcommand{\CRII}[0]{\text{CR-Pres}}
+\newcommand{\CRIII}[0]{\text{CR-Prog}}
+\newcommand{\subexp}[0]{\sqsubseteq}
+%% Must include \usepackage{mathrsfs} for this to work.
+
+\date{}
+
+% Cat commands.
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
+\newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
+\newcommand{\colimp}[0]{\multimapdotinv}
+\newcommand{\dial}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets^{op}})}
+\newcommand{\dialSets}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets})}
+\newcommand{\dcSets}[1]{\mathsf{DC_{#1}}(\mathsf{Sets})}
+\newcommand{\sets}[0]{\mathsf{Sets}}
+\newcommand{\obj}[1]{\mathsf{Obj}(#1)}
+\newcommand{\mor}[1]{\mathsf{Mor(#1)}}
+\newcommand{\id}[0]{\mathsf{id}}
+\newcommand{\lett}[0]{\mathsf{let}\,}
+\newcommand{\inn}[0]{\,\mathsf{in}\,}
+\newcommand{\cur}[1]{\mathsf{cur}(#1)}
+\newcommand{\curi}[1]{\mathsf{cur}^{-1}(#1)}
+
+\newenvironment{changemargin}[2]{%
+  \begin{list}{}{%
+    \setlength{\topsep}{0pt}%
+    \setlength{\leftmargin}{#1}%
+    \setlength{\rightmargin}{#2}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\itemindent}{\parindent}%
+    \setlength{\parsep}{\parskip}%
+  }%
+  \item[]}{\end{list}}
+
+%% Ott
+\input{atrees-ott}
+
+\begin{document}
+
+\title{A Model of Co-intuitionistic Linear Logic in Dialectica Categories}
+
+\author{Harley Eades III}
+\institute{Computer and Information Sciences, Augusta University, Augusta, GA, \email{heades@augusta.edu}}
+
+\maketitle 
+
+\begin{abstract}
+  TODO
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+TODO \cite{?}
+% section introduction (end)
+
+\section{Symmetric Monoidal Co-closed Categories}
+\label{sec:symmetric_monoidal_co-closed_categories}
+
+In this section we recall the definition of a symmetric monoidal
+category \cite{?}, and perhaps the lesser known definition of a
+symmetric monoidal left-closed category \cite{?}.  
+
+\begin{definition}
+  \label{def:monoidal-category}
+  A \textbf{symmetric monoidal category (SMC)} is a category, $\cat{M}$,
+  with the following data:
+  \begin{itemize}
+  \item An object $I$ of $\cat{M}$,
+  \item A bi-functor $\oplus : \cat{M} \times \cat{M} \mto \cat{M}$,
+  \item The following natural isomorphisms:
+    \[
+    \begin{array}{lll}
+      \lambda_A : I \oplus A \mto A\\
+      \rho_A : A \oplus I \mto A\\      
+      \alpha_{A,B,C} : (A \oplus B) \oplus C \mto A \oplus (B \oplus C)\\
+    \end{array}
+    \]
+  \item A symmetry natural transformation:
+    \[
+    \beta_{A,B} : A \oplus B \mto B \oplus A
+    \]
+  \item Subject to the following coherence diagrams:
+    \begin{mathpar}
+      \bfig
+      \vSquares|ammmmma|/->`->```->``<-/[
+        ((A \oplus B) \oplus C) \oplus D`
+        (A \oplus (B \oplus C)) \oplus D`
+        (A \oplus B) \oplus (C \oplus D)``
+        A \oplus (B \oplus (C \oplus D))`
+        A \oplus ((B \oplus C) \oplus D);
+        \alpha_{A,B,C} \oplus \id_D`
+        \alpha_{A \oplus B,C,D}```
+        \alpha_{A,B,C \oplus D}``
+        \id_A \oplus \alpha_{B,C,D}]      
+      
+      \morphism(1433,1000)|m|<0,-1000>[
+        (A \oplus (B \oplus C)) \oplus D`
+        A \oplus ((B \oplus C) \oplus D);
+        \alpha_{A,B \oplus C,D}]
+      \efig
+      \and
+      \bfig
+      \hSquares|aammmaa|/->`->`->``->`->`->/[
+        (A \oplus B) \oplus C`
+        A \oplus (B \oplus C)`
+        (B \oplus C) \oplus A`
+        (B \oplus A) \oplus C`
+        B \oplus (A \oplus C)`
+        B \oplus (C \oplus A);
+        \alpha_{A,B,C}`
+        \beta_{A,B \oplus C}`
+        \beta_{A,B} \oplus \id_C``
+        \alpha_{B,C,A}`
+        \alpha_{B,A,C}`
+        \id_B \oplus \beta_{A,C}]
+      \efig      
+    \end{mathpar}
+    \begin{mathpar}
+      \bfig
+      \Vtriangle[
+        (A \oplus I) \oplus B`
+        A \oplus (I \oplus B)`
+        A \oplus B;
+        \alpha_{A,I,B}`
+        \rho_{A}`
+        \lambda_{B}]
+      \efig
+      \and
+      \bfig
+      \btriangle[
+        A \oplus B`
+        B \oplus A`
+        A \oplus B;
+        \beta_{A,B}`
+        \id_{A \oplus B}`
+        \beta_{B,A}]
+      \efig
+      \and
+      \bfig
+      \Vtriangle[
+        I \oplus A`
+        A \oplus I`
+        A;
+        \beta_{I,A}`
+        \lambda_A`
+        \rho_A]
+      \efig
+    \end{mathpar}    
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  \label{def:SMLCC}
+  A \textbf{symmetric monoidal left closed category (SMLCC)} is a symmetric monoidal category 
+  $(\cat{C}, \oplus, I, \alpha_{A,B,C}, \lambda_{A}, \rho_{A}, \beta_{A,B})$
+  such that
+  the for any object $B$ of $\cat{C}$ the functor $- \oplus B : \cat{C} \to \cat{C}$ has a specified 
+  left adjoint $B \multimapdotinv - : \cat{C} \to \cat{C}$.  This means that for any objects
+  $A$,$B$, and $C$ of $\cat{C}$, we have the following bijection:
+  \begin{center}
+    \begin{math}
+      \Hom{C}{C}{A \oplus B} \cong \Hom{C}{B \multimapdotinv C}{A}
+    \end{math}
+  \end{center}
+  that is natural in all arguments.  
+\end{definition}
+
+As we can see from the definition a SMLCC is the categorical dual to
+symmetric monoidal closed categories.  Just as SMCCs model
+intuitionistic linear logics \cite{?} SMLCCs model co-intuitionistic
+linear logics \cite{Bellin:2015}.  There are many concrete examples of
+SMLCCs, in fact, the dual of any interesting concrete SMCCs must be an
+interesting SMLCC.
+
+In this paper I make use of a specific SMLCC, $\mathsf{Set^{op}}$,
+which is the dual of the category $\mathsf{Set}$ of all sets and
+functions between them.  The definition of $\mathsf{Set^{op}}$ I use
+here is the well-known one in power-set algebras
+$(\powerset{X},\cup,\cap,\overline{\stackrel{\,\,\,\,}{\stackrel{\,\,\,\,}{\,\,\,\,}}},\emptyset,X)$
+where $X$ is a set.  In fact, it is well-known that we can define the functor $\mathcal{P} : \mathsf{Set} \to \mathsf{Set^{op}}$
+on morphisms by $\mathcal{P}(f : X \to Y)(S \in \powerset{Y}) = \{ x \in X \mid f(x) \in S \}$.   Thus,
+objects of $\mathsf{Set^{op}}$ are powersets and morphisms are set theoretic functions between powersets.
+% section symmetric_monoidal_co-closed_categories (end)
+
+\section{The category $\dial{L}$}
+\label{sec:the_category_dialL}
+Dialectica categories originate from de Paiva's thesis
+\cite{dePaiva:1987}, and are one of the first models of intuitionistic
+linear logic.  In fact, they are the first categorical model of full
+intuitionistic linear logic which is intuitionistic linear logic with
+every logical connective from linear logic; complete with multiple
+conclusions.  In full generality, dialectica categories, denoted
+$\mathsf{Dial}_{L}(\cat{C})$, are symmetric monoidal closed categories
+constructed in terms of a lineale \cite{?}, $L$, and a symmetric
+monoidal closed category $\cat{C}$.  However, I take $L$ to be a
+colineale (Definition~\ref{def:colineale}) and $\cat{C}$ to be a
+symmetric monoidal left-closed category (Definition~\ref{def:SMLCC}),
+particularly, I take $\cat{C}$ to be $\mathsf{Set^{op}}$, but I take
+care to insure that all constructions lift to the general case of an
+arbitrary symmetric monoidal left-closed category.  This is the first
+time this construction has been given.
+
+We begin by introducing colineales as the categorical dual to
+lineales. The following defines when a proset is symmetric monoidal.
+\begin{definition}
+  \label{def:monoidal-proset}
+  A \textbf{monoidal proset} is a proset, $(L, \leq)$, with a given
+  symmetric monoidal structure $(L, \bullet, e)$.  That is, a set $L$
+  with a given binary relation $\leq : L \times L \to L$ satisfying
+  the following:
+  \begin{itemize}
+  \item (reflexivity) $a \leq a$ for any $a \in L$
+  \item (transitivity) If $a \leq b$ and $b \leq c$, then $a \leq c$
+  \end{itemize}
+  together with a monoidal structure $(\bullet, e)$ consisting of a
+  binary operation, called multiplication, $\bullet : L \times L \to L$
+  and a distinguished element $e \in L$ called the unit such that the
+  following hold:
+  \begin{itemize}
+  \item (associativity) $(a \bullet b) \bullet c = a \bullet (b \bullet c)$
+  \item (identity) $a \bullet e = a = e \bullet a$
+  \item (symmetry) $a \bullet b = b \bullet a$
+  \end{itemize}
+  Finally, the structures must be compatible, that is, if $a \leq b$,
+  then $a \bullet c \leq b \bullet c$ for any $c \in L$.
+\end{definition}
+A colineale is essentially a symmetric monoidal left-closed
+category in the category of prosets.
+\begin{definition}
+  \label{def:lineale}
+  A \textbf{colineale} is a monoidal proset, $(L, \leq, \bullet, e)$, with
+  a given binary operation, called coimplication, $\colimp : L \times L
+  \to L$, such that the following hold:
+  \begin{itemize}
+  \item (relative complement) $b \leq a \bullet (a \colimp b)$
+  \item (adjunction) If $b \colimp c \leq a$, then $c \leq a \bullet b$
+  \end{itemize}
+\end{definition}
+An example of a concrete colineale is the three element set
+$\mathsf{3} = \{0,\perp,1\}$ where $\perp$ stands for undefined\footnote{The full
+  definition of the colineale $\mathsf{3}$ can be found in the formal
+  development: ?}.  However, one must be careful when defining the
+colineale because it is possible to degenerate to classical logic.
+% section the_category_dialL (end)
+
+
+\bibliographystyle{plain} \bibliography{ref}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
+
