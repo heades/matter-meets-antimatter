@@ -15,9 +15,9 @@ all: pdf
 
 pdf : main.pdf
 
-main-output.tex : dtt.ott main.tex
+main-output.tex : L.ott main.tex
 	@echo "\n\n***OTT: Preprocessing dtt.ott in main.tex.***"
-	@$(OTT) $(OTT_FLAGS) -i dtt.ott  -o dtt-inc.tex -tex_name_prefix DTT \
+	@$(OTT) $(OTT_FLAGS) -i L.ott  -o L-inc.tex -tex_name_prefix L \
 		-tex_filter main.tex main-output.tex
 
 # Now this takes the full LaTex translation and compiles it using
