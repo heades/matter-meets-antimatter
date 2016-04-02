@@ -8,6 +8,7 @@
 \usepackage{todonotes}
 \usepackage{mathpartir}
 \usepackage{hyperref}
+\usepackage{mdframed}
 \usepackage[barr]{xy}
 
 %% This renames Barr's \to to \mto.  This allows us to use \to for imp
@@ -37,6 +38,7 @@
 \newcommand{\cat}[1]{\mathcal{#1}}
 \newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
 \newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
+\newcommand{\limp}[0]{\multimap}
 \newcommand{\colimp}[0]{\multimapdotinv}
 \newcommand{\dial}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets^{op}})}
 \newcommand{\dialSets}[1]{\mathsf{Dial_{#1}}(\mathsf{Sets})}
@@ -60,6 +62,12 @@
     \setlength{\parsep}{\parskip}%
   }%
   \item[]}{\end{list}}
+
+%% Large Dot for nu:
+\input{largedot}
+
+%% Ott
+\input{dtt-inc}
 
 \title{Comonadic Matter Meets Monadic Anti-Matter: An Adjoint Model of Dualized Simple Type Theory}
 \titlerunning{Comonadic Matter Meets Monadic Anti-Matter}
@@ -99,6 +107,91 @@
 \label{sec:introduction}
 TODO \cite{?}
 % section introduction (end)
+
+\section{Dualized Intuitionistic Linear Logic}
+\label{sec:linear_dualized_type_theory}
+In this section we introduce a linear version of Dualized
+Intuitionistic Logic we call Dualized Intuitionistic Linear Logic
+(ZILL)\footnote{I chose to not abbreviate Dualized Intuitionistic
+  Linear Logic by DILL, because it is well-known to be used for Dual
+  Intuitionistic Linear Logic of Barber \cite{?}}.  The novelty of the
+design of ZILL is its use of two different syntactic tools to enforce
+linearity and intuitionism. The former is enforced in the usual way
+found in linear logic, but the latter is enforced by the layering of
+the abstract Kripke graph used in DIL.  However, unlike DIL there is
+no straightforward interpretation of ZILL into a relational model, but
+this does not concern us here.  This formalization makes it easier to
+embedded DIL into ZILL.  In addition, ZILL is a new formalization --
+in fact, an extension -- of Full Intuitionistic Linear Logic (FILL)
+\cite{Eades:2016}.
+
+The syntax of ZILL is a straightforward adaption of the dualized
+syntax used in the design of DIL.
+\begin{definition}
+  \label{def:syntax-ZILL}
+  The following defines the syntax of ZILL:
+  \begin{center}
+    \begin{math}
+      \begin{array}{lllll}
+        \text{(Variance)}   & [[p]] ::= [[+]] \mid [[-]]\\
+        \text{(Formulas)}   & [[A]],[[B]],[[C]] ::= [[< p >]] \mid [[A (x) p B]] \mid [[A -o p B]]\\
+        \text{(Graphs)}     & [[Gr]] ::= [[.]] \mid [[n1 <=p n2]] \mid [[Gr1,Gr2]]\\
+        \text{(Contexts)}   & [[G]] ::= [[.]] \mid [[p A @ n]] \mid [[G1,G2]]\\
+        \text{(Sequents)}   & Q ::= [[Gr ; H |-L t : p A @ n]]
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+Just as with DIL variance is used to indicate when we are operating on
+the left of the sequent ($[[p]] = [[-]]$) or the right of the sequent
+($[[p]] = [[+]]$).  Thus, the unit of tensor is $[[<+>]]$, the unit of
+par is $[[<->]]$, tensor product is denoted by $[[A (x)+ B]]$, par is
+denoted by $[[A (x)- B]]$, implication is denoted by $[[A -o+ B]]$,
+and finally co-implication is denoted by $[[A -o- B]]$.  The sequents
+of ZILL are denoted by $[[Gr ; H |-L t : p A @ n]]$ where $A$ is called
+the active formula, and $n$ is a node in the abstract Kripke model
+$[[Gr]]$.
+
+The typing rules for ZILL can be found in
+Figure~\ref{fig:ZILL-typing}.
+\begin{figure}
+  \begin{mdframed}
+    \begin{mathpar}
+      \DTTdruleLXXax{} \and
+      \DTTdruleLXXunit{} \and
+      \DTTdruleLXXunitBar{} \and
+      \DTTdruleLXXmonoL{} \and
+      \DTTdruleLXXmonoR{} \and      
+      \DTTdruleLXXimp{} \and
+      \DTTdruleLXXimpBar{} \and
+      \DTTdruleLXXcutL{} \and
+      \DTTdruleLXXcutR{} \and      
+      \DTTdruleLXXEx{} 
+    \end{mathpar}
+  \end{mdframed}
+  \caption{Typing Relation for ZILL}
+  \label{fig:ZILL-typing}
+\end{figure}
+The rules are straightforward and not very surprising.  The only thing
+to note is that the cut rule found in DIL had to be split into two cut
+rules in ZILL in order to maintain linearity.  The first rule binds a
+free variable occurring in the first term of the cut, and the second
+binds a free variable occurring in the second term of the cut. The
+completeness proof of DIL heavily depends on the ability to switch out
+the active formula using the left-to-right lemma (Lemma~14 of
+\cite{Eades:?}) effectively modeling exchanging conclusions, but this
+derivable rule depends on weakening, and hence, is no longer derivable
+in ZILL, but this is expected.  Since ZILL's role is a intermediate
+language between intuitionistic logic and co-intuitionistic logic this
+is not a barrier.  In fact, after extending ZILL with the proper
+adjoints we will regain this ability.
+
+\subsubsection{Adjoint Extension of ZILL}
+\label{subsec:adjoint_extension_of_zill}
+
+% subsubsection adjoint_extension_of_zill (end)
+% section linear_dualized_type_theory (end)
+
 
 \section{Symmetric Monoidal Co-closed Categories}
 \label{sec:symmetric_monoidal_co-closed_categories}

@@ -15,13 +15,18 @@ all: pdf
 
 pdf : main.pdf
 
+main-output.tex : dtt.ott main.tex
+	@echo "\n\n***OTT: Preprocessing dtt.ott in main.tex.***"
+	@$(OTT) $(OTT_FLAGS) -i dtt.ott  -o dtt-inc.tex -tex_name_prefix DTT \
+		-tex_filter main.tex main-output.tex
+
 # Now this takes the full LaTex translation and compiles it using
 # pdflatex.
-main.pdf : main.tex ref.bib Makefile
-	$(PDFLATEX) -jobname=main main.tex
+main.pdf : main-output.tex ref.bib Makefile
+	$(PDFLATEX) -jobname=main main-output.tex
 	$(BIBTEX) main
-	$(PDFLATEX) -jobname=main main.tex
-	$(PDFLATEX) -jobname=main main.tex
+	$(PDFLATEX) -jobname=main main-output.tex
+	$(PDFLATEX) -jobname=main main-output.tex
 
 clean :
 	rm -f *.aux *.dvi *.ps *.log *-ott.tex *-output.tex *.bbl *.blg *.rel *.pdf
