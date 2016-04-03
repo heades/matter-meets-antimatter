@@ -181,6 +181,10 @@ defn
  ---------------------------- :: cr
  Gr;H, w : X |-I w : Y
 
+ Gr;H1,w1 : X, w2 : Y,H2 |-I w : Z
+ --------------------------------- :: ex
+ Gr;H1,w2 : Y, w1 : X,H2 |-I w : Z
+
  w1 Gr w2
  Gr;H , w1 : X , w2 : X |-I w : Y
  -------------------------------- :: mL
@@ -246,6 +250,10 @@ defn
  ---------------------------- :: cr
  Gr;w : S |-C w : T, I
 
+ Gr;w : R |-C I1,w1 : S, w2 : T, I2
+ ---------------------------------- :: ex
+ Gr;w : R |-C I1,w2 : T, w1 : S, I2
+
  w1 Gr w2
  Gr;w2 : S |-C I
  --------------------------- :: mL
@@ -291,7 +299,7 @@ defn
  {{tex [[Gr]];[[H]] \mid [[G]] \vdash_{\mathsf{LL} } [[D]] \mid [[I]] }}
  by
 
- % Graphs
+ % Graphs:
 
  Gr, (w,w);H | G |-LL D | I
  -------------------------- :: rl
@@ -302,12 +310,12 @@ defn
  --------------------------- :: ts
  Gr;H | G |-LL D | I
 
- % Axiom
+ % Axiom:
 
  --------------------------- :: id
  Gr;. | w : A |-LL w : A | .
 
- % Structural Rules
+ % Structural Rules:
 
  Gr; H | G |-LL D | I
  --------------------------- :: wkL
@@ -325,7 +333,23 @@ defn
  --------------------------------- :: ctrR
  Gr;H | G |-LL D | I, w : S
 
- % Monotonicity Rules
+ Gr;H | G1,w1 : A,w2 : B,G2 |-LL D | I
+ -------------------------------------- :: LLexL
+ Gr;H | G1,w2 : B,w1 : A,G2 |-LL D | I
+
+ Gr;H1,w1 : X, w2 : Y,H2 | G |-LL D | I
+ -------------------------------------- :: ILexL
+ Gr;H1,w2 : Y, w1 : X,H2 | G |-LL D | I
+
+ Gr;H | G |-LL D1,w1 : A, w2 : B,D2 | I
+ -------------------------------------- :: LLexR
+ Gr;H | G |-LL D1,w2 : B, w1 : A,D2 | I
+
+ Gr;H | G |-LL D | I1,w1 : S, w2 : T,I2
+ -------------------------------------- :: CLexL
+ Gr;H | G |-LL D | I1,w2 : T, w1 : S,I2
+
+ % Monotonicity Rules:
 
  w1 Gr w2
  Gr;H | G , w1 : A , w2 : A |-LL D | I
@@ -347,7 +371,7 @@ defn
  ------------------------------------ :: CmR
  Gr;H | G |-LL D | w1 : T, I
 
- % Cut
+ % Cut:
 
  Gr; H1 | G1 |-LL w : A, D2 | I1 && Gr; H2 | w : A,G2 |-LL D1 | I2
  ----------------------------------------------------------------- :: LLcut
@@ -361,7 +385,7 @@ defn
  ---------------------------------------------- :: CLLcut
  Gr;H | G |-LL D | I1, I2
 
- % Units
+ % Units:
 
  Gr;H | G |-LL D | I
  -------------------------- :: iL
@@ -374,7 +398,7 @@ defn
  Gr;. | w : J |-LL . | .
 
  Gr;H | G |-LL D | I
- -------------------------- :: jR
+ ------------------------- :: jR
  Gr;H | G |-LL w : J,D | I
 
  % Additives from IL and coIL:
@@ -387,19 +411,17 @@ defn
  -------------------------------------- :: dR
  Gr;H | G |-LL D | I1, w : S + T, I2
 
- % Tensor
+ % Tensor:
 
- % Par
+ % Par:
 
- % Implication
+ % Implication:
 
- % Co-implication
+ % Co-implication:
 
- % Exchange
+ % Intuitionistic Functors:
 
- % Intuitionistic Functors
-
- % Co-intuitionistic Functors
+ % Co-intuitionistic Functors:
 
 % Bi-intuitionistic Logic:
 defn
