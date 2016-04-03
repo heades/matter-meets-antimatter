@@ -1,0 +1,484 @@
+% Input variables.
+metavar ilabels, a, b, c ::=
+metavar paths , h {{tex \pi}} ::=
+metavar gindex ,  n , x , y, z , w ::=  % Indexes into the graph.
+
+indexvar ivar, i , k , j ::= 
+
+grammar
+
+% Intuitionistic Logic:
+W, X, Y, Z :: 'Iform_' ::=
+  | True    ::   :: True
+  {{tex \top }}
+  | X x Y ::   :: Conj
+  {{tex [[X]] \times [[Y]] }}
+  | X -> Y ::   :: Imp
+  {{tex [[X]] \to [[Y]] }}
+  | ( X )   :: M :: Parens 
+  | h( X )  :: M :: HiddenParens 
+  {{ tex [[X]] }}
+
+% Co-intuitionistic Logic:
+R, S, T :: 'Cform_' ::=
+  | False   ::   :: False
+  {{tex \perp }}
+  | S + T ::   :: Disj
+  {{tex [[S]] + [[T]] }}
+  | S - T  ::   :: Subtrac
+  {{tex [[S]] - [[T]] }}
+  | ( T )   :: M :: Parens 
+  | h( T )  :: M :: HiddenParens 
+  {{ tex [[T]] }}
+
+% Bi-intuitionistic (Linear) Logic:
+A, B, C :: 'Bform_' ::=
+  | True    ::   :: True
+  {{tex \top }}
+  | False   ::   :: False
+  {{tex \perp }}
+  | I       ::  :: TensorU
+  | J       ::  :: ParU
+  | A x B ::   :: Conj
+  {{tex [[A]] \times [[B]] }}
+  | A (x) B ::   :: Tensor
+  {{tex [[A]] \otimes [[B]] }}  
+  | A + B ::   :: Disj
+  {{tex [[A]] + [[B]] }}
+  | A (+) B ::   :: Par
+  {{tex [[A]] \oplus [[B]] }}    
+  | A -> B ::   :: Imp
+  {{tex [[A]] \to [[B]] }}
+  | A -o B ::   :: LImp
+  {{tex [[A]] \limp [[B]] }}  
+  | A - B  ::   :: Subtrac
+  {{tex [[A]] - [[B]] }}
+  | A *- B ::   :: LSubtrac
+  {{tex [[A]] \colimp [[B]] }}  
+  | ( A )   :: M :: Parens 
+  | h( A )  :: M :: HiddenParens 
+  {{ tex [[A]] }}
+
+Gr {{tex G }} :: 'E_' ::=
+  | .             ::    :: Empty
+  {{tex \cdot }}
+  | { ( x , y ) } ::   :: El
+  | ( x , y )     ::   :: El2
+  | Gr , Gr'      ::   :: Ext
+  | Gr U Gr'      ::   :: Union
+  {{tex [[Gr]] \cup [[Gr']] }}
+  | ( Gr )        ::   :: Paren
+  | h( Gr )       :: M :: HiddenParens 
+  {{ tex [[Gr]] }}
+
+% Intuitionistic Contexts:
+H {{tex \Theta}}, P {{tex \Phi}} :: 'IG_' ::=
+  | .           ::   :: Empty
+  {{tex \cdot }}
+  | w : X       ::   :: El
+  | H , P      ::   :: Ext
+  | ( H )       :: S :: Paren
+  | h( H )      :: M :: HiddenParens 
+  {{ tex [[H]] }}
+
+% Co-intuitionistic Contexts:
+I {{tex \Psi}}, PI {{tex \Pi}} :: 'CG_' ::=
+  | .           ::   :: Empty
+  {{tex \cdot }}
+  | w : T       ::   :: El
+  | I , PI      ::   :: Ext
+  | ( I )       :: S :: Paren
+  | h( I )      :: M :: HiddenParens 
+  {{ tex [[I]] }}   
+
+% Bi-intuitionistic Contexts:
+G {{tex \Gamma}}, D {{tex \Delta}} :: 'BG_' ::=
+  | .           ::   :: Empty
+  {{tex \cdot }}
+  | w : A       ::   :: El
+  | G , G'      ::   :: Ext
+  | ( G )       :: S :: Paren
+  | h( G )      :: M :: HiddenParens 
+  {{ tex [[G]] }}   
+  
+terminals :: '' ::=
+  | []   :: :: Box  {{ tex \Box }}
+  | |=   :: :: models  {{ tex \models }}
+  | |-   :: :: Turnstyle  {{tex \vdash }}
+  | star :: :: star   {{ tex \mathop{\star} }}
+  | >>   :: :: RR   {{ tex \gg}}
+  | _    :: :: Under   {{tex \Box}}
+  | \    :: :: slash  {{ tex \lambda }}
+  | ~>   :: :: step  {{ tex \redto }}
+  | ~*>   :: :: sstep  {{ tex \redto^* }}
+  | >=   :: :: succeq {{ tex \succeq }}
+  | <=   :: :: preceq {{ tex \preceq }}
+  | ->   :: :: rightarrow  {{ tex \rightarrow }}
+  | <-   :: :: leftarrow  {{ tex \leftarrow }}
+  | -<   :: :: Yleft  {{ tex \Yleft }}
+  | ~*>  :: :: mstep  {{ tex \redto^* }}
+  | =    :: :: Eq
+  | ==   :: :: Equiv  {{ tex \equiv }}
+  | =~   :: :: Cong  {{ tex \cong }}
+  | bot  :: :: Bottom   {{ tex \mathop{\perp} }}
+  | top  :: :: Top   {{ tex \top }}
+  | *    :: :: Cut  {{ tex \bullet}}
+  | ~    :: :: Tilde  {{tex \mathop{\sim} }}
+  | \    :: :: Lam {{ tex \lambda }}
+  | mu   :: :: Mu {{ tex \mu }}
+  | !=   :: :: Neq {{tex \neq }}
+  | FV   :: :: FV  {{ tex \mathsf{FV} }}
+  | in   :: :: In {{ tex \in }}
+
+
+ formula :: 'formula_' ::=
+  | judgement               ::  :: judgement
+  | formula <= formula'     :: M :: PJ
+  | ( formula )             :: M :: ParenF
+  | formula && formula'     ::  :: judgement_list 
+  {{ tex [[formula]] \qquad [[formula']] }}
+  | ( formula )             ::  :: parens
+  | x Gr y                  ::  :: GraphRel
+  {{tex [[x]] [[Gr]] [[y]] }}
+  | x notin Gr , G , D      ::  :: wnotin
+  {{tex [[x]] \not\in |[[Gr]]|,|[[G]]|,|[[D]]| }}
+  | x notin Gr , H      ::  :: wnotin2
+  {{tex [[x]] \not\in |[[Gr]]|,|[[H]]| }}
+  | x notin Gr , I      ::  :: wnotin3
+  {{tex [[x]] \not\in |[[Gr]]|,|[[I]]| }}    
+  | ( x , y )               :: M :: Edges
+  | n in Nodes ( Gr )       :: M :: Nodes1
+  {{tex [[n]] \in \mathsf{Nodes}([[Gr]]) }}
+  | n in Nodes ( G )        :: M :: Nodes2
+  {{tex [[n]] \in \mathsf{Nodes}([[G]]) }}  
+
+defns
+  Jtyp :: '' ::=
+
+% Intuitionistic Logic:
+defn
+ Gr ; H |-I w : X :: :: ILog :: 'I_' 
+ {{tex [[Gr]];[[H]] \vdash_{\mathsf{I} } [[w]] : [[X]] }}
+ by
+
+ Gr, (w,w);H |-I w : Y
+ ---------------------- :: rl
+ Gr;H |-I w : Y
+
+ w1 Gr w2 && w2 Gr w3
+ Gr,(w1,w3);H |-I w : Y
+ ---------------------- :: ts
+ Gr;H |-I w : Y
+
+ ------------------ :: id
+ Gr;w : Y |-I w : Y
+
+ Gr;H |-I w : Y
+ ---------------------- :: wk
+ Gr;H, w : X |-I w : Y
+
+ Gr;H, w : X, w : X |-I w : Y
+ ---------------------------- :: cr
+ Gr;H, w : X |-I w : Y
+
+ w1 Gr w2
+ Gr;H , w1 : X , w2 : X |-I w : Y
+ -------------------------------- :: mL
+ Gr;H , w1 : X |-I w : Y
+
+ w2 Gr w1
+ Gr;H |-I w2 : Y
+ --------------- :: mR
+ Gr;H |-I w1 : Y
+
+ Gr;H |-I w : Y
+ ------------------------- :: tL
+ Gr;H , w : True |-I w : Y
+
+ ----------------- :: tR
+ Gr;H |-I w : True
+
+ Gr;H , w1 : X, w1 : Y |-I w2 : Z
+ -------------------------------- :: aL
+ Gr;H , w1 : X x Y   |-I w2 : Z
+
+ Gr;H1 |-I w : X && Gr;H2 |-I w : Y
+ ---------------------------------- :: aR
+ Gr;H1,H2 |-I w : X x Y
+
+ w1 Gr w2
+ Gr;H2 |-I w2 : X && Gr;H1, w2 : Y |-I w : Z
+ ------------------------------------------- :: iL
+ Gr;H1 , H2, w1 : X -> Y |-I w : Z 
+
+ w2 notin Gr, H
+ Gr, (w1,w2);H, w2 : X |-I w2 : Y
+ --------------------------------- :: iR
+ Gr;H |-I w1 : X -> Y
+
+ Gr;H2 |-I w : X && Gr;H1,w : X |-I w : Z
+ ---------------------------------------- :: cut
+ Gr;H1,H2 |-I w : Z
+
+% Co-intuitionistic Logic:
+defn
+ Gr ; w : S |-C I :: :: CLog :: 'C_' 
+ {{tex [[Gr]];[[w]]:[[S]] \vdash_{\mathsf{C} } [[I]] }}
+ by
+
+ Gr, (w,w);w : S |-C I
+ ---------------------- :: rl
+ Gr;w : S |-C I
+
+ w1 Gr w2 && w2 Gr w3
+ Gr,(w1,w3);w : S |-C I
+ ---------------------- :: ts
+ Gr;w : S |-C I
+
+ ------------------ :: id
+ Gr;w : S |-C w : S
+
+ Gr;w : S |-C I
+ ---------------------- :: wk
+ Gr;w : S |-C w : T,I
+
+ Gr;w : S |-C w : T, w : T, I
+ ---------------------------- :: cr
+ Gr;w : S |-C w : T, I
+
+ w1 Gr w2
+ Gr;w2 : S |-C I
+ --------------------------- :: mL
+ Gr;w1 : S |-C I
+
+ w2 Gr w1
+ Gr;w : S |-C w2 : T , w1 : T, I
+ ------------------------------- :: mR
+ Gr;w : S |-C w1 : T, I
+
+ ------------------ :: fL
+ Gr;w : False |-C I
+
+ Gr;w : S |-C I
+ ------------------------- :: fR
+ Gr;w : S |-C w : False, I
+
+ Gr;w : S |-C I1 && Gr;w : T |-C I2
+ ---------------------------------- :: dL
+ Gr;w : S + T |-C I1,I2
+
+ Gr;w : R |-C w : S, w : T, I
+ ---------------------------- :: dR
+ Gr;w : R |-C w : S + T, I
+
+ w2 notin Gr, I
+ Gr,(w2,w1);w2 : S |-C w2 : T, I
+ ------------------------------- :: sL
+ Gr;w1 : S - T |-C I
+
+ w2 Gr w1
+ Gr;w : R |-C w2 : S , I2 && Gr;w2 : T |-C I1
+ -------------------------------------------- :: sR
+ Gr;w : R |-C w1 : S - T, I1,I2
+
+ Gr;w : S |-C w : T, I2 && Gr;w : T |-C I1
+ --------------------------------------------- :: cut
+ Gr;w : S |-C I1,I2
+
+% Bi-intuitionistic Linear Logic:
+defn
+ Gr ; H | G |-LL D | I :: :: LBILog :: 'LL_' 
+ {{tex [[Gr]];[[H]] \mid [[G]] \vdash_{\mathsf{LL} } [[D]] \mid [[I]] }}
+ by
+
+ % Graphs
+
+ Gr, (w,w);H | G |-LL D | I
+ -------------------------- :: rl
+ Gr;H | G |-LL D | I
+
+ w1 Gr w2 && w2 Gr w3
+ Gr,(w1,w3);H | G |-LL D | I
+ --------------------------- :: ts
+ Gr;H | G |-LL D | I
+
+ % Axiom
+
+ --------------------------- :: id
+ Gr;. | w : A |-LL w : A | .
+
+ % Structural Rules
+
+ Gr; H | G |-LL D | I
+ --------------------------- :: wkL
+ Gr; H, w : X | G |-LL D | I
+
+ Gr; H | G |-LL D | I
+ --------------------------- :: wkR
+ Gr; H | G |-LL D | I, w : S
+
+ Gr;H, w : X, w : X | G |-LL D | I
+ --------------------------------- :: ctrL
+ Gr;H, w : X | G |-LL D | I
+
+ Gr;H | G |-LL D | I, w : S, w : S
+ --------------------------------- :: ctrR
+ Gr;H | G |-LL D | I, w : S
+
+ % Monotonicity Rules
+
+ w1 Gr w2
+ Gr;H | G , w1 : A , w2 : A |-LL D | I
+ ------------------------------------- :: mL
+ Gr;H | G , w1 : A |-LL D | I
+
+ w2 Gr w1
+ Gr;H | G |-LL w2 : A , w1 : A, D | I
+ ------------------------------------ :: mR
+ Gr;H | G |-LL w1 : A, D | I
+
+ w1 Gr w2
+ Gr;H , w1 : X , w2 : X | G |-LL D | I
+ ------------------------------------- :: ImL
+ Gr;H , w1 : X | G |-LL D | I
+
+ w2 Gr w1
+ Gr;H | G |-LL D | w2 : T , w1 : T, I
+ ------------------------------------ :: CmR
+ Gr;H | G |-LL D | w1 : T, I
+
+ % Cut
+
+ Gr; H1 | G1 |-LL w : A, D2 | I1 && Gr; H2 | w : A,G2 |-LL D1 | I2
+ ----------------------------------------------------------------- :: LLcut
+ Gr;H1,H2 | G1,G2 |-LL D1,D2 | I1,I2
+
+ Gr;H2 |-I w : X && Gr;H1, w : X | G |-LL D | I
+ ---------------------------------------------- :: ILLcut
+ Gr;H1,H2 | G |-LL D | I
+
+ Gr;H | G |-LL D | I1, w : S && Gr;w : S |-C I2
+ ---------------------------------------------- :: CLLcut
+ Gr;H | G |-LL D | I1, I2
+
+ % Units
+
+ Gr;H | G |-LL D | I
+ -------------------------- :: iL
+ Gr;H | G, w : I |-LL D | I
+
+ ----------------------- :: iR
+ Gr;. | . |-LL w : I | .
+
+ ----------------------- :: jL
+ Gr;. | w : J |-LL . | .
+
+ Gr;H | G |-LL D | I
+ -------------------------- :: jR
+ Gr;H | G |-LL w : J,D | I
+
+ % Additives from IL and coIL:
+ 
+ Gr;H1, w : X, w : Y,H2 | G |-LL D | I
+ ------------------------------------- :: cL
+ Gr;H1, w : X x Y,H2 | G |-LL D | I
+
+ Gr;H | G |-LL D | I1, w : S, w : T, I2
+ -------------------------------------- :: dR
+ Gr;H | G |-LL D | I1, w : S + T, I2
+
+ % Tensor
+
+ % Par
+
+ % Implication
+
+ % Co-implication
+
+ % Exchange
+
+ % Intuitionistic Functors
+
+ % Co-intuitionistic Functors
+
+% Bi-intuitionistic Logic:
+defn
+ Gr ; G |-L D :: :: BILog :: '' 
+ {{tex [[Gr]];[[G]] \vdash_{\mathsf{L} } [[D]] }}
+ by
+
+ Gr, (w,w);G |-L D
+ ---------------------- :: rl
+ Gr;G |-L D
+
+ w1 Gr w2 && w2 Gr w3
+ Gr,(w1,w3);G |-L D
+ ---------------------- :: ts
+ Gr;G |-L D
+
+ ------------------------ :: id
+ Gr;G, w : A |-L w : A , D
+
+ w1 Gr w2
+ Gr;G , w1 : A , w2 : A |-L D
+ --------------------------- :: mL
+ Gr;G , w1 : A |-L D
+
+ w2 Gr w1
+ Gr;G |-L w2 : A , w1 : A, D
+ ------------------------- :: mR
+ Gr;G |-L w1 : A, D
+
+ Gr;G |-L D
+ -------------------- :: tL
+ Gr;G , w : True |-L D
+
+ ------------------- :: tR
+ Gr;G |-L w : True, D
+
+ -------------------- :: fL
+ Gr;G, w : False |-L D
+
+ Gr;G |-L D
+ -------------------- :: fR
+ Gr;G |-L w : False, D
+
+ Gr;G , w : A, w : B |-L D
+ ------------------------ :: aL
+ Gr;G , w : A x B   |-L D
+
+ Gr;G |-L w : A, D && Gr;G |-L w : B, D
+ ------------------------------------ :: aR
+ Gr;G |-L w : A x B, D
+
+ Gr;G, w : A |-L D && Gr;G, w : B |-L D
+ ------------------------------------ :: dL
+ Gr;G, w : A + B |-L D
+
+ Gr;G |-L w : A, w : B, D
+ ----------------------- :: dR
+ Gr;G |-L w : A + B, D
+
+ w1 Gr w2
+ Gr;G |-L w2 : A, D && Gr;G, w2 : B |-L D
+ -------------------------------------- :: iL
+ Gr;G , w1 : A -> B |-L D 
+
+ w2 notin Gr, G, D
+ Gr, (w1,w2);G, w2 : A |-L w2 : B, D
+ --------------------------------- :: iR
+ Gr;G |-L w1 : A -> B, D
+
+ w2 notin Gr, G, D
+ Gr,(w2,w1);G, w2 : A |-L w2 : B, D
+ --------------------------------- :: sL
+ Gr;G, w1 : A - B |-L D
+
+ w2 Gr w1
+ Gr;G |-L w2 : A , D && Gr;G, w2 : B |-L D
+ --------------------------------------- :: sR
+ Gr;G |-L w1 : A - B, D
+
+ Gr;G |-L w : A, D && Gr;G,w : A |-L D
+ --------------------------------------------- :: cut
+ Gr;G |-L D
