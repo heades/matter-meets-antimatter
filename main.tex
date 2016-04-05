@@ -1,5 +1,4 @@
-\documentclass[letterpaper,USenglish]{lipics-v2016}
-
+\documentclass{lmcs}
 \usepackage{amssymb,amsmath}
 \usepackage{cmll}
 \usepackage{txfonts}
@@ -65,30 +64,52 @@
   }%
   \item[]}{\end{list}}
 
-%% Large Dot for nu:
-\input{largedot}
-
 %% Ott
 \input{L-inc}
 
-\title{Comonadic Matter Meets Monadic Anti-Matter: An Adjoint Model of Bi-Intuitionistic Logic}
-\titlerunning{Comonadic Matter Meets Monadic Anti-Matter}
-
-\author{Harley Eades III}
-\affil{Computer and Information Sciences, Augusta University,
-  Augusta, GA, \texttt{heades@augusta.edu}}
-\authorrunning{H. Eades III}
-\Copyright{Harley D. Eades III}
-
-\subjclass{Dummy classification -- please refer to
-  \url{http://www.acm.org/about/class/ccs98-html}}
-\keywords{Dummy keyword -- please provide 1--5 keywords}
+\urldef{\mailsa}\path|{heades}@augusta.edu|
 
 \begin{document}
+
+\title{Comonadic Matter Meets Monadic Anti-Matter: An Adjoint Model of Bi-Intuitionistic Logic}
+\author{Harley Eades III}
+\email{heades@augusta.edu}
+\address{Computer and Information Sciences, Augusta University, Augusta, GA}
 
 \maketitle 
 
 \begin{abstract}
+
+  Bi-intuitionistic logic (BINT) is a conservative extension of
+  intuitionistic logic with perfect duality.  That is, BINT contains
+  the usual intuitionistic logical connectives such as true,
+  conjunction, and implication, but also their duals false,
+  disjunction, and co-implication. One leading question with respect
+  to BINT is, what does BINT look like across the three arcs -- logic,
+  typed $\lambda$-calculi, and category theory -- of the
+  Curry-Howard-Lambek correspondence?  A non-trivial (does not
+  degenerate to a poset) categorical model of BINT is currently an
+  open problem.  It is this open problem that this paper contributes
+  to by providing the first fully developed categorical model of BINT.
+  It is well-known that the linear counterpart, linear BINT, of BINT
+  can be modeled in a symmetric monoidal closed category equipped with
+  an additional monoidal structure that models par and a specified
+  left adjoint to par called linear co-implication.  We call this
+  model a symmetric bi-monoidal bi-closed category. In addition, it is
+  well-known that intuitionistic logic has a categorical model of
+  cartesian closed categories, and their dual co-cartesian co-closed
+  categories model co-intuitionistic logic.  In this paper we exploit
+  Benton's beautiful LNL models of linear logic to show that these
+  three models can be mixed by requiring a symmetric monoidal
+  adjunction between a cartesian closed category and the symmetric
+  bi-monoidal bi-closed category, in addition to a symmetric monoidal
+  adjunction between a co-cartesian co-closed category and the
+  symmetric bi-monoidal bi-closed category.  As a result of this
+  mixture we obtain two modalities the usual comonadic of-course
+  modality of linear logic, but also a monadic modality allowing for
+  the embedding of co-intuitionistic logic inside of linear BINT.
+  Finally, using these modalities we show that BINT intuitionistic
+  logic can be soundly modeled in this new categorical model.
 
 \end{abstract}
 

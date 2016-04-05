@@ -29,4 +29,4 @@ main.pdf : main-output.tex ref.bib Makefile
 	$(PDFLATEX) -jobname=main main-output.tex
 
 clean :
-	rm -f *.aux *.dvi *.ps *.log *-ott.tex *-output.tex *.bbl *.blg *.rel *.pdf
+	rm -f *.aux *.dvi *.ps *.log *-ott.tex *-output.tex *.bbl *.blg *.rel *.pdf *~ *.vtc *.out *.spl *-inc.tex
