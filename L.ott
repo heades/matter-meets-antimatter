@@ -15,6 +15,8 @@ W, X, Y, Z :: 'Iform_' ::=
   {{tex [[X]] \times [[Y]] }}
   | X -> Y ::   :: Imp
   {{tex [[X]] \to [[Y]] }}
+  | Gf A     ::   :: G
+  {{tex G\,[[A]] }}
   | ( X )   :: M :: Parens 
   | h( X )  :: M :: HiddenParens 
   {{ tex [[X]] }}
@@ -27,6 +29,8 @@ R, S, T :: 'Cform_' ::=
   {{tex [[S]] + [[T]] }}
   | S - T  ::   :: Subtrac
   {{tex [[S]] - [[T]] }}
+  | H A     ::   :: H
+  {{tex H\,[[A]] }}
   | ( T )   :: M :: Parens 
   | h( T )  :: M :: HiddenParens 
   {{ tex [[T]] }}
@@ -37,8 +41,10 @@ A, B, C :: 'Bform_' ::=
   {{tex \top }}
   | False   ::   :: False
   {{tex \perp }}
-  | I       ::  :: TensorU
+  | Iu      ::  :: TensorU
+  {{tex I }}
   | J       ::  :: ParU
+  {{tex J }}
   | A x B ::   :: Conj
   {{tex [[A]] \times [[B]] }}
   | A (x) B ::   :: Tensor
@@ -54,7 +60,11 @@ A, B, C :: 'Bform_' ::=
   | A - B  ::   :: Subtrac
   {{tex [[A]] - [[B]] }}
   | A *- B ::   :: LSubtrac
-  {{tex [[A]] \colimp [[B]] }}  
+  {{tex [[A]] \colimp [[B]] }}
+  | F X     ::   :: F
+  {{tex F\,[[X]] }}
+  | J S     ::   :: J
+  {{tex J\,[[S]] }}  
   | ( A )   :: M :: Parens 
   | h( A )  :: M :: HiddenParens 
   {{ tex [[A]] }}
@@ -142,6 +152,8 @@ terminals :: '' ::=
   {{tex [[x]] [[Gr]] [[y]] }}
   | x notin Gr , G , D      ::  :: wnotin
   {{tex [[x]] \not\in |[[Gr]]|,|[[G]]|,|[[D]]| }}
+  | x notin Gr , H , G , D , I      ::  :: wnotin4
+  {{tex [[x]] \not\in |[[Gr]]|,|[[H]]|,|[[G]]|,|[[D]]|,|[[I]]| }}
   | x notin Gr , H      ::  :: wnotin2
   {{tex [[x]] \not\in |[[Gr]]|,|[[H]]| }}
   | x notin Gr , I      ::  :: wnotin3
@@ -224,6 +236,10 @@ defn
  ---------------------------------------- :: cut
  Gr;H1,H2 |-I w : Z
 
+ Gr;H | . |-LL w : A | .
+ ----------------------- :: gR
+ Gr;H |-I w : Gf A
+
 % Co-intuitionistic Logic:
 defn
  Gr ; w : S |-C I :: :: CLog :: 'C_' 
@@ -293,6 +309,10 @@ defn
  --------------------------------------------- :: cut
  Gr;w : S |-C I1,I2
 
+ Gr;. | w : A |-LL . | I
+ ----------------------- :: hL
+ Gr;w : H A |-C I
+
 % Bi-intuitionistic Linear Logic:
 defn
  Gr ; H | G |-LL D | I :: :: LBILog :: 'LL_' 
@@ -334,7 +354,7 @@ defn
  Gr;H | G |-LL D | I, w : S
 
  Gr;H | G1,w1 : A,w2 : B,G2 |-LL D | I
- -------------------------------------- :: LLexL
+ -------------------------------------- :: exL
  Gr;H | G1,w2 : B,w1 : A,G2 |-LL D | I
 
  Gr;H1,w1 : X, w2 : Y,H2 | G |-LL D | I
@@ -342,7 +362,7 @@ defn
  Gr;H1,w2 : Y, w1 : X,H2 | G |-LL D | I
 
  Gr;H | G |-LL D1,w1 : A, w2 : B,D2 | I
- -------------------------------------- :: LLexR
+ -------------------------------------- :: exR
  Gr;H | G |-LL D1,w2 : B, w1 : A,D2 | I
 
  Gr;H | G |-LL D | I1,w1 : S, w2 : T,I2
@@ -374,31 +394,31 @@ defn
  % Cut:
 
  Gr; H1 | G1 |-LL w : A, D2 | I1 && Gr; H2 | w : A,G2 |-LL D1 | I2
- ----------------------------------------------------------------- :: LLcut
+ ----------------------------------------------------------------- :: cut
  Gr;H1,H2 | G1,G2 |-LL D1,D2 | I1,I2
 
  Gr;H2 |-I w : X && Gr;H1, w : X | G |-LL D | I
- ---------------------------------------------- :: ILLcut
+ ---------------------------------------------- :: ILcut
  Gr;H1,H2 | G |-LL D | I
 
  Gr;H | G |-LL D | I1, w : S && Gr;w : S |-C I2
- ---------------------------------------------- :: CLLcut
+ ---------------------------------------------- :: CLcut
  Gr;H | G |-LL D | I1, I2
 
  % Units:
 
  Gr;H | G |-LL D | I
- -------------------------- :: iL
- Gr;H | G, w : I |-LL D | I
+ --------------------------- :: IL
+ Gr;H | G, w : Iu |-LL D | I
 
- ----------------------- :: iR
- Gr;. | . |-LL w : I | .
+ ------------------------ :: IR
+ Gr;. | . |-LL w : Iu | .
 
- ----------------------- :: jL
+ ----------------------- :: JL
  Gr;. | w : J |-LL . | .
 
  Gr;H | G |-LL D | I
- ------------------------- :: jR
+ ------------------------- :: JR
  Gr;H | G |-LL w : J,D | I
 
  % Additives from IL and coIL:
@@ -413,15 +433,85 @@ defn
 
  % Tensor:
 
+ Gr; H | G1, w : A, w : B, G2 |-LL D | I
+ --------------------------------------- :: tL
+ Gr; H | G1, w : A (x) B, G2 |-LL D | I
+
+ Gr; H1 | G1 |-LL w : A,D1 | I1 && Gr; H2 | G2 |-LL w : B,D2 | I2
+ ---------------------------------------------------------------- :: tR
+ Gr; H1,H2 | G1,G2 |-LL w : A (x) B,D1,D2 | I1,I2
+
  % Par:
+
+ Gr;H1 | G1, w : A |-LL D1 | I1 && Gr;H2 | G2, w : B |-LL D2 | I2
+ ---------------------------------------------------------------- :: pL
+ Gr;H1,H2 | G1, G2, w : A (+) B |-LL D1,D2 | I1,I2
+
+ Gr;H | G |-LL D1, w : A, w : B, D2 | I
+ -------------------------------------- :: pR
+ Gr;H | G |-LL D1, w : A (+) B, D2 | I
 
  % Implication:
 
+ w2 notin Gr,H,G,D,I
+ Gr, (w1,w2); H | G, w2 : A |-LL w2 : B,D | I
+ --------------------------------------------- :: iR
+ Gr; H | G |-LL w1 : A -o B,D | I
+
+ w1 Gr w2
+ Gr;H1 | G1 |-LL w2 : A,D1 | I1 && Gr;H2 | G2,w2 : B |-LL D2 | I2
+ ---------------------------------------------------------------- :: iL
+ Gr;H1,H2 | G1,G2,w1 : A -o B |-LL D1,D2 | I1,I2
+
+ w1 Gr w2
+ Gr;H1 |-I w2 : X && Gr;H2,w2 : Y | G |-LL D | I
+ ----------------------------------------------- :: ILiL
+ Gr;H1,H2, w1 : X -> Y | G |-LL D | I
+
  % Co-implication:
+
+ w2 notin Gr,H,G,D,I
+ Gr, (w2,w1);H | G,w2 : A |-LL w2 : B, D | I
+ ------------------------------------------- :: sL
+ Gr;H | G,w1 : A *- B |-LL D | I
+
+ w2 Gr w1
+ Gr;H1 | G1 |-LL w2 : A,D1 | I1 && Gr;H2 | G2,w2 : B |-LL D2 | I2
+ ---------------------------------------------------------------- :: sR
+ Gr;H1,H2 | G1,G2 |-LL w2 : A *- B,D1,D2 | I1,I2
+
+ w2 Gr w1
+ Gr;H | G |-LL D | w2 : S,I1 && Gr;w2 : T |-C I2
+ ---------------------------------------------------------------- :: CLsR
+ Gr;H | G |-LL D | w1 : S - T,I1,I2
 
  % Intuitionistic Functors:
 
+ Gr;H, w : X | G |-LL D | I
+ --------------------------- :: fL
+ Gr;H | G,w : F X |-LL D | I 
+
+ Gr; H |-I w : X
+ -------------------------- :: fR
+ Gr; H | . |-LL w : F X | .
+
+ Gr;H | G, w : A |-LL D | I
+ ----------------------------- :: gL
+ Gr;H, w : Gf A | G |-LL D | I 
+
  % Co-intuitionistic Functors:
+
+ Gr; w : S |-C I
+ ------------------------- :: jL
+ Gr;. | w : J S |-LL . | I
+
+ Gr;H | G |-LL D | w : S,I
+ --------------------------- :: jR
+ Gr;H | G |-LL D,w : J S | I
+
+ Gr;H | G |-LL D,w : A | I
+ --------------------------- :: hR
+ Gr;H | G |-LL D | w : H A,I
 
 % Bi-intuitionistic Logic:
 defn
