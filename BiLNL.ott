@@ -16,7 +16,7 @@ W, X, Y, Z :: 'Iform_' ::=
   | X -> Y ::   :: Imp
   {{tex [[X]] \to [[Y]] }}
   | Gf A     ::   :: G
-  {{tex G\,[[A]] }}
+  {{tex \mathsf{G}\,[[A]] }}
   | ( X )   :: M :: Parens 
   | h( X )  :: M :: HiddenParens 
   {{ tex [[X]] }}
@@ -30,7 +30,7 @@ R, S, T :: 'Cform_' ::=
   | S - T  ::   :: Subtrac
   {{tex [[S]] - [[T]] }}
   | H A     ::   :: H
-  {{tex H\,[[A]] }}
+  {{tex \mathsf{H}\,[[A]] }}
   | ( T )   :: M :: Parens 
   | h( T )  :: M :: HiddenParens 
   {{ tex [[T]] }}
@@ -62,9 +62,9 @@ A, B, C :: 'Bform_' ::=
   | A *- B ::   :: LSubtrac
   {{tex [[A]] \colimp [[B]] }}
   | F X     ::   :: F
-  {{tex F\,[[X]] }}
+  {{tex \mathsf{F}\,[[X]] }}
   | J S     ::   :: J
-  {{tex J\,[[S]] }}  
+  {{tex \mathsf{J}\,[[S]] }}  
   | ( A )   :: M :: Parens 
   | h( A )  :: M :: HiddenParens 
   {{ tex [[A]] }}
@@ -185,13 +185,13 @@ defn
  ------------------ :: id
  Gr;w : Y |-I w : Y
 
- Gr;H |-I w : Y
- ---------------------- :: wk
- Gr;H, w : X |-I w : Y
+ Gr;H |-I w1 : Y
+ ----------------------- :: wk
+ Gr;H, w2 : X |-I w1 : Y
 
- Gr;H, w : X, w : X |-I w : Y
- ---------------------------- :: cr
- Gr;H, w : X |-I w : Y
+ Gr;H, w2 : X, w2 : X |-I w1 : Y
+ ------------------------------- :: cr
+ Gr;H, w2 : X |-I w1 : Y
 
  Gr;H1,w1 : X, w2 : Y,H2 |-I w : Z
  --------------------------------- :: ex
@@ -207,19 +207,19 @@ defn
  --------------- :: mR
  Gr;H |-I w1 : Y
 
- Gr;H |-I w : Y
- ------------------------- :: tL
- Gr;H , w : True |-I w : Y
+ Gr;H |-I w1 : Y
+ --------------------------- :: tL
+ Gr;H , w2 : True |-I w1 : Y
 
  ----------------- :: tR
  Gr;H |-I w : True
 
  Gr;H , w1 : X, w1 : Y |-I w2 : Z
- -------------------------------- :: aL
+ -------------------------------- :: pL
  Gr;H , w1 : X x Y   |-I w2 : Z
 
  Gr;H1 |-I w : X && Gr;H2 |-I w : Y
- ---------------------------------- :: aR
+ ---------------------------------- :: pR
  Gr;H1,H2 |-I w : X x Y
 
  w1 Gr w2
@@ -232,9 +232,9 @@ defn
  --------------------------------- :: iR
  Gr;H |-I w1 : X -> Y
 
- Gr;H2 |-I w : X && Gr;H1,w : X |-I w : Z
- ---------------------------------------- :: cut
- Gr;H1,H2 |-I w : Z
+ Gr;H2 |-I w2 : X && Gr;H1,w2 : X |-I w1 : Z
+ -------------------------------------------- :: cut
+ Gr;H1,H2 |-I w1 : Z
 
  Gr;H | . |-LL w : A | .
  ----------------------- :: gR
