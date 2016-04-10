@@ -2,6 +2,7 @@ module BiLNL where
 
 open import nat renaming (_+_ to _+ℕ_)
 open import snoc
+open import list renaming ([_] to [_]𝕃 ; _++_ to _++𝕃_; _::_ to _::𝕃_)
 open import product hiding (_×_)
 open import empty
 open import unit
@@ -61,10 +62,13 @@ worldInICtx : World → I-Ctx → Set
 worldInICtx = inPairSnocFst _=ℕ_
 
 C-Ctx : Set
-C-Ctx = Snoc (World ∧ C-Form)
+C-Ctx = 𝕃 (World ∧ C-Form)
 
 worldInCCtx : World → C-Ctx → Set
-worldInCCtx = inPairSnocFst _=ℕ_
+worldInCCtx w [] = ⊥
+worldInCCtx w ((a , b) ::𝕃 c) with w =ℕ a
+... | tt = ⊤
+... | ff = ⊥
 
 BiL-Ctx : Set
 BiL-Ctx = Snoc (World ∧ BiL-Form)
@@ -75,9 +79,9 @@ worldInBiLCtx = inPairSnocFst _=ℕ_
 mutual
   -- Intuitionistic fragment of BiLNL logic:
   data ⟨_⟩_⊢I_ : Graph → I-Ctx → (World ∧ I-Form) → Set where
-    I-RL : ∀{Gr : Graph}{Θ : I-Ctx}{w : World}{Y : I-Form}
-      → ⟨ Gr :: (w , w) ⟩ Θ ⊢I (w , Y)
-      → ⟨ Gr ⟩ Θ ⊢I (w , Y)
+    I-RL : ∀{Gr : Graph}{Θ : I-Ctx}{w1 w2 : World}{Y : I-Form}
+      → ⟨ Gr :: (w1 , w1) ⟩ Θ ⊢I (w2 , Y)
+      → ⟨ Gr ⟩ Θ ⊢I (w2 , Y)
 
     I-TS : ∀{Gr : Graph}{Θ : I-Ctx}{w₁ w₂ w₃ w : World}{Y : I-Form}
       → w₁ ⟨ Gr ⟩ w₂
@@ -85,7 +89,7 @@ mutual
       → ⟨ Gr :: (w₁ , w₃) ⟩ Θ ⊢I (w , Y)
       → ⟨ Gr ⟩ Θ ⊢I (w , Y)
 
-    I-ID : ∀{Gr : Graph}{Θ : I-Ctx}{w : World}{Y : I-Form}
+    I-ID : ∀{Gr : Graph}{w : World}{Y : I-Form}
       → ⟨ Gr ⟩ [ (w , Y) ] ⊢I (w , Y)
 
     I-Cut : ∀{Gr : Graph}{Θ₁ Θ₂ : I-Ctx}{w₂ w₁ : World}{X Z : I-Form}
@@ -149,7 +153,58 @@ mutual
       → ⟨ Gr ⟩ Θ ⊢I (w , (G A)) 
 
   -- Co-intuitionistic fragment of BiLNL logic:
-  data ⟨_⟩_⊢C_ : Graph → C-Ctx → C-Form → Set where
+  data ⟨_⟩_⊢C_ : Graph → (World ∧ C-Form) → C-Ctx → Set where
+    C-RL : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ : World}{S : C-Form}
+      → ⟨ Gr :: (w₁ , w₁) ⟩ (w₂ , S) ⊢C Ψ
+      → ⟨ Gr ⟩ (w₂ , S) ⊢C Ψ
+
+    C-TS : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ w₃ w : World}{S : C-Form}
+      → w₁ ⟨ Gr ⟩ w₂
+      → w₂ ⟨ Gr ⟩ w₃
+      → ⟨ Gr :: (w₁ , w₃) ⟩ (w , S) ⊢C Ψ
+      → ⟨ Gr ⟩ (w , S) ⊢C Ψ
+
+    C-ID : ∀{Gr : Graph}{w : World}{S : C-Form}
+      → ⟨ Gr ⟩ (w , S) ⊢C [ (w , S) ]𝕃
+
+    C-Cut : ∀{Gr : Graph}{Ψ₁ Ψ₂ : C-Ctx}{w₁ w₂ : World}{S T : C-Form}
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C ((w₂ , T) ::𝕃 Ψ₂)
+      → ⟨ Gr ⟩ (w₂ , T) ⊢C Ψ₁      
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C (Ψ₁ ++𝕃 Ψ₂)
+
+    C-WK : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ : World}{S T : C-Form}
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C Ψ
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C ((w₂ , T) ::𝕃 Ψ)
+
+    C-CR : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ : World}{S T : C-Form}
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C ((w₂ , T) ::𝕃 (w₂ , T) ::𝕃 Ψ)
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C ((w₂ , T) ::𝕃 Ψ)
+
+    C-EX : ∀{Gr : Graph}{Ψ₁ Ψ₂ : C-Ctx}{w₁ w₂ w : World}{R S T : C-Form}
+      → ⟨ Gr ⟩ (w , R) ⊢C (Ψ₁ ++𝕃 (w₁ , S) ::𝕃 (w₂ , T) ::𝕃 Ψ₂)
+      → ⟨ Gr ⟩ (w , R) ⊢C (Ψ₁ ++𝕃 (w₂ , T) ::𝕃 (w₁ , S) ::𝕃 Ψ₂)
+
+    C-ML : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ : World}{S : C-Form}
+      → w₁ ⟨ Gr ⟩ w₂
+      → ⟨ Gr ⟩ (w₂ , S) ⊢C Ψ
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C Ψ
+
+    C-MR : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ w : World}{S T : C-Form}
+      → w₂ ⟨ Gr ⟩ w₁
+      → ⟨ Gr ⟩ (w , S) ⊢C ((w₂ , T) ::𝕃 (w₁ , T) ::𝕃 Ψ)
+      → ⟨ Gr ⟩ (w , S) ⊢C ((w₁ , T) ::𝕃 Ψ)
+
+    C-FL : ∀{Gr : Graph}{Ψ : C-Ctx}{w : World}
+      → ⟨ Gr ⟩ (w , False) ⊢C Ψ
+
+    C-FR : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ : World}{S : C-Form}
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C Ψ
+      → ⟨ Gr ⟩ (w₁ , S) ⊢C ((w₂ , False) ::𝕃 Ψ)
+
+    C-DL : ∀{Gr : Graph}{Ψ₁ Ψ₂ : C-Ctx}{w : World}{S T : C-Form}
+      → ⟨ Gr ⟩ (w , S) ⊢C Ψ₁
+      → ⟨ Gr ⟩ (w , T) ⊢C Ψ₂
+      → ⟨ Gr ⟩ (w , S + T) ⊢C (Ψ₁ ++𝕃 Ψ₂)
 
   -- Linear Core of BiLNL logic:
   data ⟨_⟩_∣_⊢LL_∣_ : Graph → I-Ctx → BiL-Ctx → BiL-Ctx → C-Ctx → Set where

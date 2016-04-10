@@ -173,9 +173,9 @@ defn
  {{tex [[Gr]];[[H]] \vdash_{\mathsf{I} } [[w]] : [[X]] }}
  by
 
- Gr, (w,w);H |-I w : Y
- ---------------------- :: rl
- Gr;H |-I w : Y
+ Gr, (w1,w1);H |-I w2 : Y
+ ------------------------ :: rl
+ Gr;H |-I w2 : Y
 
  w1 Gr w2 && w2 Gr w3
  Gr,(w1,w3);H |-I w : Y
@@ -246,9 +246,9 @@ defn
  {{tex [[Gr]];[[w]]:[[S]] \vdash_{\mathsf{C} } [[I]] }}
  by
 
- Gr, (w,w);w : S |-C I
+ Gr, (w1,w1);w2 : S |-C I
  ---------------------- :: rl
- Gr;w : S |-C I
+ Gr;w2 : S |-C I
 
  w1 Gr w2 && w2 Gr w3
  Gr,(w1,w3);w : S |-C I
