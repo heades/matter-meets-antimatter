@@ -31,25 +31,28 @@ w₁ =W w₂ with w₁ =ℕ w₂
 ... | tt = ⊤
 ... | ff = ⊥
 
-mutual 
+mutual
+  -- Intuitionistic formulas:
   data I-Form : Set where
     True : I-Form
     _×_ : I-Form → I-Form → I-Form
     _⇒_ : I-Form → I-Form → I-Form
     G   : BiL-Form → I-Form
 
+  -- Co-intuitionistic formulas:
   data C-Form : Set where
     False : C-Form
     _+_ : C-Form → C-Form → C-Form
-    _-_ : C-Form → C-Form → C-Form
+    _≺_ : C-Form → C-Form → C-Form
 
+  -- Bi-intuitionistic Linear Formulas:
   data BiL-Form : Set where
     I : BiL-Form
     J : BiL-Form
     _⊗_ : BiL-Form → BiL-Form → BiL-Form
     _⊕_ : BiL-Form → BiL-Form → BiL-Form
     _⊸_ : BiL-Form → BiL-Form → BiL-Form
-    _≻L_ : BiL-Form → BiL-Form → BiL-Form
+    _≺L_ : BiL-Form → BiL-Form → BiL-Form
     
 I-Ctx : Set
 I-Ctx = Snoc (World ∧ I-Form)
@@ -70,6 +73,7 @@ worldInBiLCtx : World → BiL-Ctx → Set
 worldInBiLCtx = inPairSnocFst _=ℕ_
 
 mutual
+  -- Intuitionistic fragment of BiLNL logic:
   data ⟨_⟩_⊢I_ : Graph → I-Ctx → (World ∧ I-Form) → Set where
     I-RL : ∀{Gr : Graph}{Θ : I-Ctx}{w : World}{Y : I-Form}
       → ⟨ Gr :: (w , w) ⟩ Θ ⊢I (w , Y)
@@ -143,8 +147,9 @@ mutual
     I-GR : ∀{Gr : Graph}{Θ : I-Ctx}{w : World}{A : BiL-Form}
       → ⟨ Gr ⟩ Θ ∣ [] ⊢LL [ (w , A) ] ∣ []
       → ⟨ Gr ⟩ Θ ⊢I (w , (G A)) 
-      
 
+  -- Co-intuitionistic fragment of BiLNL logic:
   data ⟨_⟩_⊢C_ : Graph → C-Ctx → C-Form → Set where
 
+  -- Linear Core of BiLNL logic:
   data ⟨_⟩_∣_⊢LL_∣_ : Graph → I-Ctx → BiL-Ctx → BiL-Ctx → C-Ctx → Set where
