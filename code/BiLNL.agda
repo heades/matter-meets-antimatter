@@ -304,6 +304,8 @@ mutual
       → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL Δ ∣ (Ψ₁ ++R ((w₁ , S) ::R (w₂ , T) ::R Ψ₂))
       → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL Δ ∣ (Ψ₁ ++R ((w₂ , T) ::R (w₁ , S) ::R Ψ₂))
 
+  -- Identity and Cut Rules:
+
     LL-ID : ∀{Gr : Graph}{w : World}{A : BiL-Form}
       → ⟨ Gr ⟩ [] ∣ [ (w , A) ]L ⊢LL [ (w , A) ]R ∣ []
 
@@ -364,6 +366,7 @@ mutual
       → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL (Δ₁ ++R ((w , A) ::R (w , B) ::R Δ₂)) ∣ Ψ
       → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL (Δ₁ ++R ((w , A ⊕ B) ::R Δ₂)) ∣ Ψ
 
+  -- Implication Rules:
     LL-ImpL : ∀{Gr : Graph}{Θ₁ Θ₂ : I-Ctx}{Γ₁ Γ₂ : BiL-LCtx}{Δ₁ Δ₂ : BiL-RCtx}{Ψ₁ Ψ₂ : C-Ctx}{w₁ w₂ : World}{A B : BiL-Form}
       → w₁ ⟨ Gr ⟩ w₂
       → ⟨ Gr ⟩ Θ₁ ∣ Γ₁ ⊢LL ((w₂ , A) ::R Δ₁) ∣ Ψ₁
