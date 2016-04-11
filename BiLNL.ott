@@ -513,17 +513,49 @@ defn
  {{tex [[Gr]];[[G]] \vdash_{\mathsf{L} } [[D]] }}
  by
 
- Gr, (w,w);G |-L D
- ---------------------- :: rl
- Gr;G |-L D
+ % Graphs:
+
+ Gr, (w,w); G |-L D
+ ------------------ :: rl
+ Gr; G |-L D
 
  w1 Gr w2 && w2 Gr w3
  Gr,(w1,w3);G |-L D
- ---------------------- :: ts
+ -------------------- :: ts
  Gr;G |-L D
 
- ------------------------ :: id
- Gr;G, w : A |-L w : A , D
+ % Axiom:
+
+ ------------------ :: id
+ Gr;w : A |-L w : A
+
+ % Structural Rules:
+
+ Gr; G |-L D 
+ ------------------ :: wkL
+ Gr; G, w : A |-L D
+
+ Gr; G |-L D
+ ------------------ :: wkR
+ Gr; G |-L w : A, D
+
+ Gr;G, w : A, w : A |-L D
+ ------------------------ :: ctrL
+ Gr;G, w : A |-L D
+
+ Gr; G |-L w : A, w : A , D
+ -------------------------- :: ctrR
+ Gr; G |-L w : A , D
+
+ Gr;G1,w1 : A,w2 : B,G2 |-L D
+ ---------------------------- :: exL
+ Gr;G1,w2 : B,w1 : A,G2 |-L D
+
+ Gr;G |-L D1,w1 : A, w2 : B,D2
+ ----------------------------- :: exR
+ Gr;G |-L D1,w2 : B, w1 : A,D2
+
+ % Monotonicity Rules:
 
  w1 Gr w2
  Gr;G , w1 : A , w2 : A |-L D
@@ -532,59 +564,69 @@ defn
 
  w2 Gr w1
  Gr;G |-L w2 : A , w1 : A, D
- ------------------------- :: mR
+ --------------------------- :: mR
  Gr;G |-L w1 : A, D
 
- Gr;G |-L D
- -------------------- :: tL
- Gr;G , w : 1 |-L D
+ % Cut:
 
- ------------------- :: tR
- Gr;G |-L w : 1, D
+ Gr; G1 |-L w : A, D2 && Gr; w : A,G2 |-L D1
+ ------------------------------------------- :: cut
+ Gr; G1,G2 |-L D1,D2
 
- -------------------- :: fL
- Gr;G, w : 0 |-L D
+ % Units:
 
  Gr;G |-L D
- -------------------- :: fR
- Gr;G |-L w : 0, D
+ ----------------- :: IL
+ Gr;G, w : 1 |-L D
 
- Gr;G , w : A, w : B |-L D
- ------------------------ :: aL
- Gr;G , w : A x B   |-L D
+ -------------- :: IR
+ Gr;. |-L w : 1
 
- Gr;G |-L w : A, D && Gr;G |-L w : B, D
- ------------------------------------ :: aR
- Gr;G |-L w : A x B, D
+ -------------- :: flL
+ Gr;w : 0 |-L .
 
- Gr;G, w : A |-L D && Gr;G, w : B |-L D
- ------------------------------------ :: dL
- Gr;G, w : A + B |-L D
+ Gr;G |-L D
+ ---------------- :: flR
+ Gr;G |-L w : 0,D
 
- Gr;G |-L w : A, w : B, D
- ----------------------- :: dR
- Gr;G |-L w : A + B, D
+ Gr; G1, w : A, w : B, G2 |-L D
+ ------------------------------ :: cL
+ Gr; G1, w : A x B, G2 |-L D
+
+ Gr; G1 |-L w : A,D1 && Gr; G2 |-L w : B,D2
+ ------------------------------------------ :: cR
+ Gr; G1,G2 |-L w : A x B
+
+ % Par:
+
+ Gr;G1, w : A |-L D1 && Gr;G2, w : B |-L D2
+ ------------------------------------------ :: dL
+ Gr;G1, G2, w : A + B |-L D1,D2
+
+ Gr;G |-L D1, w : A, w : B, D2
+ ----------------------------- :: dR
+ Gr;G |-L D1, w : A + B, D2
+
+ % Implication:
+
+ w2 notin Gr,G,D
+ Gr, (w1,w2); G, w2 : A |-L w2 : B,D
+ ----------------------------------- :: ImpR
+ Gr; G |-L w1 : A -> B,D
 
  w1 Gr w2
- Gr;G |-L w2 : A, D && Gr;G, w2 : B |-L D
- -------------------------------------- :: iL
- Gr;G , w1 : A -> B |-L D 
+ Gr;G1 |-L w2 : A,D1 && Gr;G2,w2 : B |-L D2
+ ------------------------------------------ :: ImpL
+ Gr;G1,G2,w1 : A -> B |-L D1,D2
 
- w2 notin Gr, G, D
- Gr, (w1,w2);G, w2 : A |-L w2 : B, D
- --------------------------------- :: iR
- Gr;G |-L w1 : A -> B, D
+ % Co-implication:
 
- w2 notin Gr, G, D
- Gr,(w2,w1);G, w2 : A |-L w2 : B, D
- --------------------------------- :: sL
- Gr;G, w1 : A - B |-L D
+ w2 notin Gr,G,D
+ Gr, (w2,w1); G,w2 : A |-L w2 : B, D
+ ----------------------------------- :: sL
+ Gr;G,w1 : A - B |-L D
 
  w2 Gr w1
- Gr;G |-L w2 : A , D && Gr;G, w2 : B |-L D
- --------------------------------------- :: sR
- Gr;G |-L w1 : A - B, D
-
- Gr;G |-L w : A, D && Gr;G,w : A |-L D
- --------------------------------------------- :: cut
- Gr;G |-L D
+ Gr;G1 |-L w2 : A,D1 && Gr;G2,w2 : B |-L D2
+ ------------------------------------------- :: sR
+ Gr;G1,G2 |-L w1 : A - B,D1,D2
