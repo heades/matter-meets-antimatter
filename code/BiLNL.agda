@@ -8,12 +8,6 @@ open import empty
 open import unit
 open import bool
 
-inPairListFst : {A B : Set} → (A → A → 𝔹) → A → 𝕃 (A ∧ B) → Set
-inPairListFst _ w [] = ⊥
-inPairListFst _=A_ w ((a , b) ::R c) with w =A a
-... | tt = ⊤
-... | ff = inPairListFst _=A_ w c
-
 World : Set
 World = ℕ
   
@@ -63,19 +57,22 @@ mutual
     _⊕_ : BiL-Form → BiL-Form → BiL-Form
     _⊸_ : BiL-Form → BiL-Form → BiL-Form
     _≺L_ : BiL-Form → BiL-Form → BiL-Form
-    
+
+-- Intuitionistic contexts:
 I-Ctx : Set
 I-Ctx = Snoc (World ∧ I-Form)
 
 worldInICtx : World → I-Ctx → Set
 worldInICtx = inPairSnocFst _=ℕ_
 
+-- Co-intuitionistic contexts:
 C-Ctx : Set
 C-Ctx = 𝕃 (World ∧ C-Form)
 
 worldInCCtx : World → C-Ctx → Set
 worldInCCtx w c = inPairListFst _=ℕ_ w c
 
+-- Bi-intuitionistic left and right contexts:
 BiL-LCtx : Set
 BiL-LCtx = Snoc (World ∧ BiL-Form)
 
@@ -87,6 +84,8 @@ worldInBiLLCtx = inPairSnocFst _=ℕ_
 
 worldInBiLRCtx : World → BiL-RCtx → Set
 worldInBiLRCtx w c = inPairListFst _=ℕ_ w c
+
+-- The inference rules for BiLNL Logic:
 
 mutual
   -- Intuitionistic fragment of BiLNL logic:
