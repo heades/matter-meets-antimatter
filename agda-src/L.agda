@@ -6,6 +6,7 @@ open import list renaming ([_] to [_]R ; _++_ to _++R_; _::_ to _::R_)
 
 open import graphs
 
+-- Bi-intuitionistic formulas:
 data L-Form : Set where
   One : L-Form
   Zero : L-Form
