@@ -3,34 +3,12 @@ module BiLNL where
 open import nat renaming (_+_ to _+ℕ_)
 open import snoc renaming ([_] to [_]L ; _++_ to _++L_; _::_ to _::L_)
 open import list renaming ([_] to [_]R ; _++_ to _++R_; _::_ to _::R_)
-open import product hiding (_×_)
+open import product hiding (_×_ ; _∧_)
 open import empty
 open import unit
 open import bool
 
-World : Set
-World = ℕ
-  
-Graph : Set
-Graph = Snoc (World ∧ World)
-
-_⟨_⟩_ : World → Graph → World → Set
-w₁ ⟨ [] ⟩ w₂ = ⊥
-w₁ ⟨ G ::L (a , b) ⟩ w₂ with a =ℕ w₁ | b =ℕ w₂
-w₁ ⟨ G ::L (a , b) ⟩ w₂ | tt | tt = ⊤
-w₁ ⟨ G ::L (a , b) ⟩ w₂ | _ | _ = ⊥
-
-worldInGr : World → Graph → Set
-worldInGr w [] = ⊥
-worldInGr w (G ::L (w₁ , w₂)) with w =ℕ w₁ | w =ℕ w₂
-... | tt | _ = ⊤
-... | _ | tt = ⊤
-... | _ | _ = worldInGr w G
-
-_=W_ : World → World → Set
-w₁ =W w₂ with w₁ =ℕ w₂
-... | tt = ⊤
-... | ff = ⊥
+open import graphs
 
 mutual
   -- Intuitionistic formulas:
@@ -60,24 +38,24 @@ mutual
 
 -- Intuitionistic contexts:
 I-Ctx : Set
-I-Ctx = Snoc (World ∧ I-Form)
+I-Ctx = Snoc (Σ World (λ _ → I-Form))
 
 worldInICtx : World → I-Ctx → Set
 worldInICtx = inPairSnocFst _=ℕ_
 
 -- Co-intuitionistic contexts:
 C-Ctx : Set
-C-Ctx = 𝕃 (World ∧ C-Form)
+C-Ctx = 𝕃 (Σ World (λ _ → C-Form))
 
 worldInCCtx : World → C-Ctx → Set
 worldInCCtx w c = inPairListFst _=ℕ_ w c
 
 -- Bi-intuitionistic left and right contexts:
 BiL-LCtx : Set
-BiL-LCtx = Snoc (World ∧ BiL-Form)
+BiL-LCtx = Snoc (Σ World (λ _ → BiL-Form))
 
 BiL-RCtx : Set
-BiL-RCtx = 𝕃 (World ∧ BiL-Form)
+BiL-RCtx = 𝕃 (Σ World (λ _ → BiL-Form))
 
 worldInBiLLCtx : World → BiL-LCtx → Set
 worldInBiLLCtx = inPairSnocFst _=ℕ_
@@ -89,7 +67,7 @@ worldInBiLRCtx w c = inPairListFst _=ℕ_ w c
 
 mutual
   -- Intuitionistic fragment of BiLNL logic:
-  data ⟨_⟩_⊢I_ : Graph → I-Ctx → (World ∧ I-Form) → Set where
+  data ⟨_⟩_⊢I_ : Graph → I-Ctx → (Σ World (λ _ → I-Form)) → Set where
     I-RL : ∀{Gr : Graph}{Θ : I-Ctx}{w1 w2 : World}{Y : I-Form}
       → ⟨ Gr ::L (w1 , w1) ⟩ Θ ⊢I (w2 , Y)
       → ⟨ Gr ⟩ Θ ⊢I (w2 , Y)
@@ -164,7 +142,7 @@ mutual
       → ⟨ Gr ⟩ Θ ⊢I (w , (G A)) 
 
   -- Co-intuitionistic fragment of BiLNL logic:
-  data ⟨_⟩_⊢C_ : Graph → (World ∧ C-Form) → C-Ctx → Set where
+  data ⟨_⟩_⊢C_ : Graph → (Σ World (λ _ → C-Form)) → C-Ctx → Set where
     C-RL : ∀{Gr : Graph}{Ψ : C-Ctx}{w₁ w₂ : World}{S : C-Form}
       → ⟨ Gr ::L (w₁ , w₁) ⟩ (w₂ , S) ⊢C Ψ
       → ⟨ Gr ⟩ (w₂ , S) ⊢C Ψ
