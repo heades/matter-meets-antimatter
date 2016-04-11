@@ -22,7 +22,7 @@ mutual
   data C-Form : Set where
     Zero : C-Form
     _+_ : C-Form → C-Form → C-Form
-    _≺_ : C-Form → C-Form → C-Form
+    _-_ : C-Form → C-Form → C-Form
     H   : BiL-Form → C-Form
 
   -- Bi-intuitionistic Linear Formulas:
@@ -34,7 +34,7 @@ mutual
     _⊗_ : BiL-Form → BiL-Form → BiL-Form
     _⊕_ : BiL-Form → BiL-Form → BiL-Form
     _⊸_ : BiL-Form → BiL-Form → BiL-Form
-    _≺L_ : BiL-Form → BiL-Form → BiL-Form
+    _*-_ : BiL-Form → BiL-Form → BiL-Form
 
 -- Intuitionistic contexts:
 I-Ctx : Set
@@ -50,7 +50,7 @@ C-Ctx = 𝕃 (Σ World (λ _ → C-Form))
 worldInCCtx : World → C-Ctx → Set
 worldInCCtx w c = inPairListFst _=ℕ_ w c
 
--- Bi-intuitionistic left and right contexts:
+-- Bi-intuitionistic linear left and right contexts:
 BiL-LCtx : Set
 BiL-LCtx = Snoc (Σ World (λ _ → BiL-Form))
 
@@ -204,13 +204,13 @@ mutual
       → ((worldInCCtx w₂ Ψ) → ⊥)
       → ((w₁ =W w₂) → ⊥)
       → ⟨ Gr ::L (w₂ , w₁) ⟩ (w₂ , S) ⊢C ((w₂ , T) ::R Ψ)
-      → ⟨ Gr ⟩ (w₁ , S ≺ T) ⊢C Ψ
+      → ⟨ Gr ⟩ (w₁ , S - T) ⊢C Ψ
 
     C-SR : ∀{Gr : Graph}{Ψ₁ Ψ₂ : C-Ctx}{w₁ w₂ w : World}{R S T : C-Form}
       → w₂ ⟨ Gr ⟩ w₁
       → ⟨ Gr ⟩ (w , R) ⊢C ((w₂ , S) ::R Ψ₂)
       → ⟨ Gr ⟩ (w₂ , T) ⊢C Ψ₁
-      → ⟨ Gr ⟩ (w , R) ⊢C ((w₁ , S ≺ T) ::R Ψ₁ ++R Ψ₂)
+      → ⟨ Gr ⟩ (w , R) ⊢C ((w₁ , S - T) ::R Ψ₁ ++R Ψ₂)
 
     C-HL : ∀{Gr : Graph}{Ψ : C-Ctx}{w : World}{A : BiL-Form}
       → ⟨ Gr ⟩ [] ∣ [ (w , A) ]L ⊢LL [] ∣ Ψ
@@ -375,20 +375,20 @@ mutual
       → ((worldInCCtx w₂ Ψ) → ⊥)
       → ((w₁ =W w₂) → ⊥)
       → ⟨ Gr ::L (w₂ , w₁) ⟩ Θ ∣ (Γ ::L (w₂ , A)) ⊢LL ((w₂ , B) ::R Δ) ∣ Ψ
-      → ⟨ Gr ⟩ Θ ∣ (Γ ::L (w₁ , A ≺L B)) ⊢LL Δ ∣ Ψ
+      → ⟨ Gr ⟩ Θ ∣ (Γ ::L (w₁ , A *- B)) ⊢LL Δ ∣ Ψ
 
     
     LL-SR : ∀{Gr : Graph}{Θ₁ Θ₂ : I-Ctx}{Γ₁ Γ₂ : BiL-LCtx}{Δ₁ Δ₂ : BiL-RCtx}{Ψ₁ Ψ₂ : C-Ctx}{w₁ w₂ : World}{A B : BiL-Form}
       → w₂ ⟨ Gr ⟩ w₁
       → ⟨ Gr ⟩ Θ₁ ∣ Γ₁ ⊢LL ((w₂ , A) ::R Δ₁) ∣ Ψ₁
       → ⟨ Gr ⟩ Θ₂ ∣ (Γ₂ ::L (w₂ , B)) ⊢LL Δ₂ ∣ Ψ₂
-      → ⟨ Gr ⟩ (Θ₁ ++L Θ₂) ∣ (Γ₁ ++L Γ₂) ⊢LL ((w₁ , A ≺L B) ::R (Δ₁ ++R Δ₂)) ∣ (Ψ₁ ++R Ψ₂)
+      → ⟨ Gr ⟩ (Θ₁ ++L Θ₂) ∣ (Γ₁ ++L Γ₂) ⊢LL ((w₁ , A *- B) ::R (Δ₁ ++R Δ₂)) ∣ (Ψ₁ ++R Ψ₂)
 
     LL-CSR : ∀{Gr : Graph}{Θ : I-Ctx}{Γ : BiL-LCtx}{Δ : BiL-RCtx}{Ψ₁ Ψ₂ : C-Ctx}{w₁ w₂ : World}{S T : C-Form}
       → w₂ ⟨ Gr ⟩ w₁
       → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL Δ ∣ ((w₂ , S) ::R Ψ₁)
       → ⟨ Gr ⟩ (w₂ , T) ⊢C Ψ₂
-      → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL Δ ∣ ((w₁ , S ≺ T) ::R (Ψ₁ ++R Ψ₂))
+      → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL Δ ∣ ((w₁ , S - T) ::R (Ψ₁ ++R Ψ₂))
 
   -- Adjoint Functors Rules
     LL-FL : ∀{Gr : Graph}{Θ : I-Ctx}{Γ : BiL-LCtx}{Δ : BiL-RCtx}{Ψ : C-Ctx}{w : World}{X : I-Form}
