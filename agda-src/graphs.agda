@@ -1,9 +1,9 @@
 module graphs where
 
-open import nat
-open import snoc
-open import product
-open import unit
+open import nat renaming (_+_ to _+ℕ_) public
+open import snoc public
+open import product public hiding (_×_ ; _∧_)
+open import unit 
 open import empty
 open import bool
 
@@ -11,7 +11,7 @@ World : Set
 World = ℕ
   
 Graph : Set
-Graph = Snoc (World ∧ World)
+Graph = Snoc (Σ World (λ _ → World))
 
 _⟨_⟩_ : World → Graph → World → Set
 w₁ ⟨ [] ⟩ w₂ = ⊥
