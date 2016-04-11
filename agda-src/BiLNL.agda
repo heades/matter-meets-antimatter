@@ -305,7 +305,6 @@ mutual
       → ⟨ Gr ⟩ Θ ∣ Γ ⊢LL Δ ∣ (Ψ₁ ++R ((w₂ , T) ::R (w₁ , S) ::R Ψ₂))
 
   -- Identity and Cut Rules:
-
     LL-ID : ∀{Gr : Graph}{w : World}{A : BiL-Form}
       → ⟨ Gr ⟩ [] ∣ [ (w , A) ]L ⊢LL [ (w , A) ]R ∣ []
 
