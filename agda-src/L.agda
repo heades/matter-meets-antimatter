@@ -28,6 +28,7 @@ worldInLRCtx : World → L-RCtx → Set
 worldInLRCtx w c = inPairListFst _=ℕ_ w c
 
 data ⟨_⟩_⊢L_ : Graph → L-LCtx → L-RCtx → Set where
+  -- Abstract Kripke Graph Rules:
     L-RL : ∀{Gr : Graph}{Γ : L-LCtx}{Δ : L-RCtx}{w : World}
       → ⟨ Gr ::L (w , w) ⟩ Γ ⊢L Δ
       → ⟨ Gr ⟩ Γ ⊢L Δ
@@ -99,7 +100,7 @@ data ⟨_⟩_⊢L_ : Graph → L-LCtx → L-RCtx → Set where
       → ⟨ Gr ⟩ Γ₂ ⊢L ((w , B) ::R Δ₂)
       → ⟨ Gr ⟩ (Γ₁ ++L Γ₂) ⊢L ((w , A × B) ::R (Δ₁ ++R Δ₂))
 
-  -- Disjunction and Par Rules
+  -- Disjunction Rules:
     L-FL : ∀{Gr : Graph}{w : World}
       → ⟨ Gr ⟩ [ (w , Zero) ]L ⊢L []
 
