@@ -44,6 +44,7 @@
 % Cat commands.
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\func}[1]{\mathsf{#1}}
 \newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
 \newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
 \newcommand{\limp}[0]{\multimap}
@@ -59,6 +60,8 @@
 \newcommand{\inn}[0]{\,\mathsf{in}\,}
 \newcommand{\cur}[1]{\mathsf{cur}(#1)}
 \newcommand{\curi}[1]{\mathsf{cur}^{-1}(#1)}
+\newcommand{\m}[0]{\mathsf{m}}
+\newcommand{\n}[0]{\mathsf{n}}
 
 \newenvironment{changemargin}[2]{%
   \begin{list}{}{%
@@ -130,7 +133,62 @@ TODO \cite{?}
 
 \section{Mixed Linear/Non-Linear Models of Bi-intuitionistic Logic: The Categorical Model}
 \label{sec:the_categorical_model}
-TODO
+
+Suppose $(\cat{I}, 1, \times, \to)$ is a cartesian closed category,
+and $(\cat{L}, \top, \otimes, \limp)$ is a symmetric monoidal closed
+category.  Then relate these two categories with a symmetric monoidal
+adjunction $\cat{I} : \func{F} \dashv \func{G} : \cat{L}$
+(Definition~\ref{?}), where $\func{F}$ and $\func{G}$ are symmetric
+monoidal functors.  The later point implies that there are natural
+transformations $\m_{X,Y} : \func{F}X \otimes \func{F}Y \mto
+\func{F}(X \times Y)$ and $\n_{A,B} : \func{G}A \times \func{G}B \mto
+\func{G}(A \otimes B)$, and maps $\m_\top : \top \mto \func{F}1$ and
+$\n_1 : 1 \mto \func{G}\top$ subject to several coherence conditions;
+see Definition~\ref{?}.  Furthermore, the functor $\func{F}$ is strong
+which means that $\m_{X,Y}$ and $\m_{\top}$ are isomorphisms.  This
+setup turns out to be one of the most beautiful models of
+intuitionistic linear logic called an LNL model due to Benton
+\cite{Benton:1994}.  In fact, the linear modality of-course can be
+defined by $!A = \func{F}(\func{G}(A))$ which defines a symmetric
+monoidal comonad using the adjunction; see Section~2.2 of
+\cite{Benton:1994}.  This model is much simpler than other known
+models, and resulted in a logic called LNL logic which supports mixing
+intuitionistic logic with linear logic.
+
+Now extend $\cat{L}$ with a second symmetric monoidal structure,
+$(\perp, \oplus, \colimp)$, such that $\otimes$ distributes over
+$\oplus$ and $\colimp : \cat{L} \times \cat{L} \mto \cat{L}$ is left
+adjoint to $\oplus$, resulting in the category $(\cat{L}, \top,
+\otimes, \limp, \perp, \oplus, \colimp)$, called a symmetric monoidal
+bi-closed category.  We will call the endofunctor $\colimp : \cat{L}
+\times \cat{L} \mto \cat{L}$ the co-internal hom.  In addition,
+suppose $(\cat{C}, 0,+, -)$ is a category with coproducts, $+ :
+\cat{C} \times \cat{C} \to \cat{C}$ with unit $0$, and a functor $- :
+\cat{C} \times \cat{C} \to \cat{C}$ that is left adjoint to the
+coproduct.  This last category is known as a co-cartesian co-closed
+category \cite{Crolard:2001}.  We extend LNL models into a new model
+of bi-intuitionistic logic called a mixed linear/non-linear
+bi-intuitionistic model or a BiLNL model.  It consists of a cartesian
+closed category, $(\cat{I}, 1, \times, \to)$, a symmetric monoidal
+bi-closed category, $(\cat{L}, \top,\otimes, \limp, \perp, \oplus,
+\colimp)$, a co-cartesian co-closed category, $(\cat{C}, 0,+, -)$, and
+a pair of symmetric monoidal adjoint functors:
+$$\bfig
+\morphism(0,0)|a|/{@{>}@/^1em/}/<500,0>[\cat{I}`\cat{L};\func{F}]
+\morphism(0,0)|b|/{@{<-}@/_1em/}/<500,0>[\cat{I}`\cat{L};\mathsf{G}]
+\morphism(500,0)|a|/{@{>}@/^1em/}/<500,0>[\cat{L}`\func{C};\func{H}]
+\morphism(500,0)|b|/{@{<-}@/_1em/}/<500,0>[\cat{L}`\func{C};\func{J}]
+\place(250,0)[\dashv] \place(750,0)[\vdash] \efig$$ It is well known
+that $\cat{I}$ is a model of intuitionistic logic and $\cat{C}$ is a
+model of co-intuitionistic logic, and so, the adjoint situation $F
+\dashv G$ can be seen as a translation of intuitionistic logic into
+the intuitionistic fragment, $(\top, \otimes, \limp)$, of $\cat{L}$,
+and the adjoint situation $H \dashv J$ can be seen as a translation of
+co-intuitionistic logic into the co-intuitionistic fragment, $(\perp,
+\oplus, \colimp)$, of $\cat{L}$.  This we will show turns out to be a
+model of bi-intuitionistic linear logic with modalities, but also as
+one of the first categorical models of bi-intuitionistic logic by
+exploiting the modalities of linear logic.
 % section the_categorical_model (end)
 
 \section{Mixed Linear/Non-Linear Bi-intuitionistic Logic: BiLNL Logic}
@@ -198,7 +256,7 @@ of intuitionistic conjunction, in addition, I denote par by $[[A (+)
 co-implication by $[[A *- B]]$ to emphasize its duality with linear
 implication $[[A -o B]]$.  Each syntactic category of formulas
 contains the respective functor from the BiLNL model, and thus, we
-should few $F$ and $H$ as the left adjoints to $G$ and $J$
+should view $F$ and $H$ as the left adjoints to $G$ and $J$
 respectively.
 
 Formulas in each type of context are annotated with a world, and each
@@ -238,7 +296,7 @@ linearity syntactically in the definition of the inference rules.  It
 is also well-known that even in linear logic if sequents have multiple
 hypothesis and multiple conclusions the logic becomes classical.
 Thus, in BiLNL logic we combine both of these tools to enforce both
-intuitionism and linearity.  We can simply few the graphs as an over
+intuitionism and linearity.  We can simply view the graphs as an over
 approximation of the relational constraints necessary to enforce both
 intuitionism and linearity.  This also makes it easier to embed Pinto
 and Uustalu's logic in BiLNL logic as we will do in
