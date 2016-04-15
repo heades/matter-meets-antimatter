@@ -266,18 +266,44 @@ being under the left adjoint $[[F]]$, and co-intuitionistic formulas
 as being under the right adjoint $[[J]]$.  This implies that even in
 the model all types of formulas can be freely mixed.
 
+As said above, BiLNL logic consists of three fragments: an
+intuitionistic fragment, a co-intuitionistic fragment, and a linear
+bi-intuitionistic fragment.  Their relationships are captured by the
+following diagram:
+$$\bfig
+\morphism(0,0)|a|/{@{>}@/^1em/}/<500,0>[\mathsf{INT}`\mathsf{BiL};\mathsf{F}]
+\morphism(0,0)|b|/{@{<-}@/_1em/}/<500,0>[\mathsf{INT}`\mathsf{BiL};\mathsf{G}]
+\morphism(500,0)|a|/{@{>}@/^1em/}/<500,0>[\mathsf{BiL}`\mathsf{coINT};\mathsf{H}]
+\morphism(500,0)|b|/{@{<-}@/_1em/}/<500,0>[\mathsf{BiL}`\mathsf{coINT};\mathsf{J}]
+\efig$$
+\noindent
+The inference rules for the intuitionistic fragment are defined in
+Figure~\ref{fig:ifr-IL}, and the inference rules for the
+co-intuitionistic fragment can be found in Figure~\ref{fig:ifr-CL}.
+Since the functor $[[Gf]]$ translates the linear fragment over to
+intuitionistic logic, then the intuitionistic fragment must contain an
+inference rule ($\BiLNLdrulename{I\_gR}$) for this functor, and the
+same goes for the co-intuitionistic fragment and the functor $[[Hf]]$
+($\BiLNLdrulename{C\_hL}$).  Thus, these are the only interesting
+rules of those two fragments. Each fragment contains rules for working
+with the world constraints on sequents. For example, the rules
+$\BiLNLdrulename{I\_rl}$ and $\BiLNLdrulename{I\_ts}$ make the
+relation on worlds, $[[w1 <= w2]]$, a preorder, and the rules
+$\BiLNLdrulename{I\_mL}$ and $\BiLNLdrulename{I\_mR}$ correspond to
+monotonicity on formulas.  Similar rules exist for the other two
+fragments as well.
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
       \BiLNLdruleIXXrl{} \and
       \BiLNLdruleIXXts{} \and
+      \BiLNLdruleIXXmL{} \and
+      \BiLNLdruleIXXmR{} \and      
       \BiLNLdruleIXXid{} \and
       \BiLNLdruleIXXcut{} \and
       \BiLNLdruleIXXwk{} \and
       \BiLNLdruleIXXcr{} \and
       \BiLNLdruleIXXex{} \and                  
-      \BiLNLdruleIXXmL{} \and
-      \BiLNLdruleIXXmR{} \and
       \BiLNLdruleIXXtL{} \and
       \BiLNLdruleIXXtR{} \and
       \BiLNLdruleIXXpL{} \and
@@ -290,19 +316,18 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Intuitionistic Fragment}
   \label{fig:ifr-IL}
 \end{figure}
-
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
       \BiLNLdruleCXXrl{} \and
       \BiLNLdruleCXXts{} \and
+      \BiLNLdruleCXXmL{} \and
+      \BiLNLdruleCXXmR{} \and      
       \BiLNLdruleCXXid{} \and
       \BiLNLdruleCXXcut{} \and
       \BiLNLdruleCXXwk{} \and
       \BiLNLdruleCXXcr{} \and
       \BiLNLdruleCXXex{} \and                  
-      \BiLNLdruleCXXmL{} \and
-      \BiLNLdruleCXXmR{} \and
       \BiLNLdruleCXXfL{} \and
       \BiLNLdruleCXXfR{} \and
       \BiLNLdruleCXXdL{} \and
@@ -316,6 +341,10 @@ the model all types of formulas can be freely mixed.
   \label{fig:ifr-CL}
 \end{figure}
 
+The linear core of BiLNL logic consists of a large number of rules,
+and for this reason they have been broken up into multiple figures.
+The inference rules for reflexivity, transitivity, and monotonicity
+are defined in Figure~\ref{fig:ifr-biLNL-graph}.
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -330,7 +359,10 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Abstract Kripke Graph Rules}
   \label{fig:ifr-biLNL-graph}
 \end{figure}
-
+Since the linear core is a mixed LNL logic there are monotonicity
+rules for intuitionistic hypothesis, and co-intuitionistic
+conclusions.  The structural rules are defined in
+Figure~\ref{fig:ifr-biLNL-structural}.
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -347,7 +379,10 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Structural Rules}
   \label{fig:ifr-biLNL-structural}
 \end{figure}
-
+The most interesting rules are weakening and contraction for both
+intuitionistic hypothesis and co-intuitionistic conclusions.  The
+identity and cut inference rules can be found in
+Figure~\ref{fig:ifr-biLNL-id-cut}.
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -360,7 +395,19 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Identity and Cut Rules}
   \label{fig:ifr-biLNL-id-cut}
 \end{figure}
+Similarly to Benton's LNL logic \cite{Benton:1994}, we also have cut
+rules involving the different fragments:
+\begin{mathpar}
+  \small
+  \BiLNLdruleLXXIcut{} \and \BiLNLdruleLXXCcut{} 
+\end{mathpar}
+The first rule is the same rule in LNL logic, but the second is new
+and cuts a co-intuitionistic conclusion in the linear core against the
+hypothesis proven in the co-intuitionistic fragment.
 
+The rules for conjunction and tensor, and disjunction and par can be
+found in Figure~\ref{fig:ifr-biLNL-conunction-tensor} and
+Figure~\ref{fig:ifr-biLNL-disjunction-par} respectively.
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -374,7 +421,6 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Conjunction and Tensor Rules}
   \label{fig:ifr-biLNL-conunction-tensor}
 \end{figure}
-
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -388,7 +434,13 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Disjunction and Par Rules}
   \label{fig:ifr-biLNL-disjunction-par}
 \end{figure}
-
+Just as we have said above, the new rules are the inference rules for
+disjunction in the co-intuitionistic context.  The inference rules for
+intuitionistic implication and linear implication, and
+co-intuitionistic co-implication and linear co-implication are defined
+in Figure~\ref{fig:ifr-biLNL-implication} and
+Figure~\ref{fig:ifr-biLNL-co-implication}.  The most interesting rules
+between these are the rules for co-implication.  
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -400,7 +452,6 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Implication Rules}
   \label{fig:ifr-biLNL-implication}
 \end{figure}
-
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -413,6 +464,8 @@ the model all types of formulas can be freely mixed.
   \label{fig:ifr-biLNL-co-implication}
 \end{figure}
 
+Lastly, the inference rules for each of the functors are defined in
+Figure~\ref{fig:ifr-biLNL-adjoint-functors}.  
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -427,6 +480,11 @@ the model all types of formulas can be freely mixed.
   \caption{Inference Rules for BiLNL Logic: Adjoint Functors Rules}
   \label{fig:ifr-biLNL-adjoint-functors}
 \end{figure}
+Using these rules it is possible to move between the fragments.  The
+most restrictive rules are when coming from the intuitionistic or
+co-intuitionistic fragment into the linear core, or vice versa,
+because the sequents must only contain data that is movable or
+consistency could fail.
 % section bilnl_logic (end)
 
 \section{Embedding Bi-Intuitionistic Logic in BiLNL Logic}
