@@ -10,6 +10,13 @@
 \usepackage{mdframed}
 \usepackage[barr]{xy}
 
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
+
 %% This renames Barr's \to to \mto.  This allows us to use \to for imp
 %% and \mto for a inline morphism.
 \let\mto\to
@@ -129,6 +136,136 @@ TODO
 \section{Mixed Linear/Non-Linear Bi-intuitionistic Logic: BiLNL Logic}
 \label{sec:bilnl_logic}
 
+Following Benton's \cite{Benton:1994} lead we can define a mixed
+linear/non-linear bi-intuitionistic logic, called BiLNL logic, based
+on the categorical model given in the previous section.  BiLNL logic
+consists of three fragments: an intuitionistic fragment, a
+co-intuitionistic fragment, and a linear bi-intuitionistic core
+fragment.  This formalization allows us to have more control on the
+mixture of the intuitionistic and co-intuitionistic fragments so as to
+allow for a proper categorical model.  Each of the fragments are
+related through a syntactic formalization of the adjoint functors from
+the BiLNL model.  First, we define the syntax of BiLNL logic, and then
+discuss the inference rules for each fragment.
+\begin{definition}
+  \label{def:BiLNL-syntax}
+  The syntax for BiLNL logic is defined as follows:
+  \begin{center}
+    \begin{math}
+      \begin{array}{rlllllllllll}
+        \text{(Worlds)} & W ::= [[w1]] \mid \cdots \mid [[wi]]\\
+        \text{(Graphs)} & [[Gr]] ::= [[w1 <= w2]] \mid [[Gr1 , Gr2]]\\
+        \text{(Intuitionistic Formulas)} & [[X]], [[Y]], [[Z]] ::= 1
+          \mid [[X x Y]] \mid [[X -> Y]] \mid [[Gf A]]\\
+        \text{(Co-intuitionistic Formulas)} &  [[R]], [[S]], [[T]] ::= 0 \mid [[S + T]] \mid [[S - T]] \mid [[H A]]\\
+        \text{(Linear Bi-intuitionistic Formulas)} &
+             [[A]],[[B]],[[C]] ::= [[True]] \mid [[False]] \mid
+             [[A (x) B]] \mid [[A (+) B]] \mid
+             [[A -o B]] \mid [[A *- B]] \mid [[F X]] \mid [[J S]]\\
+             \text{(Intuitionistic Contexts)}  & [[H]] ::= [[.]] \mid
+                  [[X @ w]] \mid [[H1 , H2]]\\
+        \text{(Co-intuitionistic Contexts)}  & [[I]] ::= [[.]] \mid
+             [[R @ w]] \mid [[I1 , I2]]\\
+        \text{(Linear Bi-intuitionistic Contexts)}  &
+             [[G]],[[D]] ::= [[.]] \mid [[A @ w]] \mid [[G1,G2]]\\        
+      \end{array}
+    \end{math}
+  \end{center}
+  Worlds may also be denoted by (potentially subscripted) $[[n]]$,
+  $[[m]]$, and $[[o]]$.
+
+  \ \\
+  \noindent
+  Sequents have the following syntax:
+  \begin{center}
+    \begin{math}
+      \begin{array}{rll}
+        \text{(Intuitionistic Sequents)}   & [[Gr;H |-I X@w]]\\
+        \text{(Co-intuitionistic Sequents)} & [[Gr;R@w |-C I]]\\
+        \text{(LNL Bi-intuitionistic Sequents)} & [[Gr;H | G |-L D | I]]\\
+      \end{array}
+    \end{math}
+  \end{center}
+\end{definition}
+
+The syntax of intuitionistic and co-intuitionistic formulas are
+typical.  I denote co-implication by $[[S - T]]$, but all the other
+connectives are the usual ones. Linear bi-intuitionistic formulas are
+denoted in somewhat of a non-traditional style. I denote the unit of
+tensor by $[[True]]$ instead of the usual $[[1]]$, which is the unit
+of intuitionistic conjunction, in addition, I denote par by $[[A (+)
+    B]]$, instead of $[[A]] \parr [[B]]$.  Lastly, I denote linear
+co-implication by $[[A *- B]]$ to emphasize its duality with linear
+implication $[[A -o B]]$.  Each syntactic category of formulas
+contains the respective functor from the BiLNL model, and thus, we
+should few $F$ and $H$ as the left adjoints to $G$ and $J$
+respectively.
+
+Formulas in each type of context are annotated with a world, and each
+sequent is annotated with a graph.  These graphs are syntactic
+representations of Kripke models and are used to enforce intuitionism.
+They were first used in bi-intuitionistic logic by Pinto and Uustalu
+\cite{Pinto:2009} to enforce intuitionism in their logic L.  In fact,
+we can see the linear core of BiLNL logic as the linear version of L.
+The beauty of this type of formalization and the reason why this style
+of logic was used by Pinto and Uustalu is that the logic L, and as
+well as BiLNL logic, are complete for cut-free bi-intuitionistic
+proofs.  This was a new result of Pinto and Uustalu, because earlier
+formalizations of bi-intuitionistic logic \cite{Crolard:2001} used the
+Dragalin restriction \cite{Dragalin:1988} to enforce intuitionism, but
+this results in a failure of cut-elimination
+\cite{Schellinx:1991,Pinto:2009}.
+
+The expert reader will notice that it is not necessary to annotate the
+sequents of intuitionistic and co-intuitionistic logic with graphs and
+worlds to enforce intuitionism and co-intuitionism respectively. It is
+well known that restricting the right and left contexts two a single
+formula enforces intuitionism and co-intuitionism respectively.
+However, when mixing these two fragments with the linear core, which
+requires the graphs to be intuitionistic, it is easier if they are
+annotated.  If they were not, then a seemingly complex world inference
+system would need to be designed to add the world constraints before
+mixing with the linear core, and it is currently an open problem
+whether this can be done.  Thus, with respect to intuitionistic and
+co-intuitionistic logic the graph and world annotations can be seen as
+book keeping.
+
+A second fact an expert reader will notice is that Kripke models are a
+relational model of intuitionistic logic, but not intuitionistic
+linear logic.  This is okay, because Kripke models enforce
+intuitionism and not linearity, but it is well known how to enforce
+linearity syntactically in the definition of the inference rules.  It
+is also well-known that even in linear logic if sequents have multiple
+hypothesis and multiple conclusions the logic becomes classical.
+Thus, in BiLNL logic we combine both of these tools to enforce both
+intuitionism and linearity.  We can simply few the graphs as an over
+approximation of the relational constraints necessary to enforce both
+intuitionism and linearity.  This also makes it easier to embed Pinto
+and Uustalu's logic in BiLNL logic as we will do in
+Section~\ref{sec:embedding_l_in_bilnl_logic}.
+
+Sequents for the linear core have the form $[[Gr;H | G |-L D | I]]$.
+Similarly to the sequents of Benton's LNL logic \cite{Benton:1994},
+each context is separated for readability, but should actually be
+understood as being able to be mixed, that is, the contexts $[[H]]$
+and $[[G]]$ could be a single context, and so could $[[D]]$ and
+$[[I]]$.  The sequent:
+\[
+[[Gr]];[[X1@w1]],\ldots,[[Xi@wi]] \mid [[A1@n1]],\ldots,[[Aj@nj]]
+\vdash_{\mathsf{L}} [[B1@m1]],\ldots,[[Bk@mk]] \mid [[R1@o1]],\ldots,[[Rl@ol]]
+\]
+will be interpreted in a BiLNL model by a morphism of the following
+form:
+\[
+[[F X1]] \otimes \cdots \otimes [[F Xi]] \otimes [[A1]] \otimes \cdots
+\otimes [[Aj]] \mto^{f} [[B1]] \oplus \cdots \oplus [[Bk]] \oplus [[J R1]]
+\oplus \cdots \oplus [[J Rl]]
+\]
+Thus, intuitionistic formulas in the linear core can be viewed as
+being under the left adjoint $[[F]]$, and co-intuitionistic formulas
+as being under the right adjoint $[[J]]$.  This implies that even in
+the model all types of formulas can be freely mixed.
+
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -182,12 +319,12 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXrl{} \and
-      \BiLNLdruleLLXXts{} \and
-      \BiLNLdruleLLXXmL{} \and
-      \BiLNLdruleLLXXmR{} \and
-      \BiLNLdruleLLXXImL{} \and
-      \BiLNLdruleLLXXCmR{}
+      \BiLNLdruleLXXrl{} \and
+      \BiLNLdruleLXXts{} \and
+      \BiLNLdruleLXXmL{} \and
+      \BiLNLdruleLXXmR{} \and
+      \BiLNLdruleLXXImL{} \and
+      \BiLNLdruleLXXCmR{}
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Abstract Kripke Graph Rules}
@@ -197,14 +334,14 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXwkL{} \and
-      \BiLNLdruleLLXXwkR{} \and
-      \BiLNLdruleLLXXctrL{} \and
-      \BiLNLdruleLLXXctrR{} \and
-      \BiLNLdruleLLXXexL{} \and
-      \BiLNLdruleLLXXexR{} \and
-      \BiLNLdruleLLXXIexL{} \and
-      \BiLNLdruleLLXXCexL{}
+      \BiLNLdruleLXXwkL{} \and
+      \BiLNLdruleLXXwkR{} \and
+      \BiLNLdruleLXXctrL{} \and
+      \BiLNLdruleLXXctrR{} \and
+      \BiLNLdruleLXXexL{} \and
+      \BiLNLdruleLXXexR{} \and
+      \BiLNLdruleLXXIexL{} \and
+      \BiLNLdruleLXXCexL{}
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Structural Rules}
@@ -214,10 +351,10 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXid{} \and
-      \BiLNLdruleLLXXcut{} \and
-      \BiLNLdruleLLXXIcut{} \and
-      \BiLNLdruleLLXXCcut{} 
+      \BiLNLdruleLXXid{} \and
+      \BiLNLdruleLXXcut{} \and
+      \BiLNLdruleLXXIcut{} \and
+      \BiLNLdruleLXXCcut{} 
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Identity and Cut Rules}
@@ -227,11 +364,11 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXIL{} \and
-      \BiLNLdruleLLXXIR{} \and
-      \BiLNLdruleLLXXcL{} \and
-      \BiLNLdruleLLXXtL{} \and
-      \BiLNLdruleLLXXtR{} 
+      \BiLNLdruleLXXIL{} \and
+      \BiLNLdruleLXXIR{} \and
+      \BiLNLdruleLXXcL{} \and
+      \BiLNLdruleLXXtL{} \and
+      \BiLNLdruleLXXtR{} 
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Conjunction and Tensor Rules}
@@ -241,11 +378,11 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXflL{} \and
-      \BiLNLdruleLLXXflR{} \and
-      \BiLNLdruleLLXXdR{} \and
-      \BiLNLdruleLLXXpL{} \and
-      \BiLNLdruleLLXXpR{} 
+      \BiLNLdruleLXXflL{} \and
+      \BiLNLdruleLXXflR{} \and
+      \BiLNLdruleLXXdR{} \and
+      \BiLNLdruleLXXpL{} \and
+      \BiLNLdruleLXXpR{} 
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Disjunction and Par Rules}
@@ -255,9 +392,9 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXImpL{} \and
-      \BiLNLdruleLLXXImpR{} \and
-      \BiLNLdruleLLXXIImpL{} 
+      \BiLNLdruleLXXImpL{} \and
+      \BiLNLdruleLXXImpR{} \and
+      \BiLNLdruleLXXIImpL{} 
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Implication Rules}
@@ -267,9 +404,9 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXsL{} \and
-      \BiLNLdruleLLXXsR{} \and
-      \BiLNLdruleLLXXCsR{} 
+      \BiLNLdruleLXXsL{} \and
+      \BiLNLdruleLXXsR{} \and
+      \BiLNLdruleLXXCsR{} 
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Co-implication Rules}
@@ -279,12 +416,12 @@ TODO
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
-      \BiLNLdruleLLXXfL{} \and
-      \BiLNLdruleLLXXfR{} \and
-      \BiLNLdruleLLXXjL{} \and
-      \BiLNLdruleLLXXjR{} \and
-      \BiLNLdruleLLXXgL{} \and
-      \BiLNLdruleLLXXhR{} 
+      \BiLNLdruleLXXfL{} \and
+      \BiLNLdruleLXXfR{} \and
+      \BiLNLdruleLXXjL{} \and
+      \BiLNLdruleLXXjR{} \and
+      \BiLNLdruleLXXgL{} \and
+      \BiLNLdruleLXXhR{} 
     \end{mathpar}
   \end{mdframed}
   \caption{Inference Rules for BiLNL Logic: Adjoint Functors Rules}

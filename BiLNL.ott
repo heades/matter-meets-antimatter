@@ -1,14 +1,14 @@
 % Input variables.
 metavar ilabels, a, b, c ::=
 metavar paths , h {{tex \pi}} ::=
-metavar gindex ,  n , x , y, z , w ::=  % Indexes into the graph.
+metavar gindex ,  n , x , y, z , w , m , o ::=  % Indexes into the graph.
 
-indexvar ivar, i , k , j ::= 
+indexvar ivar, i , k , j , l ::= 
 
 grammar
 
 % Intuitionistic Logic:
-W, X, Y, Z :: 'Iform_' ::=
+X, Y, Z :: 'Iform_' ::=
   | 1    ::   :: 1  
   | X x Y ::   :: Conj
   {{tex [[X]] \times [[Y]] }}
@@ -35,9 +35,9 @@ R, S, T :: 'Cform_' ::=
 
 % Bi-intuitionistic (Linear) Logic:
 A, B, C :: 'Bform_' ::=
-  | 1    ::   :: 1
+  | True    ::   :: 1
   {{tex \top }}
-  | 0   ::   :: 0
+  | False   ::   :: 0
   {{tex \perp }}
   | A x B ::   :: Conj
   {{tex [[A]] \times [[B]] }}
@@ -67,7 +67,8 @@ Gr {{tex G }} :: 'E_' ::=
   | .             ::    :: Empty
   {{tex \cdot }}
   | { ( x , y ) } ::   :: El
-  | ( x , y )     ::   :: El2
+  | x <= y     ::   :: El2
+  {{tex [[x]] \leq [[y]] }}
   | Gr , Gr'      ::   :: Ext
   | Gr U Gr'      ::   :: Union
   {{tex [[Gr]] \cup [[Gr']] }}
@@ -79,7 +80,7 @@ Gr {{tex G }} :: 'E_' ::=
 H {{tex \Theta}}, P {{tex \Phi}} :: 'IG_' ::=
   | .           ::   :: Empty
   {{tex \cdot }}
-  | w : X       ::   :: El
+  | X @ w       ::   :: El
   | H , P      ::   :: Ext
   | ( H )       :: S :: Paren
   | h( H )      :: M :: HiddenParens 
@@ -89,7 +90,7 @@ H {{tex \Theta}}, P {{tex \Phi}} :: 'IG_' ::=
 I {{tex \Psi}}, PI {{tex \Pi}} :: 'CG_' ::=
   | .           ::   :: Empty
   {{tex \cdot }}
-  | w : T       ::   :: El
+  | T @ w       ::   :: El
   | I , PI      ::   :: Ext
   | ( I )       :: S :: Paren
   | h( I )      :: M :: HiddenParens 
@@ -99,13 +100,23 @@ I {{tex \Psi}}, PI {{tex \Pi}} :: 'CG_' ::=
 G {{tex \Gamma}}, D {{tex \Delta}} :: 'BG_' ::=
   | .           ::   :: Empty
   {{tex \cdot }}
-  | w : A       ::   :: El
+  | A @ w       ::   :: El
   | G , G'      ::   :: Ext
   | ( G )       :: S :: Paren
   | h( G )      :: M :: HiddenParens 
   {{ tex [[G]] }}   
   
 terminals :: '' ::=
+  | F    ::  :: FunctorF
+  {{tex \mathsf{F} }}
+  | Gf    ::  :: FunctorG
+  {{tex \mathsf{G} }}
+  | Hf    ::  :: FunctorH
+  {{tex \mathsf{H} }}
+  | J    ::  :: FunctorJ
+  {{tex \mathsf{J} }}  
+  | 1    ::  :: One
+  | 0    ::  :: Zero
   | []   :: :: Box  {{ tex \Box }}
   | |=   :: :: models  {{ tex \models }}
   | |-   :: :: Turnstyle  {{tex \vdash }}
@@ -152,7 +163,6 @@ terminals :: '' ::=
   {{tex [[x]] \not\in |[[Gr]]|,|[[H]]| }}
   | x notin Gr , I      ::  :: wnotin3
   {{tex [[x]] \not\in |[[Gr]]|,|[[I]]| }}    
-  | ( x , y )               :: M :: Edges
   | n in Nodes ( Gr )       :: M :: Nodes1
   {{tex [[n]] \in \mathsf{Nodes}([[Gr]]) }}
   | n in Nodes ( G )        :: M :: Nodes2
@@ -163,349 +173,349 @@ defns
 
 % Intuitionistic Logic:
 defn
- Gr ; H |-I w : X :: :: ILog :: 'I_' 
- {{tex [[Gr]];[[H]] \vdash_{\mathsf{I} } [[w]] : [[X]] }}
+ Gr ; H |-I X @ w :: :: ILog :: 'I_' 
+ {{tex [[Gr]];[[H]] \vdash_{\mathsf{I} } [[X]]@[[w]] }}
  by
 
- Gr, (w1,w1);H |-I w2 : Y
+ Gr, w1 <= w1;H |-I Y @ w2
  ------------------------ :: rl
- Gr;H |-I w2 : Y
+ Gr;H |-I Y@w2
 
  w1 Gr w2 && w2 Gr w3
- Gr,(w1,w3);H |-I w : Y
+ Gr,w1 <= w3;H |-I Y@w
  ---------------------- :: ts
- Gr;H |-I w : Y
+ Gr;H |-I Y@w
 
- ------------------ :: id
- Gr;w : Y |-I w : Y
+ ---------------- :: id
+ Gr;Y@w |-I Y@w
 
- Gr;H |-I w1 : Y
+ Gr;H |-I Y@w1
  ----------------------- :: wk
- Gr;H, w2 : X |-I w1 : Y
+ Gr;H, X@w2 |-I Y@w1
 
- Gr;H, w2 : X, w2 : X |-I w1 : Y
+ Gr;H, X@w2, X@w2 |-I Y@w1
  ------------------------------- :: cr
- Gr;H, w2 : X |-I w1 : Y
+ Gr;H, X@w2 |-I Y@w1
 
- Gr;H1,w1 : X, w2 : Y,H2 |-I w : Z
+ Gr;H1,X@w1, Y@w2,H2 |-I Z@w
  --------------------------------- :: ex
- Gr;H1,w2 : Y, w1 : X,H2 |-I w : Z
+ Gr;H1,Y@w2, X@w1,H2 |-I Z@w
 
  w1 Gr w2
- Gr;H , w1 : X , w2 : X |-I w : Y
+ Gr;H , X@w1 , X@w2 |-I Y@w
  -------------------------------- :: mL
- Gr;H , w1 : X |-I w : Y
+ Gr;H , X@w1 |-I Y@w
 
  w2 Gr w1
- Gr;H |-I w2 : Y
+ Gr;H |-I Y@w2
  --------------- :: mR
- Gr;H |-I w1 : Y
+ Gr;H |-I Y@w1
 
- Gr;H |-I w1 : Y
+ Gr;H |-I Y@w1
  --------------------------- :: tL
- Gr;H , w2 : 1 |-I w1 : Y
+ Gr;H , 1@w2 |-I Y@w1
 
  ----------------- :: tR
- Gr;H |-I w : 1
+ Gr;H |-I 1@w
 
- Gr;H , w1 : X, w1 : Y |-I w2 : Z
+ Gr;H , X@w1, Y@w1 |-I Z@w2
  -------------------------------- :: pL
- Gr;H , w1 : X x Y   |-I w2 : Z
+ Gr;H , (X x Y) @w1   |-I Z@w2
 
- Gr;H1 |-I w : X && Gr;H2 |-I w : Y
+ Gr;H1 |-I X@w && Gr;H2 |-I Y@w
  ---------------------------------- :: pR
- Gr;H1,H2 |-I w : X x Y
+ Gr;H1,H2 |-I (X x Y)@w
 
  w1 Gr w2
- Gr;H2 |-I w2 : X && Gr;H1, w2 : Y |-I w : Z
+ Gr;H2 |-I X@w2 && Gr;H1, Y@w2 |-I Z@w
  ------------------------------------------- :: IL
- Gr;H1 , H2, w1 : X -> Y |-I w : Z 
+ Gr;H1 , H2, (X -> Y)@w1 |-I Z@w 
 
  w2 notin Gr, H
- Gr, (w1,w2);H, w2 : X |-I w2 : Y
+ Gr, w1 <= w2;H, X@w2 |-I Y@w2
  --------------------------------- :: IR
- Gr;H |-I w1 : X -> Y
+ Gr;H |-I (X -> Y)@w1
 
- Gr;H2 |-I w2 : X && Gr;H1,w2 : X |-I w1 : Z
+ Gr;H2 |-I X@w2 && Gr;H1,X@w2 |-I Z@w1
  -------------------------------------------- :: cut
- Gr;H1,H2 |-I w1 : Z
+ Gr;H1,H2 |-I Z@w1
 
- Gr;H | . |-LL w : A | .
- ----------------------- :: gR
- Gr;H |-I w : Gf A
+ Gr;H | . |-L A@w | .
+ --------------------- :: gR
+ Gr;H |-I Gf A @ w
 
 % Co-intuitionistic Logic:
 defn
- Gr ; w : S |-C I :: :: CLog :: 'C_' 
- {{tex [[Gr]];[[w]]:[[S]] \vdash_{\mathsf{C} } [[I]] }}
+ Gr ; S @ w |-C I :: :: CLog :: 'C_' 
+ {{tex [[Gr]];[[S]]@[[w]] \vdash_{\mathsf{C} } [[I]] }}
  by
 
- Gr, (w1,w1);w2 : S |-C I
- ---------------------- :: rl
- Gr;w2 : S |-C I
+ Gr, w1 <= w1;S @ w2 |-C I
+ ------------------------- :: rl
+ Gr;S @ w2 |-C I
 
  w1 Gr w2 && w2 Gr w3
- Gr,(w1,w3);w : S |-C I
- ---------------------- :: ts
- Gr;w : S |-C I
+ Gr,w1 <= w3;S @ w |-C I
+ ----------------------- :: ts
+ Gr;S @ w |-C I
 
  ------------------ :: id
- Gr;w : S |-C w : S
+ Gr;S @ w |-C S @ w
 
- Gr;w1 : S |-C I
+ Gr;S @ w1 |-C I
  ---------------------- :: wk
- Gr;w1 : S |-C w2 : T,I
+ Gr;S @ w1 |-C T @ w2,I
 
- Gr;w1 : S |-C w2 : T, w2 : T, I
+ Gr;S @ w1 |-C T @ w2, T @ w2, I
  ------------------------------- :: cr
- Gr;w1 : S |-C w2 : T, I
+ Gr;S @ w1 |-C T @ w2, I
 
- Gr;w : R |-C I1,w1 : S, w2 : T, I2
+ Gr;R @ w |-C I1,S @ w1, T @ w2, I2
  ---------------------------------- :: ex
- Gr;w : R |-C I1,w2 : T, w1 : S, I2
+ Gr;R @ w |-C I1,T @ w2, S @ w1, I2
 
  w1 Gr w2
- Gr;w2 : S |-C I
+ Gr;S @ w2 |-C I
  --------------------------- :: mL
- Gr;w1 : S |-C I
+ Gr;S @ w1 |-C I
 
  w2 Gr w1
- Gr;w : S |-C w2 : T , w1 : T, I
+ Gr;S @ w |-C T @ w2 , T @ w1, I
  ------------------------------- :: mR
- Gr;w : S |-C w1 : T, I
+ Gr;S @ w |-C T @ w1, I
 
  ------------------ :: fL
- Gr;w : 0 |-C I
+ Gr;0@w |-C I
 
- Gr;w1 : S |-C I
+ Gr;S @ w1 |-C I
  --------------------------- :: fR
- Gr;w1 : S |-C w2 : 0, I
+ Gr;S @ w1 |-C 0 @ w2, I
 
- Gr;w : S |-C I1 && Gr;w : T |-C I2
+ Gr;S @ w |-C I1 && Gr;T @ w |-C I2
  ---------------------------------- :: dL
- Gr;w : S + T |-C I1,I2
+ Gr;S + T @ w |-C I1,I2
 
- Gr;w1 : R |-C w2 : S, w2 : T, I
+ Gr;R @ w1 |-C S @ w2, T @ w2, I
  ------------------------------- :: dR
- Gr;w1 : R |-C w2 : S + T, I
+ Gr;R @ w1 |-C S + T @ w2, I
 
  w2 notin Gr, I
- Gr,(w2,w1);w2 : S |-C w2 : T, I
+ Gr,w2 <= w1;S @ w2 |-C T @ w2, I
  ------------------------------- :: sL
- Gr;w1 : S - T |-C I
+ Gr;S - T @ w1 |-C I
 
  w2 Gr w1
- Gr;w : R |-C w2 : S , I2 && Gr;w2 : T |-C I1
+ Gr;R @ w |-C S @ w2 , I2 && Gr;T @ w2 |-C I1
  -------------------------------------------- :: sR
- Gr;w : R |-C w1 : S - T, I1,I2
+ Gr;R @ w |-C S - T @ w1, I1,I2
 
- Gr;w1 : S |-C w2 : T, I2 && Gr;w2 : T |-C I1
+ Gr;S @ w1 |-C T @ w2, I2 && Gr;T @ w2 |-C I1
  --------------------------------------------- :: cut
- Gr;w1 : S |-C I1,I2
+ Gr;S @ w1 |-C I1,I2
 
- Gr;. | w : A |-LL . | I
+ Gr;. | A @ w |-L . | I
  ----------------------- :: hL
- Gr;w : H A |-C I
+ Gr;H A @ w |-C I
 
 % Bi-intuitionistic Linear Logic:
 defn
- Gr ; H | G |-LL D | I :: :: LBILog :: 'LL_' 
- {{tex [[Gr]];[[H]] \mid [[G]] \vdash_{\mathsf{LL} } [[D]] \mid [[I]] }}
+ Gr ; H | G |-L D | I :: :: LBILog :: 'L_' 
+ {{tex [[Gr]];[[H]] \mid [[G]] \vdash_{\mathsf{L} } [[D]] \mid [[I]] }}
  by
 
  % Graphs:
 
- Gr, (w,w);H | G |-LL D | I
+ Gr, w <= w;H | G |-L D | I
  -------------------------- :: rl
- Gr;H | G |-LL D | I
+ Gr;H | G |-L D | I
 
  w1 Gr w2 && w2 Gr w3
- Gr,(w1,w3);H | G |-LL D | I
+ Gr,w1 <= w3;H | G |-L D | I
  --------------------------- :: ts
- Gr;H | G |-LL D | I
+ Gr;H | G |-L D | I
 
  % Axiom:
 
  --------------------------- :: id
- Gr;. | w : A |-LL w : A | .
+ Gr;. | A @ w |-L A @ w | .
 
  % Structural Rules:
 
- Gr; H | G |-LL D | I
+ Gr; H | G |-L D | I
  --------------------------- :: wkL
- Gr; H, w : X | G |-LL D | I
+ Gr; H, X @ w | G |-L D | I
 
- Gr; H | G |-LL D | I
+ Gr; H | G |-L D | I
  --------------------------- :: wkR
- Gr; H | G |-LL D | w : S, I
+ Gr; H | G |-L D | S @ w, I
 
- Gr;H, w : X, w : X | G |-LL D | I
+ Gr;H, X @ w, X @ w | G |-L D | I
  --------------------------------- :: ctrL
- Gr;H, w : X | G |-LL D | I
+ Gr;H, X @ w | G |-L D | I
 
- Gr;H | G |-LL D | w : S, w : S , I
+ Gr;H | G |-L D | S @ w, S @ w , I
  ---------------------------------- :: ctrR
- Gr;H | G |-LL D | w : S , I
+ Gr;H | G |-L D | S @ w , I
 
- Gr;H | G1,w1 : A,w2 : B,G2 |-LL D | I
+ Gr;H | G1,A @ w1,B @ w2,G2 |-L D | I
  -------------------------------------- :: exL
- Gr;H | G1,w2 : B,w1 : A,G2 |-LL D | I
+ Gr;H | G1,B @ w2,A @ w1,G2 |-L D | I
 
- Gr;H1,w1 : X, w2 : Y,H2 | G |-LL D | I
+ Gr;H1,X @ w1, Y @ w2,H2 | G |-L D | I
  -------------------------------------- :: IexL
- Gr;H1,w2 : Y, w1 : X,H2 | G |-LL D | I
+ Gr;H1,Y @ w2, X @ w1,H2 | G |-L D | I
 
- Gr;H | G |-LL D1,w1 : A, w2 : B,D2 | I
+ Gr;H | G |-L D1,A @ w1, B @ w2,D2 | I
  -------------------------------------- :: exR
- Gr;H | G |-LL D1,w2 : B, w1 : A,D2 | I
+ Gr;H | G |-L D1,B @ w2, A @ w1,D2 | I
 
- Gr;H | G |-LL D | I1,w1 : S, w2 : T,I2
+ Gr;H | G |-L D | I1,S @ w1, T @ w2,I2
  -------------------------------------- :: CexL
- Gr;H | G |-LL D | I1,w2 : T, w1 : S,I2
+ Gr;H | G |-L D | I1,T @ w2, S @ w1,I2
 
  % Monotonicity Rules:
 
  w1 Gr w2
- Gr;H | G , w1 : A , w2 : A |-LL D | I
+ Gr;H | G , A @ w1 , A @ w2 |-L D | I
  ------------------------------------- :: mL
- Gr;H | G , w1 : A |-LL D | I
+ Gr;H | G , A @ w1 |-L D | I
 
  w2 Gr w1
- Gr;H | G |-LL w2 : A , w1 : A, D | I
+ Gr;H | G |-L A @ w2 , A @ w1, D | I
  ------------------------------------ :: mR
- Gr;H | G |-LL w1 : A, D | I
+ Gr;H | G |-L A @ w1, D | I
 
  w1 Gr w2
- Gr;H , w1 : X , w2 : X | G |-LL D | I
+ Gr;H , X @ w1 , X @ w2 | G |-L D | I
  ------------------------------------- :: ImL
- Gr;H , w1 : X | G |-LL D | I
+ Gr;H , X @ w1 | G |-L D | I
 
  w2 Gr w1
- Gr;H | G |-LL D | w2 : T , w1 : T, I
+ Gr;H | G |-L D | T @ w2 , T @ w1, I
  ------------------------------------ :: CmR
- Gr;H | G |-LL D | w1 : T, I
+ Gr;H | G |-L D | T @ w1, I
 
  % Cut:
 
- Gr; H1 | G1 |-LL w : A, D2 | I1 && Gr; H2 | w : A,G2 |-LL D1 | I2
+ Gr; H1 | G1 |-L A @ w, D2 | I1 && Gr; H2 | A @ w,G2 |-L D1 | I2
  ----------------------------------------------------------------- :: cut
- Gr;H1,H2 | G1,G2 |-LL D1,D2 | I1,I2
+ Gr;H1,H2 | G1,G2 |-L D1,D2 | I1,I2
 
- Gr;H2 |-I w : X && Gr;H1, w : X | G |-LL D | I
+ Gr;H2 |-I X @ w && Gr;H1, X @ w | G |-L D | I
  ---------------------------------------------- :: Icut
- Gr;H1,H2 | G |-LL D | I
+ Gr;H1,H2 | G |-L D | I
 
- Gr;H | G |-LL D | I1, w : S && Gr;w : S |-C I2
+ Gr;H | G |-L D | I1, S @ w && Gr;S @ w |-C I2
  ---------------------------------------------- :: Ccut
- Gr;H | G |-LL D | I1, I2
+ Gr;H | G |-L D | I1, I2
 
  % Units:
 
- Gr;H | G |-LL D | I
+ Gr;H | G |-L D | I
  --------------------------- :: IL
- Gr;H | G, w : 1 |-LL D | I
+ Gr;H | G, True @ w |-L D | I
 
  ------------------------ :: IR
- Gr;. | . |-LL w : 1 | .
+ Gr;. | . |-L True @ w | .
 
  ----------------------- :: flL
- Gr;. | w : 0 |-LL . | .
+ Gr;. | False @ w |-L . | .
 
- Gr;H | G |-LL D | I
+ Gr;H | G |-L D | I
  ------------------------- :: flR
- Gr;H | G |-LL w : 0,D | I
+ Gr;H | G |-L False @ w,D | I
 
  % Additives from IL and coIL:
  
- Gr;H1, w : X, w : Y,H2 | G |-LL D | I
+ Gr;H1, X @ w, Y @ w,H2 | G |-L D | I
  ------------------------------------- :: cL
- Gr;H1, w : X x Y,H2 | G |-LL D | I
+ Gr;H1, X x Y@w,H2 | G |-L D | I
 
- Gr;H | G |-LL D | I1, w : S, w : T, I2
+ Gr;H | G |-L D | I1, S @ w, T @ w, I2
  -------------------------------------- :: dR
- Gr;H | G |-LL D | I1, w : S + T, I2
+ Gr;H | G |-L D | I1, S + T@w, I2
 
  % Tensor:
 
- Gr; H | G1, w : A, w : B, G2 |-LL D | I
+ Gr; H | G1, A @ w, B @ w, G2 |-L D | I
  --------------------------------------- :: tL
- Gr; H | G1, w : A (x) B, G2 |-LL D | I
+ Gr; H | G1, A (x) B @w, G2 |-L D | I
 
- Gr; H1 | G1 |-LL w : A,D1 | I1 && Gr; H2 | G2 |-LL w : B,D2 | I2
+ Gr; H1 | G1 |-L A @ w,D1 | I1 && Gr; H2 | G2 |-L B @ w,D2 | I2
  ---------------------------------------------------------------- :: tR
- Gr; H1,H2 | G1,G2 |-LL w : A (x) B,D1,D2 | I1,I2
+ Gr; H1,H2 | G1,G2 |-L A (x) B@w,D1,D2 | I1,I2
 
  % Par:
 
- Gr;H1 | G1, w : A |-LL D1 | I1 && Gr;H2 | G2, w : B |-LL D2 | I2
+ Gr;H1 | G1, A @ w |-L D1 | I1 && Gr;H2 | G2, B @ w |-L D2 | I2
  ---------------------------------------------------------------- :: pL
- Gr;H1,H2 | G1, G2, w : A (+) B |-LL D1,D2 | I1,I2
+ Gr;H1,H2 | G1, G2, A (+) B @ w |-L D1,D2 | I1,I2
 
- Gr;H | G |-LL D1, w : A, w : B, D2 | I
+ Gr;H | G |-L D1, A @ w, B @ w, D2 | I
  -------------------------------------- :: pR
- Gr;H | G |-LL D1, w : A (+) B, D2 | I
+ Gr;H | G |-L D1,  A (+) B @w, D2 | I
 
  % Implication:
 
  w2 notin Gr,H,G,D,I
- Gr, (w1,w2); H | G, w2 : A |-LL w2 : B,D | I
+ Gr, w1 <= w2; H | G, A @ w2 |-L B @ w2,D | I
  --------------------------------------------- :: ImpR
- Gr; H | G |-LL w1 : A -o B,D | I
+ Gr; H | G |-L A -o B @ w1,D | I
 
  w1 Gr w2
- Gr;H1 | G1 |-LL w2 : A,D1 | I1 && Gr;H2 | G2,w2 : B |-LL D2 | I2
+ Gr;H1 | G1 |-L A @ w2,D1 | I1 && Gr;H2 | G2,B @ w2 |-L D2 | I2
  ---------------------------------------------------------------- :: ImpL
- Gr;H1,H2 | G1,G2,w1 : A -o B |-LL D1,D2 | I1,I2
+ Gr;H1,H2 | G1,G2,A -o B @ w1 |-L D1,D2 | I1,I2
 
  w1 Gr w2
- Gr;H1 |-I w2 : X && Gr;H2,w2 : Y | G |-LL D | I
+ Gr;H1 |-I X @ w2 && Gr;H2,Y @ w2 | G |-L D | I
  ----------------------------------------------- :: IImpL
- Gr;H1,H2, w1 : X -> Y | G |-LL D | I
+ Gr;H1,H2, X -> Y@w1 | G |-L D | I
 
  % Co-implication:
 
  w2 notin Gr,H,G,D,I
- Gr, (w2,w1);H | G,w2 : A |-LL w2 : B, D | I
+ Gr, w2 <= w1;H | G,A @ w2 |-L B @ w2, D | I
  ------------------------------------------- :: sL
- Gr;H | G,w1 : A *- B |-LL D | I
+ Gr;H | G,A *- B @ w1 |-L D | I
 
  w2 Gr w1
- Gr;H1 | G1 |-LL w2 : A,D1 | I1 && Gr;H2 | G2,w2 : B |-LL D2 | I2
+ Gr;H1 | G1 |-L A @ w2,D1 | I1 && Gr;H2 | G2,B @ w2 |-L D2 | I2
  ---------------------------------------------------------------- :: sR
- Gr;H1,H2 | G1,G2 |-LL w1 : A *- B,D1,D2 | I1,I2
+ Gr;H1,H2 | G1,G2 |-L A *- B @ w1,D1,D2 | I1,I2
 
  w2 Gr w1
- Gr;H | G |-LL D | w2 : S,I1 && Gr;w2 : T |-C I2
+ Gr;H | G |-L D | S @ w2,I1 && Gr;T @ w2 |-C I2
  ---------------------------------------------------------------- :: CsR
- Gr;H | G |-LL D | w1 : S - T,I1,I2
+ Gr;H | G |-L D | S - T @ w1,I1,I2
 
  % Intuitionistic Functors:
 
- Gr;H, w : X | G |-LL D | I
+ Gr;H, X @ w | G |-L D | I
  --------------------------- :: fL
- Gr;H | G,w : F X |-LL D | I 
+ Gr;H | G,F X @ w |-L D | I 
 
- Gr; H |-I w : X
+ Gr; H |-I X @ w
  -------------------------- :: fR
- Gr; H | . |-LL w : F X | .
+ Gr; H | . |-L F X @ w | .
 
- Gr;H | G, w : A |-LL D | I
+ Gr;H | G, A @ w |-L D | I
  ----------------------------- :: gL
- Gr;H, w : Gf A | G |-LL D | I 
+ Gr;H, Gf A @ w | G |-L D | I 
 
  % Co-intuitionistic Functors:
 
- Gr; w : S |-C I
+ Gr; S @ w |-C I
  ------------------------- :: jL
- Gr;. | w : J S |-LL . | I
+ Gr;. | J S @ w |-L . | I
 
- Gr;H | G |-LL D | w : S,I
+ Gr;H | G |-L D | S @ w,I
  --------------------------- :: jR
- Gr;H | G |-LL D,w : J S | I
+ Gr;H | G |-L D,J S@w | I
 
- Gr;H | G |-LL D,w : A | I
+ Gr;H | G |-L D,A @ w | I
  --------------------------- :: hR
- Gr;H | G |-LL D | w : H A,I
+ Gr;H | G |-L D | H A@w,I
 
 % Bi-intuitionistic Logic:
 defn
@@ -515,61 +525,61 @@ defn
 
  % Graphs:
 
- Gr, (w,w); G |-L D
+ Gr, w <= w; G |-L D
  ------------------ :: rl
  Gr; G |-L D
 
  w1 Gr w2 && w2 Gr w3
- Gr,(w1,w3);G |-L D
+ Gr,w1 <= w3;G |-L D
  -------------------- :: ts
  Gr;G |-L D
 
  % Axiom:
 
  ------------------ :: id
- Gr;w : A |-L w : A
+ Gr;A @ w |-L A @ w
 
  % Structural Rules:
 
  Gr; G |-L D 
  ------------------ :: wkL
- Gr; G, w : A |-L D
+ Gr; G, A @ w |-L D
 
  Gr; G |-L D
  ------------------ :: wkR
- Gr; G |-L w : A, D
+ Gr; G |-L A @ w, D
 
- Gr;G, w : A, w : A |-L D
+ Gr;G, A @ w, A @ w |-L D
  ------------------------ :: ctrL
- Gr;G, w : A |-L D
+ Gr;G, A @ w |-L D
 
- Gr; G |-L w : A, w : A , D
+ Gr; G |-L A @ w, A @ w , D
  -------------------------- :: ctrR
- Gr; G |-L w : A , D
+ Gr; G |-L A @ w , D
 
- Gr;G1,w1 : A,w2 : B,G2 |-L D
+ Gr;G1,A @ w1,B @ w2,G2 |-L D
  ---------------------------- :: exL
- Gr;G1,w2 : B,w1 : A,G2 |-L D
+ Gr;G1,B @ w2,A @ w1,G2 |-L D
 
- Gr;G |-L D1,w1 : A, w2 : B,D2
+ Gr;G |-L D1,A @ w1, B @ w2,D2
  ----------------------------- :: exR
- Gr;G |-L D1,w2 : B, w1 : A,D2
+ Gr;G |-L D1,B @ w2, A @ w1,D2
 
  % Monotonicity Rules:
 
  w1 Gr w2
- Gr;G , w1 : A , w2 : A |-L D
+ Gr;G , A @ w1 , A @ w2 |-L D
  --------------------------- :: mL
- Gr;G , w1 : A |-L D
+ Gr;G , A @ w1 |-L D
 
  w2 Gr w1
- Gr;G |-L w2 : A , w1 : A, D
+ Gr;G |-L A @ w2 , A @ w1, D
  --------------------------- :: mR
- Gr;G |-L w1 : A, D
+ Gr;G |-L A @ w1, D
 
  % Cut:
 
- Gr; G1 |-L w : A, D2 && Gr; w : A,G2 |-L D1
+ Gr; G1 |-L A @ w, D2 && Gr; A @ w,G2 |-L D1
  ------------------------------------------- :: cut
  Gr; G1,G2 |-L D1,D2
 
@@ -577,56 +587,56 @@ defn
 
  Gr;G |-L D
  ----------------- :: IL
- Gr;G, w : 1 |-L D
+ Gr;G, True @ w |-L D
 
  -------------- :: IR
- Gr;. |-L w : 1
+ Gr;. |-L False @ w
 
  -------------- :: flL
- Gr;w : 0 |-L .
+ Gr;True @ w |-L .
 
  Gr;G |-L D
  ---------------- :: flR
- Gr;G |-L w : 0,D
+ Gr;G |-L False @ w,D
 
- Gr; G1, w : A, w : B, G2 |-L D
+ Gr; G1, A @ w, B @ w, G2 |-L D 
  ------------------------------ :: cL
- Gr; G1, w : A x B, G2 |-L D
+ Gr; G1, A x B @ w, G2 |-L D
 
- Gr; G1 |-L w : A,D1 && Gr; G2 |-L w : B,D2
+ Gr; G1 |-L A @ w,D1 && Gr; G2 |-L B @ w,D2
  ------------------------------------------ :: cR
- Gr; G1,G2 |-L w : A x B
+ Gr; G1,G2 |-L A x B @ w
 
  % Par:
 
- Gr;G1, w : A |-L D1 && Gr;G2, w : B |-L D2
+ Gr;G1, A @ w |-L D1 && Gr;G2, B @ w |-L D2
  ------------------------------------------ :: dL
- Gr;G1, G2, w : A + B |-L D1,D2
+ Gr;G1, G2, A + B @ w |-L D1,D2
 
- Gr;G |-L D1, w : A, w : B, D2
+ Gr;G |-L D1, A @ w, B @ w, D2
  ----------------------------- :: dR
- Gr;G |-L D1, w : A + B, D2
+ Gr;G |-L D1, A + B @ w, D2
 
  % Implication:
 
  w2 notin Gr,G,D
- Gr, (w1,w2); G, w2 : A |-L w2 : B,D
- ----------------------------------- :: ImpR
- Gr; G |-L w1 : A -> B,D
+ Gr, w1 <= w2; G, A @ w2 |-L B @ w2,D
+ ------------------------------------ :: ImpR
+ Gr; G |-L A -> B @ w1,D
 
  w1 Gr w2
- Gr;G1 |-L w2 : A,D1 && Gr;G2,w2 : B |-L D2
+ Gr;G1 |-L A @ w2,D1 && Gr;G2,B @ w2 |-L D2
  ------------------------------------------ :: ImpL
- Gr;G1,G2,w1 : A -> B |-L D1,D2
+ Gr;G1,G2,A -> B @ w1 |-L D1,D2
 
  % Co-implication:
 
  w2 notin Gr,G,D
- Gr, (w2,w1); G,w2 : A |-L w2 : B, D
+ Gr, w2 <= w1; G,A @ w2 |-L B @ w2, D
  ----------------------------------- :: sL
- Gr;G,w1 : A - B |-L D
+ Gr;G,A - B @ w1 |-L D
 
  w2 Gr w1
- Gr;G1 |-L w2 : A,D1 && Gr;G2,w2 : B |-L D2
- ------------------------------------------- :: sR
- Gr;G1,G2 |-L w1 : A - B,D1,D2
+ Gr;G1 |-L A @ w2,D1 && Gr;G2,B @ w2 |-L D2
+ ------------------------------------------ :: sR
+ Gr;G1,G2 |-L A - B @ w1,D1,D2
