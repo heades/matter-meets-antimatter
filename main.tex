@@ -134,8 +134,11 @@ TODO \cite{?}
 \section{Mixed Linear/Non-Linear Models of Bi-intuitionistic Logic: The Categorical Model}
 \label{sec:the_categorical_model}
 
-Suppose $(\cat{I}, 1, \times, \to)$ is a cartesian closed category,
-and $(\cat{L}, \top, \otimes, \limp)$ is a symmetric monoidal closed
+In this section we embark on the definition of a categorical model of
+bi-intuitionistic logic via a categorical model of bi-intuitionistic
+linear logic.  First, we summarize our main results.  Suppose
+$(\cat{I}, 1, \times, \to)$ is a cartesian closed category, and
+$(\cat{L}, \top, \otimes, \limp)$ is a symmetric monoidal closed
 category.  Then relate these two categories with a symmetric monoidal
 adjunction $\cat{I} : \func{F} \dashv \func{G} : \cat{L}$
 (Definition~\ref{?}), where $\func{F}$ and $\func{G}$ are symmetric
@@ -155,16 +158,27 @@ monoidal comonad using the adjunction; see Section~2.2 of
 models, and resulted in a logic called LNL logic which supports mixing
 intuitionistic logic with linear logic.
 
-Now extend $\cat{L}$ with a second symmetric monoidal structure,
-$(\perp, \oplus, \colimp)$, such that $\otimes$ distributes over
-$\oplus$ and $\colimp : \cat{L} \times \cat{L} \mto \cat{L}$ is left
-adjoint to $\oplus$, resulting in the category $(\cat{L}, \top,
-\otimes, \limp, \perp, \oplus, \colimp)$, called a symmetric monoidal
-bi-closed category.  We will call the endofunctor $\colimp : \cat{L}
-\times \cat{L} \mto \cat{L}$ the co-internal hom.  In addition,
-suppose $(\cat{C}, 0,+, -)$ is a co-cartesian co-closed category.  We
-extend LNL models into a new model of bi-intuitionistic logic called a
-mixed linear/non-linear bi-intuitionistic model or a BiLNL model.  It
+Taking the dual of the previous model results in what we call dual LNL
+models. They consist of a co-cartesian co-closed category, $(\cat{C},
+0, +, -)$, a symmetric monoidal co-closed category, $(\cat{L}', \perp,
+\oplus, \colimp)$, where $\colimp : \cat{L}' \times \cat{L}' \mto
+\cat{L}'$ is left adjoint to parr, and a symmetric monoidal adjunction
+$\cat{L'} : H \dashv J : \cat{C}$.  We will show that dual LNL models
+are a simplification of dual linear categories as defined by Bellin
+\cite{Bellin:2012} in much of the same way that LNL models are a
+simplification of linear categories.  In fact, we will define Girard's
+exponential why-not by $? A = J(H(A))$, and hence, is the monad
+induced by the adjunction.
+
+Now we combine the two previous models into one model of
+bi-intuitionistic linear logic.  Extend $\cat{L}$ with a second
+symmetric monoidal structure, $(\perp, \oplus, \colimp)$, such that
+$\otimes$ distributes over $\oplus$ and $\colimp : \cat{L} \times
+\cat{L} \mto \cat{L}$ is left adjoint to $\oplus$, resulting in the
+category $(\cat{L}, \top, \otimes, \limp, \perp, \oplus, \colimp)$,
+called a symmetric monoidal bi-closed category.  We extend LNL models
+into a new model of bi-intuitionistic logic called a mixed
+linear/non-linear bi-intuitionistic model or a BiLNL model.  It
 consists of a cartesian closed category, $(\cat{I}, 1, \times, \to)$,
 a symmetric monoidal bi-closed category, $(\cat{L}, \top,\otimes,
 \limp, \perp, \oplus, \colimp)$, a co-cartesian co-closed category,
@@ -185,7 +199,8 @@ co-intuitionistic logic into the co-intuitionistic fragment, $(\perp,
 \oplus, \colimp)$, of $\cat{L}$.  This we will show turns out to be a
 model of bi-intuitionistic linear logic with modalities, but also as
 one of the first categorical models of bi-intuitionistic logic by
-exploiting the modalities of linear logic.
+exploiting the modalities of linear logic to embedded
+bi-intuitionistic logic inside of bi-intuitionistic linear logic.
 
 
 % section the_categorical_model (end)
