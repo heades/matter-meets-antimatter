@@ -172,7 +172,7 @@ models. They consist of a co-cartesian co-closed category, $(\cat{C},
 0, +, -)$, a symmetric monoidal co-closed category, $(\cat{L}', \perp,
 \oplus, \colimp)$, where $\colimp : \cat{L}' \times \cat{L}' \mto
 \cat{L}'$ is left adjoint to parr, and a symmetric monoidal adjunction
-$\cat{L'} : H \dashv J : \cat{C}$.  We will show that dual LNL models
+$\cat{L'} : H \dashv \perp : \cat{C}$.  We will show that dual LNL models
 are a simplification of dual linear categories as defined by Bellin
 \cite{Bellin:2012} in much of the same way that LNL models are a
 simplification of linear categories.  In fact, we will define Girard's
@@ -220,24 +220,27 @@ $$\bfig
 
 \subsection{Symmetric Monoidal Categories}
 \label{subsec:symmetric_monoidal_categories}
-We now recall the definitions of symmetric monoidal categories,
-functors, natural transformations, and adjunctions.  All of these
+We now introduce the necessary definitions related to symmetric
+monoidal categories that our model will depend on.  Most of these
 definitions are equivalent to the ones given by Benton
-\cite{Benton:1994}.  The reader may safely skip or skim this section
-if they are already familiar with these definitions.
+\cite{Benton:1994}.  In this section we also introduce distributive
+categories, the notion of co-closer, and finally, the definition of
+bilinear categories.  The reader may wish to simply skim this section,
+but refer back to it when they encounter a definition or result they
+do not know.
 
 \begin{definition}
   \label{def:monoidal-category}
   A \textbf{symmetric monoidal category (SMC)} is a category, $\cat{M}$,
   with the following data:
   \begin{itemize}
-  \item An object $I$ of $\cat{M}$,
+  \item An object $\top$ of $\cat{M}$,
   \item A bi-functor $\otimes : \cat{M} \times \cat{M} \mto \cat{M}$,
   \item The following natural isomorphisms:
     \[
     \begin{array}{lll}
-      \lambda_A : I \otimes A \mto A\\
-      \rho_A : A \otimes I \mto A\\      
+      \lambda_A : \top \otimes A \mto A\\
+      \rho_A : A \otimes \top \mto A\\      
       \alpha_{A,B,C} : (A \otimes B) \otimes C \mto A \otimes (B \otimes C)\\
     \end{array}
     \]
@@ -284,10 +287,10 @@ if they are already familiar with these definitions.
     \begin{mathpar}
       \bfig
       \Vtriangle[
-        (A \otimes I) \otimes B`
-        A \otimes (I \otimes B)`
+        (A \otimes \top) \otimes B`
+        A \otimes (\top \otimes B)`
         A \otimes B;
-        \alpha_{A,I,B}`
+        \alpha_{A,\top,B}`
         \rho_{A}`
         \lambda_{B}]
       \efig
@@ -304,10 +307,10 @@ if they are already familiar with these definitions.
       \and
       \bfig
       \Vtriangle[
-        I \otimes A`
-        A \otimes I`
+        \top \otimes A`
+        A \otimes \top`
         A;
-        \beta_{I,A}`
+        \beta_{\top,A}`
         \lambda_A`
         \rho_A]
       \efig
@@ -320,17 +323,85 @@ which can be seen as an internalization of the notion of a morphism.
 \begin{definition}
   \label{def:SMCC}
   A \textbf{symmetric monoidal closed category (SMCC)} is a symmetric
-  monoidal category, $(\cat{M},I,\otimes)$, such that, for any object
+  monoidal category, $(\cat{M},\top,\otimes)$, such that, for any object
   $B$ of $\cat{M}$, the functor $- \otimes B : \cat{M} \mto \cat{M}$
   has a specified right adjoint.  Hence, for any objects $A$ and $C$
-  of $\cat{M}$ there is an object $A \limp B$ of $\cat{M}$ and a
+  of $\cat{M}$ there is an object $B \limp C$ of $\cat{M}$ and a
   natural bijection:
   \[
   \Hom{\cat{M}}{A \otimes B}{C} \cong \Hom{\cat{M}}{A}{B \limp C}
   \]
-  We call the functor $\limp : \cat{C} \times \cat{C} \mto \cat{C}$
-  the internal hom of $\cat{C}$.
+  We call the functor $\limp : \cat{M} \times \cat{M} \mto \cat{M}$
+  the internal hom of $\cat{M}$.
 \end{definition}
+
+Symmetric monoidal closed categories can be seen as a model of
+intuitionistic linear logic with a tensor product and implication.
+What happens when we take the dual?  First, we have the following
+result:
+\begin{lemma}[Dual of Symmetric Monoidal Categories]
+  \label{lemma:dual_of_symmetric_monoidal_categories}
+  If $(\cat{M},\top,\otimes)$ is a symmetric monoidal category, then
+  $\catop{M}$ is also a symmetric monoidal category.
+\end{lemma}
+The previous result follows from the fact that the structures making
+up symmetric monoidal categories are isomorphisms, and so naturally
+taking their opposite will yield another symmetric monoidal category.
+To emphasize when we are thinking about a symmetric monoidal category
+in the opposite we use the notion $(\cat{M},\perp,\oplus)$ which gives
+the suggestion of $\oplus$ corresponding to a disjunctive tensor
+product which we call the \textit{cotensor} of $\cat{M}$. The next
+definition describes when a symmetric monoidal category is co-closed.
+\begin{definition}
+  \label{def:SMCC}
+  A \textbf{symmetric monoidal co-closed category (SMCCC)} is a symmetric
+  monoidal category, $(\cat{M},\perp,\oplus)$, such that, for any object
+  $B$ of $\cat{M}$, the functor $- \oplus B : \cat{M} \mto \cat{M}$
+  has a specified left adjoint.  Hence, for any objects $A$ and $C$
+  of $\cat{M}$ there is an object $B \colimp C$ of $\cat{M}$ and a
+  natural bijection:
+  \[
+  \Hom{\cat{M}}{C}{A \oplus B} \cong \Hom{\cat{M}}{B \colimp C}{A}
+  \]
+  We call the functor $\colimp : \cat{M} \times \cat{M} \mto \cat{M}$
+  the internal co-hom of $\cat{M}$.
+\end{definition}
+
+We combine the previous definitions into a single category.  First, we
+define the notion of a distributive category due to Cockett and Seely
+\cite{Cockett:1997}.
+\begin{definition}
+  \label{def:dist-cat}
+  We call a symmetric monoidal category, $(\cat{M}, \top, \otimes,
+  \perp, \oplus)$, a \textbf{distributive category} if there are
+  natural transformations:
+  \[
+  \begin{array}{lll}
+    \delta^L_{A,B,C} : A \otimes (B \oplus C) \mto (A \otimes B) \oplus C\\
+    \delta^R_{A,B,C} : (B \oplus C) \otimes A \mto B \oplus (C \otimes A)
+  \end{array}
+  \]
+  subject to several coherence diagrams.  Due to the large number of
+  coherence diagrams we do not list them here, but they all can be
+  found in Cockett and Seely's paper \cite{Cockett:1997}.
+\end{definition}
+\noindent
+Requiring that the tensor and cotensor products have the corresponding
+right and left adjoints results in the following definition.
+\begin{definition}
+  \label{def:bilinear-cat}
+  A \textbf{bilinear category} is a distributive category $(\cat{M},
+  \top, \otimes, \perp, \oplus)$ such that $(\cat{M}, \top, \otimes)$
+  is closed, and $(\cat{M}, \perp, \oplus)$ is co-closed.  We will
+  denote bi-linear categories by $(\cat{M}, \top, \otimes, \limp, \perp,
+  \oplus, \colimp)$.
+\end{definition}
+Originally, Lambek defined bilinear categories to be similar to the
+previous definition, but the tensor and cotensor were non-commutative
+\cite{Cockett:1997a}, however, the bilinear categories given here
+are. We retain the name in homage to his original work.  As we will
+see below bilinear categories form the core of the work given here,
+and are of crucial importance.
 
 A symmetric monoidal category is a category with additional structure
 subject to several coherence diagrams.  Thus, an ordinary functor is
@@ -339,10 +410,10 @@ symmetric monoidal functors.
 \begin{definition}
   \label{def:SMCFUN}
   Suppose we are given two symmetric monoidal closed categories\\
-  $(\cat{M}_1,I_1,\otimes_1,\alpha_1,\lambda_1,\rho_1,\beta_1)$ and
-  $(\cat{M}_2,I_2,\otimes_2,\alpha_2,\lambda_2,\rho_2,\beta_2)$.  Then a
+  $(\cat{M}_1,\top_1,\otimes_1,\alpha_1,\lambda_1,\rho_1,\beta_1)$ and
+  $(\cat{M}_2,\top_2,\otimes_2,\alpha_2,\lambda_2,\rho_2,\beta_2)$.  Then a
   \textbf{symmetric monoidal functor} is a functor $F : \cat{M}_1 \mto
-  \cat{M}_2$, a map $m_I : I_2 \mto FI_1$ and a natural transformation
+  \cat{M}_2$, a map $m_\top : \top_2 \mto F\top_1$ and a natural transformation
   $m_{A,B} : FA \otimes_2 FB \mto F(A \otimes_1 B)$ subject to the
   following coherence conditions:
   \begin{mathpar}
@@ -366,26 +437,26 @@ symmetric monoidal functors.
 \begin{mathpar}
     \bfig
     \square|amma|/->`->`<-`->/<1000,500>[
-      I_2 \otimes_2 FA`
+      \top_2 \otimes_2 FA`
       FA`
-      FI_1 \otimes_2 FA`
-      F(I_1 \otimes_1 A);
+      F\top_1 \otimes_2 FA`
+      F(\top_1 \otimes_1 A);
       {\lambda_2}_{FA}`
-      m_{I} \otimes \id_{FA}`
+      m_{\top} \otimes \id_{FA}`
       F{\lambda_1}_{A}`
-      m_{I_1,A}]
+      m_{\top_1,A}]
     \efig
     \and
     \bfig
     \square|amma|/->`->`<-`->/<1000,500>[
-      FA \otimes_2 I_2`
+      FA \otimes_2 \top_2`
       FA`
-      FA \otimes_2 FI_1`
-      F(A \otimes_1 I_1);
+      FA \otimes_2 F\top_1`
+      F(A \otimes_1 \top_1);
       {\rho_2}_{FA}`
-      \id_{FA} \otimes m_{I}`
+      \id_{FA} \otimes m_{\top}`
       F{\rho_1}_{A}`
-      m_{A,I_1}]
+      m_{A,\top_1}]
     \efig
      \end{mathpar}
      
@@ -409,7 +480,7 @@ structure found in a symmetric monoidal category we must also extend
 natural transformations, and adjunctions.
 \begin{definition}
   \label{def:SMCNAT}
-  Suppose $(\cat{M}_1,I_1,\otimes_1)$ and $(\cat{M}_2,I_2,\otimes_2)$
+  Suppose $(\cat{M}_1,\top_1,\otimes_1)$ and $(\cat{M}_2,\top_2,\otimes_2)$
   are SMCs, and $(F,m)$ and $(G,n)$ are a symmetric monoidal functors
   between $\cat{M}_1$ and $\cat{M}_2$.  Then a \textbf{symmetric
     monoidal natural transformation} is a natural transformation,
@@ -429,18 +500,18 @@ natural transformations, and adjunctions.
     \and
     \bfig
     \Vtriangle/->`<-`<-/[
-      FI_1`
-      GI_1`
-      I_2;
-      f_{I_1}`
-      m_{I_1}`
-      n_{I_1}]
+      F\top_1`
+      G\top_1`
+      \top_2;
+      f_{\top_1}`
+      m_{\top_1}`
+      n_{\top_1}]
     \efig
   \end{mathpar}  
 \end{definition}  
 \begin{definition}
   \label{def:SMCADJ}
-  Suppose $(\cat{M}_1,I_1,\otimes_1)$ and $(\cat{M}_2,I_2,\otimes_2)$
+  Suppose $(\cat{M}_1,\top_1,\otimes_1)$ and $(\cat{M}_2,\top_2,\otimes_2)$
   are SMCs, and $(F,m)$ is a symmetric monoidal functor between
   $\cat{M}_1$ and $\cat{M}_2$ and $(G,n)$ is a symmetric monoidal
   functor between $\cat{M}_2$ and $\cat{M}_1$.  Then a
@@ -462,11 +533,11 @@ natural transformations, and adjunctions.
     \and
     \bfig
     \Vtriangle|amm|/->`<-`=/[
-      FGI_1`
-      I_1`
-      I_1;
-      \eta_{I_1}`
-      \q{I_1}`]
+      FG\top_1`
+      \top_1`
+      \top_1;
+      \eta_{\top_1}`
+      \q{\top_1}`]
     \efig
     \and
     \bfig
@@ -481,11 +552,11 @@ natural transformations, and adjunctions.
     \and
     \bfig
     \Vtriangle|amm|/->`=`<-/[
-      I_2`
-      GFI_2`
-      I_2;
-      \varepsilon_{I_2}``
-      p_{I_2}]
+      \top_2`
+      GF\top_2`
+      \top_2;
+      \varepsilon_{\top_2}``
+      p_{\top_2}]
     \efig
   \end{mathpar}
   Note that $\p{}$ and $\q{}$ exist because $(FG,\q{})$ and
@@ -546,11 +617,11 @@ right.
     \and
     \bfig
     \Vtriangle/->`=`<-/<600,600>[
-      I`
-      TI`
-      I;
-      \eta_I``
-      \n{I}]
+      \top`
+      T\top`
+      \top;
+      \eta_\top``
+      \n{\top}]
     \efig
   \end{mathpar}
   \begin{mathpar}
@@ -573,14 +644,14 @@ right.
     \and
     \bfig
     \square|ammb|/->`->`->`<-/<600,600>[
-      I`
-      TI`
-      TI`
-      T^2I;
-      \n{I}`
-      \n{I}`
-      T\n{I}`
-      \mu_I]
+      \top`
+      T\top`
+      T\top`
+      T^2\top;
+      \n{\top}`
+      \n{\top}`
+      T\n{\top}`
+      \mu_\top]
     \efig
   \end{mathpar}
 \end{definition}
@@ -634,11 +705,11 @@ Finally the dual concept, of a symmetric monoidal comonad.
     \and
     \bfig
     \Vtriangle|amm|/->`<-`=/<600,600>[
-      TI`
-      I`
-      I;
-      \m{I}`
-      \varepsilon_I`]
+      T\top`
+      \top`
+      \top;
+      \m{\top}`
+      \varepsilon_\top`]
     \efig    
   \end{mathpar}
   \begin{mathpar}
@@ -660,14 +731,14 @@ Finally the dual concept, of a symmetric monoidal comonad.
     \and
     \bfig
     \square<600,600>[
-      I`
-      TI`
-      TI`
-      T^2I;
-      \m{I}`
-      \m{I}`
-      \delta_I`
-      T\m{I}]
+      \top`
+      T\top`
+      T\top`
+      T^2\top;
+      \m{\top}`
+      \m{\top}`
+      \delta_\top`
+      T\m{\top}]
     \efig
   \end{mathpar}
 \end{definition}
