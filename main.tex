@@ -44,6 +44,8 @@
 \let\b\relax
 \let\d\relax
 \let\t\relax
+\let\r\relax
+\let\wn\relax
 
 % Cat commands.
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
@@ -71,6 +73,8 @@
 \newcommand{\p}[1]{\mathsf{p}_{#1}}
 \newcommand{\q}[1]{\mathsf{q}_{#1}}
 \newcommand{\t}[0]{\mathsf{t}}
+\newcommand{\r}[1]{\mathsf{r}_{#1}}
+\newcommand{\wn}[0]{\mathop{?}}
 
 \newenvironment{changemargin}[2]{%
   \begin{list}{}{%
@@ -103,7 +107,7 @@
   intuitionistic logic with perfect duality.  That is, BINT contains
   the usual intuitionistic logical connectives such as true,
   conjunction, and implication, but also their duals false,
-  disjunction, and co-implication. One leading question with respect
+  disjunction, and coimplication. One leading question with respect
   to BINT is, what does BINT look like across the three arcs -- logic,
   typed $\lambda$-calculi, and category theory -- of the
   Curry-Howard-Lambek correspondence?  A non-trivial (does not
@@ -113,24 +117,24 @@
   It is well-known that the linear counterpart, linear BINT, of BINT
   can be modeled in a symmetric monoidal closed category equipped with
   an additional monoidal structure that models par and a specified
-  left adjoint to par called linear co-implication.  We call this
+  left adjoint to par called linear coimplication.  We call this
   model a symmetric bi-monoidal bi-closed category. In addition, it is
   well-known that intuitionistic logic has a categorical model of
-  cartesian closed categories, and their dual co-cartesian co-closed
-  categories model co-intuitionistic logic.  In this paper we exploit
+  cartesian closed categories, and their dual cocartesian coclosed
+  categories model cointuitionistic logic.  In this paper we exploit
   Benton's beautiful LNL models of linear logic to show that these
   three models can be mixed by requiring a symmetric monoidal
   adjunction between a cartesian closed category and the symmetric
   bi-monoidal bi-closed category, in addition to a symmetric monoidal
-  adjunction between a co-cartesian co-closed category and the
+  adjunction between a cocartesian coclosed category and the
   symmetric bi-monoidal bi-closed category.  As a result of this
   mixture we obtain two modalities the usual comonadic of-course
   modality of linear logic, but also a monadic modality allowing for
-  the embedding of co-intuitionistic logic inside of linear BINT.
+  the embedding of cointuitionistic logic inside of linear BINT.
   Finally, using these modalities we show that BINT intuitionistic
   logic can be soundly modeled in this new categorical model. As a
   bi-product of this model we define BiLNL logic which can be seen as
-  the mixture of intuitionistic logic with co-intuitionistic logic
+  the mixture of intuitionistic logic with cointuitionistic logic
   inside of linear BINT.
 
 \end{abstract}
@@ -168,8 +172,8 @@ models, and resulted in a logic called LNL logic which supports mixing
 intuitionistic logic with linear logic.
 
 Taking the dual of the previous model results in what we call dual LNL
-models. They consist of a co-cartesian co-closed category, $(\cat{C},
-0, +, -)$, a symmetric monoidal co-closed category, $(\cat{L}', \perp,
+models. They consist of a cocartesian coclosed category, $(\cat{C},
+0, +, -)$, a symmetric monoidal coclosed category, $(\cat{L}', \perp,
 \oplus, \colimp)$, where $\colimp : \cat{L}' \times \cat{L}' \mto
 \cat{L}'$ is left adjoint to parr, and a symmetric monoidal adjunction
 $\cat{L'} : H \dashv \perp : \cat{C}$.  We will show that dual LNL models
@@ -190,7 +194,7 @@ into a new model of bi-intuitionistic logic called a mixed
 linear/non-linear bi-intuitionistic model or a BiLNL model.  It
 consists of a cartesian closed category, $(\cat{I}, 1, \times, \to)$,
 a symmetric monoidal bi-closed category, $(\cat{L}, \top,\otimes,
-\limp, \perp, \oplus, \colimp)$, a co-cartesian co-closed category,
+\limp, \perp, \oplus, \colimp)$, a cocartesian coclosed category,
 $(\cat{C}, 0,+, -)$, and a pair of symmetric monoidal adjoint
 functors:
 $$\bfig
@@ -200,11 +204,11 @@ $$\bfig
 \morphism(500,0)|b|/{@{<-}@/_1em/}/<500,0>[\cat{L}`\func{C};\func{J}]
 \place(250,0)[\dashv] \place(750,0)[\vdash] \efig$$ It is well known
 that $\cat{I}$ is a model of intuitionistic logic and $\cat{C}$ is a
-model of co-intuitionistic logic, and so, the adjoint situation $F
+model of cointuitionistic logic, and so, the adjoint situation $F
 \dashv G$ can be seen as a translation of intuitionistic logic into
 the intuitionistic fragment, $(\top, \otimes, \limp)$, of $\cat{L}$,
 and the adjoint situation $H \dashv J$ can be seen as a translation of
-co-intuitionistic logic into the co-intuitionistic fragment, $(\perp,
+cointuitionistic logic into the cointuitionistic fragment, $(\perp,
 \oplus, \colimp)$, of $\cat{L}$.  This we will show turns out to be a
 model of bi-intuitionistic linear logic with modalities, but also as
 one of the first categorical models of bi-intuitionistic logic by
@@ -216,7 +220,7 @@ $$\bfig
 \morphism(0,0)|a|/{@{>}@/^1em/}/<500,0>[\cat{I}`\cat{C};\func{F};\func{H}]
 \morphism(0,0)|b|/{@{<-}@/_1em/}/<500,0>[\cat{I}`\cat{C};\func{J};\func{G}]
 \place(250,0)[\dashv]\efig$$
-\textbf{Q: Does this give us the double-negation monad/comonad?}
+\todo[inline]{Does this give us the double-negation monad/comonad?}
 
 \subsection{Symmetric Monoidal Categories}
 \label{subsec:symmetric_monoidal_categories}
@@ -224,7 +228,7 @@ We now introduce the necessary definitions related to symmetric
 monoidal categories that our model will depend on.  Most of these
 definitions are equivalent to the ones given by Benton
 \cite{Benton:1994}.  In this section we also introduce distributive
-categories, the notion of co-closer, and finally, the definition of
+categories, the notion of cocloser, and finally, the definition of
 bilinear categories.  The reader may wish to simply skim this section,
 but refer back to it when they encounter a definition or result they
 do not know.
@@ -351,10 +355,10 @@ To emphasize when we are thinking about a symmetric monoidal category
 in the opposite we use the notion $(\cat{M},\perp,\oplus)$ which gives
 the suggestion of $\oplus$ corresponding to a disjunctive tensor
 product which we call the \textit{cotensor} of $\cat{M}$. The next
-definition describes when a symmetric monoidal category is co-closed.
+definition describes when a symmetric monoidal category is coclosed.
 \begin{definition}
   \label{def:SMCC}
-  A \textbf{symmetric monoidal co-closed category (SMCCC)} is a symmetric
+  A \textbf{symmetric monoidal coclosed category (SMCCC)} is a symmetric
   monoidal category, $(\cat{M},\perp,\oplus)$, such that, for any object
   $B$ of $\cat{M}$, the functor $- \oplus B : \cat{M} \mto \cat{M}$
   has a specified left adjoint.  Hence, for any objects $A$ and $C$
@@ -364,7 +368,7 @@ definition describes when a symmetric monoidal category is co-closed.
   \Hom{\cat{M}}{C}{A \oplus B} \cong \Hom{\cat{M}}{B \colimp C}{A}
   \]
   We call the functor $\colimp : \cat{M} \times \cat{M} \mto \cat{M}$
-  the internal co-hom of $\cat{M}$.
+  the internal cohom of $\cat{M}$.
 \end{definition}
 
 We combine the previous definitions into a single category.  First, we
@@ -392,7 +396,7 @@ right and left adjoints results in the following definition.
   \label{def:bilinear-cat}
   A \textbf{bilinear category} is a distributive category $(\cat{M},
   \top, \otimes, \perp, \oplus)$ such that $(\cat{M}, \top, \otimes)$
-  is closed, and $(\cat{M}, \perp, \oplus)$ is co-closed.  We will
+  is closed, and $(\cat{M}, \perp, \oplus)$ is coclosed.  We will
   denote bi-linear categories by $(\cat{M}, \top, \otimes, \limp, \perp,
   \oplus, \colimp)$.
 \end{definition}
@@ -744,14 +748,14 @@ Finally the dual concept, of a symmetric monoidal comonad.
 \end{definition}
 % subsection symmetric_monoidal_categories (end)
 
-\subsection{Cartesian Closed and Co-Cartesian Co-Closed Categories}
-\label{subsec:cartesian_closed_and_co-cartesian_co-closed_categories}
+\subsection{Cartesian Closed and Cocartesian Coclosed Categories}
+\label{subsec:cartesian_closed_and_cocartesian_coclosed_categories}
 The notion of a cartesian closed category is well-known, but for
 completeness we define them here.  However, their dual is lesser
 known, especially in computer science, and so we given their full
-definition.  We also review some know results concerning co-cartesian
-co-closed categories and their union called bi-cartesian bi-closed
-categories.
+definition.  We also review some know results concerning cocartesian
+coclosed categories and categories that are both cartesian closed and
+cocartesian coclosed.
 \begin{definition}
   \label{def:CC}
   A \textbf{cartesian category} is a category, $(\cat{C}, 1, \times)$,
@@ -781,11 +785,11 @@ definition of closer for a symmetric monoidal category
 (Definition~\ref{def:SMCC}).  We denote the internal hom for cartesian
 closed categories by $A \to B$.
 
-The dual of a cartesian category is a co-cartesian category.  They are
+The dual of a cartesian category is a cocartesian category.  They are
 a model of intuitionistic logic with disjunction and its unit.
 \begin{definition}
   \label{def:CC}
-  A \textbf{co-cartesian category} is a category, $(\cat{C}, 0, +)$,
+  A \textbf{cocartesian category} is a category, $(\cat{C}, 0, +)$,
   with an object, $0$, and a bi-functor,
   $+ : \cat{C} \times \cat{C} \mto \cat{C}$, such that for any object $A$ there is exactly
   one morphism $\Box : 0 \to A$, and for any morphisms $f : A \mto C$ and $g : B \mto C$
@@ -802,25 +806,169 @@ a model of intuitionistic logic with disjunction and its unit.
   \efig
   \]  
 \end{definition}
-Co-closer, just like closer for cartesian categories, is defined in
-the same way that co-closer is defined for symmetric monoidal
-categories, because co-cartesian categories are also symmetric
-monoidal categories.  Thus, a co-cartesian category is co-closed if
+Cocloser, just like closer for cartesian categories, is defined in
+the same way that cocloser is defined for symmetric monoidal
+categories, because cocartesian categories are also symmetric
+monoidal categories.  Thus, a cocartesian category is coclosed if
 there is a specified left-adjoint, which we denote $S - T$, to the
-co-product.
+coproduct.
 
-There are many examples of co-cartesian co-closed categories.
+There are many examples of cocartesian coclosed categories.
 Basically, any interesting cartesian category has an interesting dual,
-and hence, induces an interesting co-cartesian co-closed category.
+and hence, induces an interesting cocartesian coclosed category.
 The opposite of the category of sets and functions between them is
 isomorphic to the category of complete atomic boolean algebras, and
-both of which, are examples of co-cartesian co-closed categories.  As
+both of which, are examples of cocartesian coclosed categories.  As
 we mentioned above bi-linear categories \cite{Cockett:1997a} are
-models of bi-linear logic where the left adjoint to the co-tensor
-models co-implication.  Similarly, co-cartesian co-closed categories
-model co-intuitionistic logic with disjunction and intuitionistic
-co-implication \cite{Crolard:2001,Bellin:2012}.
-% subsection cartesian_closed_and_co-cartesian_co-closed_categories (end)
+models of bi-linear logic where the left adjoint to the cotensor
+models coimplication.  Similarly, cocartesian coclosed categories
+model cointuitionistic logic with disjunction and intuitionistic
+coimplication \cite{Crolard:2001,Bellin:2012}. \todo[inline]{Put more
+  examples in here.}
+
+We might now ask if we can a category can be both cartesian closed and
+cocartesian coclosed just as bi-linear categories, but this turns out
+to be where the matter meets antimatter in such away that the category
+degenerates to a preorder.  That is, every homspace contains at most
+one morphism.  We recall this proof here, which is due to Crolard
+\cite{Crolard:2001}. We need a couple basic facts about cartesian
+closed categories with initial objects.
+\begin{lemma}
+  \label{lemma:iso-prod-initial}
+  In any cartesian category $\cat{C}$, if $0$ is an initial object in
+  $\cat{C}$ and $\Hom{C}{A}{0}$ is non-empty, then $A \cong A \times 0$.
+\end{lemma}
+\begin{proof}
+  This follows easily from the universial mapping property for products.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:products-of-initial-gives-initial}
+  In any cartesian closed category $C$, if $0$ is an initial
+  object in $\cat{C}$, then so is $0 \times A$ for any object $A$
+  of $\cat{C}$.
+\end{lemma}
+\begin{proof}
+    We know that the universal morphism for the initial object is
+    unique, and hence, the homspace $\Hom{C}{0}{A \Rightarrow B}$ for
+    any object $B$ of $\cat{C}$ contains exactly one morphism.  Then
+    using the right adjoint to the product functor we know that
+    $\Hom{C}{0}{A \Rightarrow B} \cong \Hom{C}{0 \times A}{B}$, and
+    hence, there is only one arrow between $0 \times A$ and $B$.
+\end{proof}
+\noindent
+The following lemma is due to Joyal \cite{?}, and is key to the next
+theorem.
+\begin{lemma}[Joyal's]
+  \label{lemma:joyals}
+  In any cartesian closed category $\cat{C}$, if $0$ is an initial
+  object in $\cat{C}$ and $\Hom{C}{A}{0}$ is non-empty, then $A$ is an
+  initial object in $\cat{C}$.
+\end{lemma}
+\begin{proof}
+  Suppose $\cat{C}$ is a cartesian closed category, such that, $0$ is
+  an initial object in $\cat{C}$, and $A$ is an arbitrary object in
+  $\cat{C}$.  Furthermore, suppose $\Hom{C}{A}{0}$ is non-empty.  By
+  the first basic lemma above we know that $A \cong A \times 0$, and
+  by the second $A \times 0$ is initial, thus $A$ is initial.
+\end{proof}
+Finally, the following theorem shows that any category that is both
+cartesian closed and cocartesian coclosed is a preorder.
+\begin{theorem}[(co)Cartesian (co)Closed Categories are Preorders]
+  \label{thm:dengerate-to-preorder}
+  If $\cat{C}$ is both cartesian closed and cocartesian coclosed, then
+  for any two objects $A$ and $B$ of $\cat{C}$, $\Hom{C}{A}{B}$ has at
+  most one element.
+\end{theorem}
+\begin{proof}
+  Suppose $\cat{C}$ is both cartesian closed and cocartesian coclosed,
+  and $A$ and $B$ are objects of $\cat{C}$.  Then by using the basic
+  fact that the initial object is the unit to the coproduct, and the
+  coproducts left adjoint we know the following:
+  \[\Hom{C}{A}{B} \cong \Hom{C}{A}{0 + B} \cong \Hom{C}{B - A}{0}\]
+  Therefore, by Joyal's theorem above $\Hom{C}{A}{B}$ has at most one
+  element.
+\end{proof}
+\noindent
+Notice that the previous result hinges on the fact that there are
+initial and terminal objects, and thus, this result does not hold for
+bi-linear categories, because the units to the tensor and cotensor are
+not initial nor terminal.
+
+The repercussions of this result are that if we do not want to work
+with preorders, but do want to work with all of the structure, then we
+must separate the two worlds.  Thus, this result can be seen as the
+motivation for the current work.  We enforce the separation using
+linear logic, but through the power of linear logic we show that
+separation is not far.
+% subsection cartesian_closed_and_cocartesian_coclosed_categories (end)
+
+\subsection{A Mixed Linear/Non-Linear Model for Co-Intuitionistic Logic}
+\label{subsec:a_mixed_linear/non-linear_model_for_co-intuitionistic_logic}
+
+Benton \cite{Benton:1994} showed that from a LNL model it is possible
+to construct a linear category, and vice versa.  Bellin
+\cite{Bellin:2012} showed that the dual to linear categories are
+sufficient to model co-intuitionistic linear logic. We show that from
+the dual to a LNL model we can construct the dual to a linear
+category, and vice versa, thus, carrying out the same program for
+co-intuitionistic linear logic as Benton did for intuitionistic linear
+logic.
+
+Combining a symmetric monoidal coclosed category with a cocartesian
+coclosed category via an symmetric monoidal adjunction defines a coLNL
+model.
+\begin{definition}
+  \label{def:coLNL-model}
+  A
+  \textbf{mixed linear/non-linear model for co-intuitionistic logic (coLNL model)},
+  $(\cat{L},\cat{C},\func{H},\func{J})$, consists of the following:
+  \begin{itemize}
+  \item[i.] a symmetric monoidal coclosed category $(\cat{L},\perp,\oplus,\colimp)$,
+  \item[ii.] a cocartesian coclosed category $(\cat{C},0,+,-)$, and
+  \item[iv.] a symmetric monoidal adjunction $\cat{L} : \func{H}
+    \dashv \func{J} : \cat{C}$, where $\eta_A : A \mto
+    \func{J}\,(\func{H}\,A)$ and $\varepsilon_R :
+    \func{H}\,(\func{J}\,R) \mto R$ are the unit and counit of the adjunction
+    respectively.
+  \end{itemize}
+\end{definition}
+It is well-known that an adjunction $\cat{L} : \func{H} \dashv
+\func{J} : \cat{C}$ induces a monad $\func{H};\func{J} : \cat{L} \mto
+\cat{L}$, but when the adjunction is symmetric monoidal we obtain a
+symmetric monoidal monad, in fact, $\func{H};\func{J}$ defines the
+linear exponential why-not denoted $?A = \func{J}\,(\func{H}\,A))$.
+
+\begin{lemma}[Symmetric Monoidal Monad]
+  \label{lemma:symmetric_monoidal_monad}
+  Given a coLNL model $(\cat{L},\cat{C},\func{H},\func{J})$, $H;J$
+  defines a symmetric monoidal monad.
+\end{lemma}
+\begin{proof}
+  All the diagrams defining a symmetric monoidal monad hold by the
+  structure given by the adjunction.  For the complete proof see
+  Appendix~\ref{subsec:proof_of_lemma:symmetric_monoidal_monad}.
+\end{proof}
+
+% subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
+
+\subsection{A Mixed Bi-Linear/Non-Linear Model}
+\label{subsec:a_mixed_bi-linear_non-linear_model}
+\begin{definition}
+  \label{def:biLNL-model}
+  A \textbf{mixed bi-linear/non-linear model} consists of the
+  following:
+  \begin{itemize}
+  \item[i.] a bi-linear category $(\cat{L},
+    \top,\otimes,\limp,\perp,\oplus,\colimp)$,
+  \item[ii.] a cartesian closed category $(\cat{I},1,\times,\to)$,
+  \item[iii.] a cocartesian coclosed category $(\cat{C},0,+,-)$, and
+  \item[iv.] two symmetric monoidal adjunctions $\cat{I} : F \dashv G
+    : \cat{L}$ and $\cat{L} : H \dashv J : \cat{C}$.
+  \end{itemize}
+\end{definition}
+
+% subsection a_mixed_bi-linear_non-linear_model (end)
 % section the_categorical_model (end)
 
 \section{Mixed Linear/Non-Linear Bi-intuitionistic Logic: BiLNL Logic}
@@ -830,9 +978,9 @@ Following Benton's \cite{Benton:1994} lead we can define a mixed
 linear/non-linear bi-intuitionistic logic, called BiLNL logic, based
 on the categorical model given in the previous section.  BiLNL logic
 consists of three fragments: an intuitionistic fragment, a
-co-intuitionistic fragment, and a linear bi-intuitionistic core
+cointuitionistic fragment, and a linear bi-intuitionistic core
 fragment.  This formalization allows us to have more control on the
-mixture of the intuitionistic and co-intuitionistic fragments so as to
+mixture of the intuitionistic and cointuitionistic fragments so as to
 allow for a proper categorical model.  Each of the fragments are
 related through a syntactic formalization of the adjoint functors from
 the BiLNL model.  First, we define the syntax of BiLNL logic, and then
@@ -847,14 +995,14 @@ discuss the inference rules for each fragment.
         \text{(Graphs)} & [[Gr]] ::= [[w1 <= w2]] \mid [[Gr1 , Gr2]]\\
         \text{(Intuitionistic Formulas)} & [[X]], [[Y]], [[Z]] ::= 1
           \mid [[X x Y]] \mid [[X -> Y]] \mid [[Gf A]]\\
-        \text{(Co-intuitionistic Formulas)} &  [[R]], [[S]], [[T]] ::= 0 \mid [[S + T]] \mid [[S - T]] \mid [[H A]]\\
+        \text{(Cointuitionistic Formulas)} &  [[R]], [[S]], [[T]] ::= 0 \mid [[S + T]] \mid [[S - T]] \mid [[H A]]\\
         \text{(Linear Bi-intuitionistic Formulas)} &
              [[A]],[[B]],[[C]] ::= [[True]] \mid [[False]] \mid
              [[A (x) B]] \mid [[A (+) B]] \mid
              [[A -o B]] \mid [[A *- B]] \mid [[F X]] \mid [[J S]]\\
              \text{(Intuitionistic Contexts)}  & [[H]] ::= [[.]] \mid
                   [[X @ w]] \mid [[H1 , H2]]\\
-        \text{(Co-intuitionistic Contexts)}  & [[I]] ::= [[.]] \mid
+        \text{(Cointuitionistic Contexts)}  & [[I]] ::= [[.]] \mid
              [[R @ w]] \mid [[I1 , I2]]\\
         \text{(Linear Bi-intuitionistic Contexts)}  &
              [[G]],[[D]] ::= [[.]] \mid [[A @ w]] \mid [[G1,G2]]\\        
@@ -871,21 +1019,21 @@ discuss the inference rules for each fragment.
     \begin{math}
       \begin{array}{rll}
         \text{(Intuitionistic Sequents)}   & [[Gr;H |-I X@w]]\\
-        \text{(Co-intuitionistic Sequents)} & [[Gr;R@w |-C I]]\\
+        \text{(Cointuitionistic Sequents)} & [[Gr;R@w |-C I]]\\
         \text{(LNL Bi-intuitionistic Sequents)} & [[Gr;H | G |-L D | I]]\\
       \end{array}
     \end{math}
   \end{center}
 \end{definition}
 
-The syntax of intuitionistic and co-intuitionistic formulas are
-typical.  I denote co-implication by $[[S - T]]$, but all the other
+The syntax of intuitionistic and cointuitionistic formulas are
+typical.  I denote coimplication by $[[S - T]]$, but all the other
 connectives are the usual ones. Linear bi-intuitionistic formulas are
 denoted in somewhat of a non-traditional style. I denote the unit of
 tensor by $[[True]]$ instead of the usual $[[1]]$, which is the unit
 of intuitionistic conjunction, in addition, I denote par by $[[A (+)
     B]]$, instead of $[[A]] \parr [[B]]$.  Lastly, I denote linear
-co-implication by $[[A *- B]]$ to emphasize its duality with linear
+coimplication by $[[A *- B]]$ to emphasize its duality with linear
 implication $[[A -o B]]$.  Each syntactic category of formulas
 contains the respective functor from the BiLNL model, and thus, we
 should view $F$ and $H$ as the left adjoints to $G$ and $J$
@@ -907,17 +1055,17 @@ this results in a failure of cut-elimination
 \cite{Schellinx:1991,Pinto:2009}.
 
 The expert reader will notice that it is not necessary to annotate the
-sequents of intuitionistic and co-intuitionistic logic with graphs and
-worlds to enforce intuitionism and co-intuitionism respectively. It is
+sequents of intuitionistic and cointuitionistic logic with graphs and
+worlds to enforce intuitionism and cointuitionism respectively. It is
 well known that restricting the right and left contexts two a single
-formula enforces intuitionism and co-intuitionism respectively.
+formula enforces intuitionism and cointuitionism respectively.
 However, when mixing these two fragments with the linear core, which
 requires the graphs to be intuitionistic, it is easier if they are
 annotated.  If they were not, then a seemingly complex world inference
 system would need to be designed to add the world constraints before
 mixing with the linear core, and it is currently an open problem
 whether this can be done.  Thus, with respect to intuitionistic and
-co-intuitionistic logic the graph and world annotations can be seen as
+cointuitionistic logic the graph and world annotations can be seen as
 book keeping.
 
 A second fact an expert reader will notice is that Kripke models are a
@@ -952,12 +1100,12 @@ form:
 \oplus \cdots \oplus [[J Rl]]
 \]
 Thus, intuitionistic formulas in the linear core can be viewed as
-being under the left adjoint $[[F]]$, and co-intuitionistic formulas
+being under the left adjoint $[[F]]$, and cointuitionistic formulas
 as being under the right adjoint $[[J]]$.  This implies that even in
 the model all types of formulas can be freely mixed.
 
 As said above, BiLNL logic consists of three fragments: an
-intuitionistic fragment, a co-intuitionistic fragment, and a linear
+intuitionistic fragment, a cointuitionistic fragment, and a linear
 bi-intuitionistic fragment.  Their relationships are captured by the
 following diagram:
 $$\bfig
@@ -969,11 +1117,11 @@ $$\bfig
 \noindent
 The inference rules for the intuitionistic fragment are defined in
 Figure~\ref{fig:ifr-IL}, and the inference rules for the
-co-intuitionistic fragment can be found in Figure~\ref{fig:ifr-CL}.
+cointuitionistic fragment can be found in Figure~\ref{fig:ifr-CL}.
 Since the functor $[[Gf]]$ translates the linear fragment over to
 intuitionistic logic, then the intuitionistic fragment must contain an
 inference rule ($\BiLNLdrulename{I\_gR}$) for this functor, and the
-same goes for the co-intuitionistic fragment and the functor $[[Hf]]$
+same goes for the cointuitionistic fragment and the functor $[[Hf]]$
 ($\BiLNLdrulename{C\_hL}$).  Thus, these are the only interesting
 rules of those two fragments. Each fragment contains rules for working
 with the world constraints on sequents. For example, the rules
@@ -1027,7 +1175,7 @@ fragments as well.
       \BiLNLdruleCXXhL{}
     \end{mathpar}
   \end{mdframed}
-  \caption{Inference Rules for BiLNL Logic: Co-intuitionistic Fragment}
+  \caption{Inference Rules for BiLNL Logic: Cointuitionistic Fragment}
   \label{fig:ifr-CL}
 \end{figure}
 
@@ -1050,7 +1198,7 @@ are defined in Figure~\ref{fig:ifr-biLNL-graph}.
   \label{fig:ifr-biLNL-graph}
 \end{figure}
 Since the linear core is a mixed LNL logic there are monotonicity
-rules for intuitionistic hypothesis, and co-intuitionistic
+rules for intuitionistic hypothesis, and cointuitionistic
 conclusions.  The structural rules are defined in
 Figure~\ref{fig:ifr-biLNL-structural}.
 \begin{figure}
@@ -1070,7 +1218,7 @@ Figure~\ref{fig:ifr-biLNL-structural}.
   \label{fig:ifr-biLNL-structural}
 \end{figure}
 The most interesting rules are weakening and contraction for both
-intuitionistic hypothesis and co-intuitionistic conclusions.  The
+intuitionistic hypothesis and cointuitionistic conclusions.  The
 identity and cut inference rules can be found in
 Figure~\ref{fig:ifr-biLNL-id-cut}.
 \begin{figure}
@@ -1092,8 +1240,8 @@ rules involving the different fragments:
   \BiLNLdruleLXXIcut{} \and \BiLNLdruleLXXCcut{} 
 \end{mathpar}
 The first rule is the same rule in LNL logic, but the second is new
-and cuts a co-intuitionistic conclusion in the linear core against the
-hypothesis proven in the co-intuitionistic fragment.
+and cuts a cointuitionistic conclusion in the linear core against the
+hypothesis proven in the cointuitionistic fragment.
 
 The rules for conjunction and tensor, and disjunction and par can be
 found in Figure~\ref{fig:ifr-biLNL-conunction-tensor} and
@@ -1125,12 +1273,12 @@ Figure~\ref{fig:ifr-biLNL-disjunction-par} respectively.
   \label{fig:ifr-biLNL-disjunction-par}
 \end{figure}
 Just as we have said above, the new rules are the inference rules for
-disjunction in the co-intuitionistic context.  The inference rules for
+disjunction in the cointuitionistic context.  The inference rules for
 intuitionistic implication and linear implication, and
-co-intuitionistic co-implication and linear co-implication are defined
+cointuitionistic coimplication and linear coimplication are defined
 in Figure~\ref{fig:ifr-biLNL-implication} and
-Figure~\ref{fig:ifr-biLNL-co-implication}.  The most interesting rules
-between these are the rules for co-implication.  
+Figure~\ref{fig:ifr-biLNL-coimplication}.  The most interesting rules
+between these are the rules for coimplication.  
 \begin{figure}
   \begin{mdframed}
     \begin{mathpar}
@@ -1150,8 +1298,8 @@ between these are the rules for co-implication.
       \BiLNLdruleLXXCsR{} 
     \end{mathpar}
   \end{mdframed}
-  \caption{Inference Rules for BiLNL Logic: Co-implication Rules}
-  \label{fig:ifr-biLNL-co-implication}
+  \caption{Inference Rules for BiLNL Logic: Coimplication Rules}
+  \label{fig:ifr-biLNL-coimplication}
 \end{figure}
 
 Lastly, the inference rules for each of the functors are defined in
@@ -1172,7 +1320,7 @@ Figure~\ref{fig:ifr-biLNL-adjoint-functors}.
 \end{figure}
 Using these rules it is possible to move between the fragments.  The
 most restrictive rules are when coming from the intuitionistic or
-co-intuitionistic fragment into the linear core, or vice versa,
+cointuitionistic fragment into the linear core, or vice versa,
 because the sequents must only contain data that is movable or
 consistency could fail.
 % section bilnl_logic (end)
@@ -1232,9 +1380,10 @@ TODO
 TODO
 % section conclusion (end)
 
-
 \bibliographystyle{plainurl} \bibliography{ref}
 
+\appendix
+\input{appendix}
 \end{document}
 
 %%% Local Variables: 
