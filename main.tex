@@ -45,12 +45,14 @@
 \let\d\relax
 \let\t\relax
 \let\r\relax
+\let\c\relax
+\let\j\relax
 \let\wn\relax
 
 % Cat commands.
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\cat}[1]{\mathcal{#1}}
-\newcommand{\func}[1]{\mathsf{#1}}
+\newcommand{\func}[1]{\mathop{\mathsf{#1}}}
 \newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
 \newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
 \newcommand{\limp}[0]{\multimap}
@@ -70,10 +72,15 @@
 \newcommand{\n}[1]{\mathsf{n}_{#1}}
 \newcommand{\b}[1]{\mathsf{b}_{#1}}
 \newcommand{\d}[1]{\mathsf{d}_{#1}}
+\newcommand{\h}[1]{\mathsf{h}_{#1}}
 \newcommand{\p}[1]{\mathsf{p}_{#1}}
 \newcommand{\q}[1]{\mathsf{q}_{#1}}
 \newcommand{\t}[0]{\mathsf{t}}
-\newcommand{\r}[1]{\mathsf{r}_{#1}}
+\newcommand{\r}[1]{\mathop{\mathsf{r}_{#1}}}
+\newcommand{\s}[1]{\mathsf{s}_{#1}}
+\newcommand{\w}[1]{\mathsf{w}_{#1}}
+\newcommand{\c}[1]{\mathsf{c}_{#1}}
+\newcommand{\j}[1]{\mathop{\mathsf{j}_{#1}}}
 \newcommand{\wn}[0]{\mathop{?}}
 
 \newenvironment{changemargin}[2]{%
@@ -86,6 +93,16 @@
     \setlength{\parsep}{\parskip}%
   }%
   \item[]}{\end{list}}
+
+\newenvironment{diagram}{
+  \begin{center}
+    \begin{math}
+      \bfig
+}{
+      \efig
+    \end{math}
+  \end{center}
+}
 
 %% Ott
 \input{BiLNL-inc}
@@ -622,7 +639,7 @@ right.
     \bfig
     \Vtriangle/->`=`<-/<600,600>[
       \top`
-      T\top`
+jr      T\top`
       \top;
       \eta_\top``
       \n{\top}]
@@ -874,7 +891,7 @@ theorem.
 \end{proof}
 Finally, the following theorem shows that any category that is both
 cartesian closed and cocartesian coclosed is a preorder.
-\begin{theorem}[(co)Cartesian (co)Closed Categories are Preorders]
+\begin{theorem}[(co)Cartesian (co)Closed Categories are Preorders (Crolard\cite{Crolard:2001})]
   \label{thm:dengerate-to-preorder}
   If $\cat{C}$ is both cartesian closed and cocartesian coclosed, then
   for any two objects $A$ and $B$ of $\cat{C}$, $\Hom{C}{A}{B}$ has at
@@ -922,7 +939,7 @@ model.
   \label{def:coLNL-model}
   A
   \textbf{mixed linear/non-linear model for co-intuitionistic logic (coLNL model)},
-  $(\cat{L},\cat{C},\func{H},\func{J})$, consists of the following:
+  $\cat{L} : \func{H} \dashv \func{J} : \cat{C}$, consists of the following:
   \begin{itemize}
   \item[i.] a symmetric monoidal coclosed category $(\cat{L},\perp,\oplus,\colimp)$,
   \item[ii.] a cocartesian coclosed category $(\cat{C},0,+,-)$, and
@@ -941,8 +958,8 @@ linear exponential why-not denoted $?A = \func{J}\,(\func{H}\,A))$.
 
 \begin{lemma}[Symmetric Monoidal Monad]
   \label{lemma:symmetric_monoidal_monad}
-  Given a coLNL model $(\cat{L},\cat{C},\func{H},\func{J})$, $H;J$
-  defines a symmetric monoidal monad.
+  Given a coLNL model $\cat{L} : \func{H} \dashv \func{J} : \cat{C}$,
+  $\wn = H;J$ defines a symmetric monoidal monad.
 \end{lemma}
 \begin{proof}
   All the diagrams defining a symmetric monoidal monad hold by the
@@ -950,11 +967,316 @@ linear exponential why-not denoted $?A = \func{J}\,(\func{H}\,A))$.
   Appendix~\ref{subsec:proof_of_lemma:symmetric_monoidal_monad}.
 \end{proof}
 
-A $\wn-\text{algebra}$ is a pair $(\wn A, \mu_A)$, and is called
-\textit{free} if it is an object of the full subcategory of all
-$\wn-\text{algebra's}$ that is in adjunction with the category of sets
-and functions such that the right adjoint is the forgetful functor.
+A $\wn-\text{algebra}$ is a pair $(\wn A, t_X : \wn^2 A \mto \wn A)$,
+and is called \textit{free} if it is an object of the full subcategory
+of all $\wn-\text{algebra's}$ that is in adjunction with the category
+of sets and functions, such that, the right adjoint is the forgetful
+functor.  The why-not monad must allow for the right structural rules,
+weakening and contraction, to be defined.
 
+\begin{lemma}[Right Weakening and Contraction]
+  \label{lemma:right_weakening_and_contraction}
+  Given a coLNL model $\cat{L} : \func{H} \dashv \func{J} : \cat{C}$,
+  and any free algebra, $(\wn A, \mu_A)$, there must be distinguished
+  symmetric monoidal natural transformations $\w{A} : \perp \mto \wn
+  A$ and $\c{A} : \wn A \oplus \wn A \mto \wn A$ that form a
+  commutative monoid, and are algebra morphisms.
+\end{lemma}
+\begin{proof}
+  Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
+  monoidal functors, such that, $\cat{L} : \func{H} \dashv \func{J} :
+  \cat{C}$ is a coLNL model.  Then we know $\wn A = H;J : \cat{L} \mto
+  \cat{L}$ is a symmetric monoidal monad by
+  Lemma~\ref{lemma:symmetric_monoidal_monad}.  Furthermore, let $(\wn
+  A,\mu_A)$ be a free ?-algebra.  Then we define the following
+  morphisms:
+  \[
+  \begin{array}{lll}
+    \w{A} := \perp \mto^{\j{\perp}} \func{J} 0 \mto^{\func{J}\diamond_{\func{H} A}} \func{JH}A = \wn A\\
+    \c{A} := \wn A \oplus \wn A = \func{JH}A \oplus \func{JH}A \mto^{\j{\func{H}A,\func{H}A}} \func{J}(\func{H}A + \func{H}A) \mto^{\func{J}[\id_A,\id_A]} \func{JHA} = \wn A
+  \end{array}
+  \]
+  Next we show that both of these are symmetric monoidal natural
+  transformations, but for which functors?  Define $\func{W}(A) =
+  \perp$ and $\func{C}(A) = \wn A \oplus \wn A$ on objects of
+  $\cat{L}$, and $\func{W}(f : A \mto B) = \id_\perp$ and $\func{C}(f
+  : A \mto B) = \wn f \oplus \wn f$ on morphisms.  So we must show
+  that $\w{} : \func{W} \mto \wn$ and $\c{} : \func{C} \mto \wn$ are
+  symmetric monoidal natural transformations.  We first show that
+  $\w{}$ is and then we show that $\c{}$ is.
+  \begin{itemize}
+  \item[Case.] To show $\w{}$ is a natural transformation we must show
+    the following diagram commutes for any morphism $f : A \mto B$:
+    \[
+    \bfig
+    \square[W(A)`\wn A`W(B)`\wn B;\w{A}`W(f)`\wn f`\w{B}]
+    \efig
+    \]
+    This diagram is equivalent to the following:
+    \[
+    \bfig
+    \square[\perp`\wn A`\perp`\wn B;\w{A}`\id_{\perp}`\wn f`\w{B}]
+    \efig
+    \]
+    It further expands to the following:
+    \[
+    \bfig
+    \hSquares/->`->`->``->`->`->/[\perp`\func{J}0`\func{JH}A`\perp`\func{J}0`\func{JH}B;\j{\perp}`\func{J}(\diamond_{\func{H}A})`\id_\perp``\func{JH}f`\j{\perp}`\func{J}(\diamond_{\func{H}B})]
+    \efig
+    \]
+    This diagram commutes, because
+    $\func{J}(\diamond_{\func{H}A});\func{J}f =
+    \func{J}(\diamond_{\func{H}A};f) =
+    \func{J}(\diamond_{\func{H}B})$, by the uniqueness of the initial
+    map.
+
+  \item[Case.] The functor $\func{W}$ is monoidal itself.  To see this we
+    must exhibit a map
+    \[\s{\perp} := \id_\perp : \perp \mto \func{W}\perp\]
+    and a natural transformation
+    \[\s{A,B} := \rho_\perp : \func{W}A \oplus \func{W}B \mto \func{W}(A \oplus B)\]
+    subject to the coherence conditions in
+    Definition~\ref{def:SMCFUN}.  Clearly, the second map is a natural
+    transformation, but we leave showing they respect the coherence
+    conditions to the reader.  Now we can show that $\w{}$ is indeed
+    symmetric monoidal.
+    \begin{itemize}
+    \item[Case.]
+      \[
+      \bfig
+      \square<1000,500>[
+        \func{W}A \oplus \func{W}B`
+        \func{W}(A \oplus B)`
+        \wn A \oplus \wn B`
+        \wn (A \oplus B);
+        \s{A,B}`
+        \w{A} \oplus \w{B}`
+        \w{A \oplus B}`
+        \r{A,B}]
+      \efig
+      \]
+      This diagram is equivalent to the following:
+      \[
+      \bfig
+      \square<1000,500>[
+        \perp \oplus \perp`
+        \perp`
+        \wn A \oplus \wn B`
+        \wn (A \oplus B);
+        \rho_\perp`
+        \w{A} \oplus \w{B}`
+        \w{A \oplus B}`
+        \r{A,B}]
+      \efig
+      \]
+      This diagram commutes, because the following diagram does:
+      \[
+      \bfig
+      \square|mmma|/`->``->/<1250,1000>[
+        \perp \oplus \perp``
+        \func{J}0 \oplus \func{J}0`
+        \func{J}(0 + 0);`
+        \j{\perp} \oplus \j{\perp}``
+        \j{0,0}]
+
+      \square(1250,0)|mmma|/``->`->/<1250,1000>[`
+        \perp`
+        \func{J}(0 + 0)`
+        \func{J}0;``
+        \j{\perp}`
+        \func{J}(\rho_0)]
+
+      \Atriangle|mmm|/->`->`/<1250,500>[
+        \func{J}0 \oplus \perp`
+        \func{J}0 \oplus \func{J}0`
+        \func{J}0;
+        \id_{\func{J}0} \oplus \j{\perp}`
+        \rho_{\func{J}0}`]
+
+      \morphism(0,1000)|m|<1250,-500>[\perp \oplus \perp`\func{J}0 \oplus \perp;\j{\perp} \oplus \id_\perp]
+      \morphism(0,1000)<2500,0>[\perp \oplus \perp`\perp;\rho_\perp]
+
+      %% Bottom rectangle:
+      \square|mmmm|/->`<-``/<1250,-1000>[
+        \func{JH}A \oplus \func{JH}B`
+        \func{J}(\func{H}A + \func{H}B)`
+        \func{J}0 \oplus \func{J}0`
+        ;
+        \j{\func{H}A,\func{H}B}`
+        \func{J}\diamond_{\func{H}A} \oplus \func{J}\diamond_{\func{H}B}``]
+
+      \square(1250,0)|mmmm|/->``<-`/<1250,-1000>[
+        \func{J}(\func{H}A + \func{H}B)`
+        \func{JH}(A \oplus B)``
+        \func{J}0;
+        \func{J}\h{A,B}``
+        \func{J}\diamond_{\func{H}(A \oplus B)}`]
+
+      \ptriangle(1250,-1000)|mmm|<800,500>[
+        \func{J}(\func{H}A + 0)`
+        \func{JH}A`
+        \func{J}(\func{H}A + \func{H}B);
+        \func{J}\rho_{\func{HA}}`
+        \func{J}(\id_{\func{H}A} + \diamond_{\func{H}B})`
+        \func{J}\iota_1]
+
+      \morphism(1250,0)|m|<0,-500>[
+        \func{J}(0 + 0)`
+        \func{J}(\func{H}A + 0);
+        \func{J}(\diamond_{\func{H}A} + \id_0)]
+
+      \morphism(2500,0)|m|<-450,-500>[
+        \func{J}0`
+        \func{JH}A;
+        \func{J}\diamond_{\func{H}A}]
+
+      \place(500,500)[(1)]
+      \place(1900,700)[(2)]
+      \place(1250,250)[(3)]
+      \place(625,-500)[(4)]
+      \place(1780,-250)[(5)]
+      \place(1560,-650)[(6)]
+      \place(2200,-750)[(7)]      
+      \efig
+      \]
+      Diagram 1 commutes by functorality of $\oplus$, diagram 2
+      commutes by naturality of $\rho$, diagram 3 commutes by the fact
+      that $\func{J}$ is a symmetric monoidal functor, diagram 4
+      commutes by functorality of $\oplus$ and naturality of $\j{}$,
+      diagram 5 commutes by naturality of $\rho$, diagram 6 commutes
+      by straightforward reasoning on coproducts, and diagram 7
+      commutes by the fact that $\diamond$ is unique.
+
+    \item[Case.]
+      \[
+      \bfig
+    \Vtriangle/->`<-`<-/[
+      W\perp`
+      \wn\perp`
+      \perp;
+      \w{\perp}`
+      \s{\perp}`
+      \r{\perp}]
+    \efig
+    \]
+    This diagram expands to the following obviously commuting diagram:
+    \[
+    \bfig
+    \hSquares|mmmmmmm|/->`->`=``=`->`->/[
+      \perp`
+      \func{J}0`
+      \wn \perp`
+      \perp`
+      \func{J}0`
+      \wn \perp;
+      \j{\perp}`
+      \func{J}\diamond_{\func{H}\perp}````
+      \j{\perp}`
+      \func{J}\h{\perp}]
+    \efig
+    \]
+    Clearly, $\h{\perp} = \diamond_{\func{H}\perp} : 0 \mto
+    \func{H}\perp$ by uniqueness of the initial map.
+    \item[]
+    \end{itemize}
+
+  \item[Case.] Now we show that $\c{A} : \wn A \oplus \wn A \mto \wn
+    A$ is a natural transformation.  This requires the following
+    diagram to commute (for any $f : A \mto B$):
+    \[
+    \bfig
+    \square[
+      \func{C}A`
+      \wn A`
+      \func{C}B`
+      \wn B;
+      \c{A}`
+      \func{C}f`
+      \wn f`
+      \c{B}]
+    \efig
+    \]
+    This expands to the following diagram:
+    \[
+    \bfig
+    \square[
+      \wn A \oplus \wn A`
+      \wn A`
+      \wn B \oplus \wn B`
+      \wn B;
+      \c{A}`
+      \wn f \oplus \wn f`
+      \wn f`
+      \c{B}]
+    \efig
+    \]
+    This diagram commutes because the following diagram does:
+    \begin{diagram}
+      \hSquares[
+        \func{JH}A \oplus \func{JH}A`
+        \func{J}(\func{H}A + \func{H}A)`
+        \func{JH}A`
+        \func{JH}B \oplus \func{JH}B`
+        \func{J}(\func{H}B + \func{H}B)`
+        \func{JH}B;
+        \j{\func{H}A, \func{H}A}`
+        \func{J}\bigtriangledown_{\func{H}A}`
+        \func{JH}f \oplus \func{JH}f`
+        \func{J}(\func{H}f + \func{H}f)`
+        \func{JH}f`
+        \j{\func{H}B, \func{H}B}`
+        \func{J}\bigtriangledown_{\func{H}B}]
+    \end{diagram}
+    The left square commutes by naturality of $\j{}$, and the right square commutes by naturality of the codiagonal
+    $\bigtriangledown_{A} : A + A \mto A$.
+
+  \item[Case.] The functor $\func{C} : \cat{L} \mto \cat{L}$ is indeed
+    symmetric monoidal where the required maps are defined as follows:
+    \[
+    \small
+    \begin{array}{lll}
+      \quad\quad\quad\t_\perp := \perp \mto^{\j{\perp}} \func{J}0 \mto^{\func{J}\diamond_{\func{H}\perp + \func{H}\perp}} \func{J}(\func{H}\perp + \func{H}\perp) \mto^{\j{\func{H}\perp,\func{H}\perp}} \wn \perp \oplus \wn \perp
+      \\
+      \quad\quad\quad\t_{A,B} := (\wn A \oplus \wn A) \oplus (\wn B \oplus \wn B) \mto^{\mathsf{iso}} (\wn A \oplus \wn B) \oplus (\wn A \oplus \wn B) \mto^{\r{A,B} \oplus \r{A,B}} \wn (A \oplus B) \oplus \wn (A \oplus B)
+    \end{array}
+    \]
+    where $\mathsf{iso}$ is a natural isomorphism that can easily be
+    defined using the symmetric monoidal structure of
+    $\cat{L}$. Clearly, $\t$ is indeed a natural transformation, but
+    we leave checking that the required diagrams in
+    Definition~\ref{def:SMCFUN} commute to the reader.  We can now
+    show that $\c{A} : \wn A \oplus \wn A \mto \wn A$ is symmetric
+    monoidal.  The following diagrams from Definition~\ref{def:SMCNAT}
+    must commute:
+    \begin{itemize}
+    \item[Case.] \ \\
+      \begin{diagram}
+        \square<1000,500>[
+          \func{C}A \oplus \func{C}B`
+          \func{C}(A \oplus B)`
+          \wn A \oplus \wn B`
+          \wn(A \oplus B);
+          \t_{A,B}`
+          \c{A} \oplus \c{B}`
+          \c{A \oplus B}`
+          \r{A,B}]
+      \end{diagram}
+      This diagram expands to the following diagram:
+      \begin{diagram}
+        \square<2000,500>[
+          (\wn A \oplus \wn A) \oplus (\wn B \oplus \wn B)`
+          \wn (A \oplus B) \oplus \wn (A \oplus B)`
+          \wn A \oplus \wn B`
+          \wn(A \oplus B);
+          \t_{A,B}`
+          \c{A} \oplus \c{B}`
+          \c{A \oplus B}`
+          \r{A,B}]
+      \end{diagram}
+    \end{itemize}
+
+  \end{itemize}      
+\end{proof}
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
 
 \subsection{A Mixed Bi-Linear/Non-Linear Model}

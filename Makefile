@@ -15,6 +15,16 @@ all: pdf
 
 pdf : main.pdf
 
+quick : main-output.tex ref.bib Makefile
+	$(PDFLATEX) -jobname=main main-output.tex
+        # This is for my private machine.  It forces my PDF reader to reload.
+        # It should not run unless "skim_revert.sh" is in your PATH.
+ifeq ($(SKIM), skim_revert.sh)
+	$(SKIM) $(CURDIR)/main.pdf
+	$(SKIM) $(CURDIR)/main.pdf
+	$(SKIM) $(CURDIR)/main.pdf
+endif
+
 main-output.tex : BiLNL.ott main.tex
 	@echo "\n\n***OTT: Preprocessing dtt.ott in main.tex.***"
 	@$(OTT) $(OTT_FLAGS) -i BiLNL.ott  -o BiLNL-inc.tex -tex_name_prefix BiLNL \
