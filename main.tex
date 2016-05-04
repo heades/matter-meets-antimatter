@@ -52,7 +52,7 @@
 % Cat commands.
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\cat}[1]{\mathcal{#1}}
-\newcommand{\func}[1]{\mathop{\mathsf{#1}}}
+\newcommand{\func}[1]{\mathsf{#1}}
 \newcommand{\catop}[1]{\cat{#1}^{\mathsf{op}}}
 \newcommand{\Hom}[3]{\mathsf{Hom}_{\cat{#1}}(#2,#3)}
 \newcommand{\limp}[0]{\multimap}
@@ -76,12 +76,13 @@
 \newcommand{\p}[1]{\mathsf{p}_{#1}}
 \newcommand{\q}[1]{\mathsf{q}_{#1}}
 \newcommand{\t}[0]{\mathsf{t}}
-\newcommand{\r}[1]{\mathop{\mathsf{r}_{#1}}}
+\newcommand{\r}[1]{\mathsf{r}_{#1}}
 \newcommand{\s}[1]{\mathsf{s}_{#1}}
 \newcommand{\w}[1]{\mathsf{w}_{#1}}
 \newcommand{\c}[1]{\mathsf{c}_{#1}}
-\newcommand{\j}[1]{\mathop{\mathsf{j}_{#1}}}
+\newcommand{\j}[1]{\mathsf{j}_{#1}}
 \newcommand{\wn}[0]{\mathop{?}}
+\newcommand{\codiag}[1]{\bigtriangledown_{#1}}
 
 \newenvironment{changemargin}[2]{%
   \begin{list}{}{%
@@ -993,7 +994,7 @@ weakening and contraction, to be defined.
   \[
   \begin{array}{lll}
     \w{A} := \perp \mto^{\j{\perp}} \func{J} 0 \mto^{\func{J}\diamond_{\func{H} A}} \func{JH}A = \wn A\\
-    \c{A} := \wn A \oplus \wn A = \func{JH}A \oplus \func{JH}A \mto^{\j{\func{H}A,\func{H}A}} \func{J}(\func{H}A + \func{H}A) \mto^{\func{J}[\id_A,\id_A]} \func{JHA} = \wn A
+    \c{A} := \wn A \oplus \wn A = \func{JH}A \oplus \func{JH}A \mto^{\j{\func{H}A,\func{H}A}} \func{J}(\func{H}A + \func{H}A) \mto^{\func{J}\codiag{\func{H}A}} \func{JHA} = \wn A
   \end{array}
   \]
   Next we show that both of these are symmetric monoidal natural
@@ -1235,7 +1236,7 @@ weakening and contraction, to be defined.
     \[
     \small
     \begin{array}{lll}
-      \quad\quad\quad\t_\perp := \perp \mto^{\j{\perp}} \func{J}0 \mto^{\func{J}\diamond_{\func{H}\perp + \func{H}\perp}} \func{J}(\func{H}\perp + \func{H}\perp) \mto^{\j{\func{H}\perp,\func{H}\perp}} \wn \perp \oplus \wn \perp
+      \quad\quad\quad\t_\perp := \perp \mto^\cong \perp \oplus \perp \mto^{\r{\perp} \oplus \r{\perp}} \wn \perp \oplus \wn \perp
       \\
       \quad\quad\quad\t_{A,B} := (\wn A \oplus \wn A) \oplus (\wn B \oplus \wn B) \mto^{\mathsf{iso}} (\wn A \oplus \wn B) \oplus (\wn A \oplus \wn B) \mto^{\r{A,B} \oplus \r{A,B}} \wn (A \oplus B) \oplus \wn (A \oplus B)
     \end{array}
@@ -1273,8 +1274,154 @@ weakening and contraction, to be defined.
           \c{A \oplus B}`
           \r{A,B}]
       \end{diagram}
-    \end{itemize}
+      This diagram commutes, because the following one does (for
+      readability we omit subscripts on morphisms):
+      \begin{diagram}
+        \tiny
+        \square|amma|/->`->`->`/<1200,500>[
+          (\func{JH}A \oplus \func{JH}A) \oplus (\func{JH}B \oplus \func{JH}B)`
+          \func{J}(\func{H}A + \func{H}A) \oplus \func{J}(\func{H}B + \func{H}B)`
+          (\func{JH}A \oplus \func{JH}B) \oplus (\func{JH}A \oplus \func{JH}B)`
+          \func{J}((\func{H}A + \func{H}A) + (\func{H}B + \func{H}B));
+          \j{} \oplus \j{}`
+          \mathsf{iso}_\oplus`
+          \j{}`]
+        \square(0,-500)|amma|/`->`->`->/<1200,500>[
+          (\func{JH}A \oplus \func{JH}B) \oplus (\func{JH}A \oplus \func{JH}B)`
+          \func{J}((\func{H}A + \func{H}A) + (\func{H}B + \func{H}B))`
+          \func{J}(\func{H}A + \func{H}B) \oplus \func{J}(\func{H}A + \func{H}B)`
+          \func{J}((\func{H}A + \func{H}B) + (\func{H}A + \func{H}B));`
+          \j{} \oplus \j{}`
+          J(\mathsf{iso}_+)`\j{}]
+        \square(0,-1000)|amma|/`->`->`->/<1200,500>[
+          \func{J}(\func{H}A + \func{H}B) \oplus \func{J}(\func{H}A + \func{H}B)`
+          \func{J}((\func{H}A + \func{H}B) + (\func{H}A + \func{H}B))`
+          \func{JH}(A \oplus B) \oplus \func{JH}(A \oplus B)`
+          \func{J}(\func{H}(A \oplus B) + \func{H}(A \oplus B));`
+          \func{J}\h{} \oplus \func{J}\h{}`
+          \func{J}(\h{} \oplus \h{})`
+          \j{}]      
+        
+        \square(1200,0)|amma|/->``->`->/<1200,500>[
+          \func{J}(\func{H}A + \func{H}A) \oplus \func{J}(\func{H}B + \func{H}B)`
+          \func{JH}A \oplus \func{JH}B`
+          \func{J}((\func{H}A + \func{H}A) + (\func{H}B + \func{H}B))`
+          \func{J}(\func{H}A + \func{H}B);
+          \func{J}\codiag{} \oplus \func{J}\codiag{}`
+          `
+          \j{}`
+          \func{J}(\codiag{} + \codiag{})]
 
+        \morphism(1200,-500)|m|<1200,500>[
+          \func{J}((\func{H}A + \func{H}B) + (\func{H}A + \func{H}B))`
+          \func{J}(\func{H}A + \func{H}B);
+          \func{J}(\codiag{})]
+
+        \morphism(1200,-1000)|m|<1200,0>[
+          \func{J}(\func{H}(A \oplus B) + \func{H}(A \oplus B))`
+          \func{JH}(A \oplus B);
+          \func{J}\codiag{}]             
+        
+        \morphism(2400,0)|m|<0,-1000>[
+          \func{J}(\func{H}A + \func{H}B)`
+          \func{JH}(A \oplus B);
+          \func{J}\h{A,B}]
+
+        \place(600,0)[(1)]
+        \place(600,-750)[(2)]
+        \place(1800,250)[(3)]
+        \place(1500,-180)[(4)]
+        \place(1800,-600)[(5)]
+      \end{diagram}
+      In the above $\mathsf{iso}_\oplus$ and $\mathsf{iso}_+$ can
+      easily be defined using the symmetric monoidal structure of
+      $\cat{L}$ and $\cat{C}$ respectively.  Diagram (1) holds by the
+      fact that $\func{J}$ is a symmetric monoidal functor, $\j{}$ is
+      a symmetric monoidal natural transformation, and the symmetric
+      monoidal structure of $\cat{L}$ and $\cat{C}$.  Diagrams (2) and
+      (3) commute by naturality of $\j{}$.  Then diagram (4) commutes
+      using the coproduct structure of $\cat{C}$, and diagram (5)
+      commutes by naturality of the codiagonal.
+
+    \item[Case.] \ \\
+      \begin{diagram}
+        \Vtriangle/->`<-`<-/[
+          \func{C}\perp`
+          \wn \perp`
+          \perp;
+          \c{\perp}`
+          \t{\perp}`
+          \r{\perp}]
+      \end{diagram}
+      This diagram expands to the following:
+      \begin{diagram}
+        \Vtriangle/->`<-`<-/[
+          \wn \perp \oplus \wn \perp`
+          \wn \perp`
+          \perp;
+          \c{\perp}`
+          \t{\perp}`
+          \r{\perp}]
+      \end{diagram}
+      This diagram commutes because the following one does (for
+      readability we omit subscripts on morphisms):
+      \begin{diagram}
+        \square|ammb|/``<-`<-/<1000,500>[`
+          \func{J}0`
+          \perp \oplus \perp`
+          \perp;``
+          \j{\perp}`
+          \rho^{-1}]
+        \square(0,500)|ammb|/->``<-`/<1000,500>[
+          \func{J}(\func{H}{\perp} + \func{H}{\perp})`
+          \func{JH}{\perp}``
+          \func{J}0;
+          \func{J}\codiag{}``
+          \func{J}\h{\perp}`]
+        \morphism(-700,0)|b|/<-/<700,0>[
+          \func{J}{0} \oplus \perp`
+          \perp \oplus \perp;
+          \j{\perp} \oplus \id]
+        \morphism(-1400,0)|b|/<-/<700,0>[
+          \func{J}0 \oplus \func{J}0`
+          \func{J}{0} \oplus \perp;
+          \j{\perp} \oplus \id]
+        \square(-1400,0)|amma|/->`<-``/<1400,1000>[
+          \func{JH}{\perp} \oplus \func{JH}{\perp}`
+          \func{J}(\func{H}{\perp} + \func{H}{\perp})`
+          \func{J}0 \oplus \func{J}0`;
+          \j{}`
+          \func{J}\h{\perp} \oplus \func{J}\h{\perp}``]
+        \morphism(1000,500)|m|/->/<-1701,-500>[
+          \func{J}0`
+          \func{J}{0} \oplus \perp;
+          \rho^{-1}]
+        \morphism(1000,500)|m|/->/<-1000,500>[
+          \func{J}0`
+          \func{J}(\func{H}{\perp} + \func{H}{\perp});
+          \func{J}\diamond]
+        \morphism(-1400,0)|m|/->/<1400,500>[
+          \func{J}0 \oplus \func{J}0`
+          \func{JH}{\perp} \oplus \func{JH}{\perp};
+          \func{J}\h{\perp} \oplus \func{J}\h{\perp}]
+        \morphism(-0,500)|m|/->/<0,500>[
+          \func{JH}{\perp} \oplus \func{JH}{\perp}`
+          \func{J}(\func{H}{\perp} + \func{H}{\perp});
+          \j{}]         
+        \morphism(-1400,0)|m|/->/<600,500>[
+          \func{J}0 \oplus \func{J}0`
+          \func{J}(0 + 0);
+          \j{}]
+        \morphism(-800,500)|m|/->/<800,500>[
+          \func{J}(0 + 0)`
+          \func{J}(\func{H}{\perp} + \func{H}{\perp});
+          \j{}]
+
+        \place(600,200)[1]
+        \place(400,500)[2]
+      \end{diagram}
+
+    \end{itemize}
   \end{itemize}      
 \end{proof}
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
