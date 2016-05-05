@@ -971,9 +971,9 @@ linear exponential why-not denoted $?A = \func{J}\,(\func{H}\,A))$.
 A $\wn-\text{algebra}$ is a pair $(\wn A, t_X : \wn^2 A \mto \wn A)$,
 and is called \textit{free} if it is an object of the full subcategory
 of all $\wn-\text{algebra's}$ that is in adjunction with the category
-of sets and functions, such that, the right adjoint is the forgetful
-functor.  The why-not monad must allow for the right structural rules,
-weakening and contraction, to be defined.
+$\cat{L}$, such that, the right adjoint is the forgetful functor.  The
+why-not monad must allow for the right structural rules, weakening and
+contraction, to be defined.
 
 \begin{lemma}[Right Weakening and Contraction]
   \label{lemma:right_weakening_and_contraction}
@@ -988,9 +988,20 @@ weakening and contraction, to be defined.
   monoidal functors, such that, $\cat{L} : \func{H} \dashv \func{J} :
   \cat{C}$ is a coLNL model.  Then we know $\wn A = H;J : \cat{L} \mto
   \cat{L}$ is a symmetric monoidal monad by
-  Lemma~\ref{lemma:symmetric_monoidal_monad}.  Furthermore, let $(\wn
-  A,\mu_A)$ be a free ?-algebra.  Then we define the following
-  morphisms:
+  Lemma~\ref{lemma:symmetric_monoidal_monad}, where we have the
+  following map and natural transformation (subject to all of the
+  diagrams in the proof of Lemma~\ref{lemma:symmetric_monoidal_monad}):
+  \[
+  \begin{array}{lll}
+    \r{\perp} := \perp \mto^{\j{\perp}} \func{J}0
+    \mto^{\func{J}\h{\perp}} \func{JH}\perp \mto^{=} \wn \perp\\
+    \r{A,B} := \wn A \oplus \wn B \mto^{=} \func{JH}A \oplus
+    \func{JH}B \mto^{\j{A,B}} \func{J}(\func{H}A + \func{H}B)
+    \mto^{\func{J}\h{A,B}} \func{JH}(A \oplus B) \mto^{=} \wn(A \oplus B)
+  \end{array}
+  \]
+  Furthermore, let $(\wn A,\mu_A)$ be a free ?-algebra.  Then we
+  define the following morphisms:
   \[
   \begin{array}{lll}
     \w{A} := \perp \mto^{\j{\perp}} \func{J} 0 \mto^{\func{J}\diamond_{\func{H} A}} \func{JH}A = \wn A\\
@@ -1415,14 +1426,36 @@ weakening and contraction, to be defined.
         \morphism(-800,500)|m|/->/<800,500>[
           \func{J}(0 + 0)`
           \func{J}(\func{H}{\perp} + \func{H}{\perp});
-          \j{}]
+          \func{J}(\h{\perp} + \h{\perp})]
 
         \place(600,200)[1]
         \place(400,500)[2]
+        \place(750,850)[3]
+        \place(-450,500)[4]
+        \place(-1050,750)[5]
       \end{diagram}
-
+      First, diagram 1 commutes by naturality of $\rho^{-1}$, diagram
+      3 commutes by the fact that the initial map is unique, and
+      diagrams 4 and 5 commute by naturality of $\j{}$.  Diagram 2
+      says that in bottom direction we have a map
+      $f : \func{J}0 \mto \func{J}(\func{H}{\perp} + \func{H}{\perp})$,
+      and it must be equivalent to the map corresponding to the top direction which is
+      $\func{J}\diamond : \func{J}0 \mto \func{J}(\func{H}{\perp} + \func{H}{\perp})$.
+      Intuitively, we can see this to be true, because both the source and target of
+      $f$ are under $\func{J}$, and hence, there must exist a morphism, $g$, of $\cat{C}$
+      such that $f = \func{J}g$, but this means that
+      $g : 0 \mto \func{H}{\perp} + \func{H}{\perp}$, and hence, is
+      the initial map.  A more formal proof can be given by supposing
+      we have a map $x : \func{J}0 \mto \func{J}A$, and using the
+      Yoneda lemma to show that $x$ must be unique, and hence, is
+      equivalent to $\func{J}\diamond : \func{J}0 \mto \func{J}A$.  Then, our result
+      follows. 
     \end{itemize}
-  \end{itemize}      
+  \end{itemize}
+  At this point we have shown that $\w{A} : \perp \mto \wn A$ and
+  $\c{A} : \wn A \oplus \wn A \mto \wn A$ are symmetric monoidal
+  naturality transformations.  Now we show that they form a
+  commutative monoid.
 \end{proof}
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
 
