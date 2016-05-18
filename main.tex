@@ -245,11 +245,12 @@ $$\bfig
 We now introduce the necessary definitions related to symmetric
 monoidal categories that our model will depend on.  Most of these
 definitions are equivalent to the ones given by Benton
-\cite{Benton:1994}.  In this section we also introduce distributive
-categories, the notion of cocloser, and finally, the definition of
-bilinear categories.  The reader may wish to simply skim this section,
-but refer back to it when they encounter a definition or result they
-do not know.
+\cite{Benton:1994}, but we give a lesser well-known definition for
+symmetric co-monoidal functors due to Bellin \cite{Bellin:2012}.  In
+this section we also introduce distributive categories, the notion of
+cocloser, and finally, the definition of bilinear categories.  The
+reader may wish to simply skim this section, but refer back to it when
+they encounter a definition or result they do not know.
 
 \begin{definition}
   \label{def:monoidal-category}
@@ -497,6 +498,73 @@ symmetric monoidal functors.
   \end{mathpar}
 \end{definition}
 
+The following is dual to the previous definition.
+\begin{definition}
+  \label{def:coSMCFUN}
+  Suppose we are given two symmetric monoidal closed categories\\
+  $(\cat{M}_1,\perp_1,\oplus_1,\alpha_1,\lambda_1,\rho_1,\beta_1)$ and
+  $(\cat{M}_2,\perp_2,\oplus_2,\alpha_2,\lambda_2,\rho_2,\beta_2)$.  Then a
+  \textbf{symmetric comonoidal functor} is a functor $F : \cat{M}_1 \mto
+  \cat{M}_2$, a map $m_\perp : F\perp_1 \mto \perp_2$ and a natural transformation
+  $m_{A,B} : F(A \oplus_1 B) \mto FA \oplus_2 FB$ subject to the
+  following coherence conditions:
+  \begin{mathpar}
+    \bfig
+    \vSquares|ammmmma|/->`->`->``->`->`->/[
+      F((A \oplus_1 B) \oplus_1 C)`
+      F(A \oplus_1 B) \oplus_2 FC`
+      F(A \oplus_1 (B \oplus_1 C))`
+      (FA \oplus_2 FB) \oplus_2 FC`
+      FA \oplus_2 F(B \oplus_1 C))`
+      FA \oplus_2 (FB \oplus_2 FC);
+      m_{A \oplus_1 B,C}`
+      F\alpha_{A,B,C}`
+      m_{A,B} \oplus_2 \id_{FC}``
+      m_{A,B \oplus_1 C}`
+      \alpha_{FA,FB,FC}`
+      \id_{FA} \oplus_2 m_{B,C}]    
+    \efig
+  \end{mathpar}
+%    \and
+  \begin{mathpar}
+    \bfig
+    \square|amma|/->`->`->`->/<1000,500>[
+      F(\perp_1 \oplus_1 A)`
+      F\perp_1 \oplus_2 FA`
+      FA`
+      \perp_2 \oplus_2 FA;
+      m_{\perp_1,A}`
+      F{\lambda_1}_{A}`
+      m_{\perp} \oplus \id_{FA}`
+      {\lambda^{-1}_2}_{FA}]
+    \efig
+    \and
+    \bfig
+    \square|amma|/->`->`->`->/<1000,500>[
+      F(A \oplus_1 \perp_1)`
+      FA \oplus_2 F\perp_1`
+      FA`
+      FA \oplus_2 \perp_2;
+      m_{A,\perp_1}`
+      F{\rho_1}_{A}`
+      \id_{FA} \oplus m_{\perp}`
+      {\rho^{-1}_2}_{FA}]
+    \efig
+  \end{mathpar}
+      
+  \begin{diagram}
+    \square|amma|/->`->`->`->/<1000,500>[
+      F(A \oplus_1 B)`
+      FA \oplus_2 FB`
+      F(B \oplus_1 A)`
+      FB \oplus_2 FA;
+      m_{A,B}`
+      F{\beta_1}_{A,B}`
+      {\beta_2}_{FA,FB}`
+      m_{B,A}]
+  \end{diagram}
+\end{definition}
+
 Naturally, since functors are enhanced to handle the additional
 structure found in a symmetric monoidal category we must also extend
 natural transformations, and adjunctions.
@@ -530,6 +598,37 @@ natural transformations, and adjunctions.
       n_{\top_1}]
     \efig
   \end{mathpar}  
+\end{definition}
+\begin{definition}
+  \label{def:coSMCNAT}
+  Suppose $(\cat{M}_1,\perp_1,\oplus_1)$ and $(\cat{M}_2,\perp_2,\oplus_2)$
+  are SMCs, and $(F,m)$ and $(G,n)$ are a symmetric comonoidal functors
+  between $\cat{M}_1$ and $\cat{M}_2$.  Then a \textbf{symmetric
+    comonoidal natural transformation} is a natural transformation,
+  $f : F \mto G$, subject to the following coherence diagrams:
+  \begin{mathpar}
+    \bfig
+    \square<1000,500>[
+      F(A \oplus_1 B)`
+      FA \oplus_2 FB`
+      G(A \oplus_1 B)`
+      GA \oplus_2 GB;
+      m_{A,B}`
+      f_{A \oplus_1 B}`
+      f_A \oplus_2 f_B`
+      n_{A,B}]
+    \efig
+    \and
+    \bfig
+    \Vtriangle/<-`<-`<-/[
+      \perp_2`
+      G\perp_1`
+      F\perp_1;
+      n_{\perp_1}`
+      m_{\perp_1}`
+      f_{\perp_1}]
+    \efig
+  \end{mathpar}  
 \end{definition}  
 \begin{definition}
   \label{def:SMCADJ}
@@ -539,7 +638,7 @@ natural transformations, and adjunctions.
   functor between $\cat{M}_2$ and $\cat{M}_1$.  Then a
   \textbf{symmetric monoidal adjunction} is an ordinary adjunction
   $\cat{M}_1 : F \dashv G : \cat{M}_2$ such that the unit,
-  $\varepsilon : A \to GFA$, and the counit, $\eta_A : FGA \to A$, are
+  $\eta_A : A \to GFA$, and the counit, $\varepsilon_A : FGA \to A$, are
   symmetric monoidal natural transformations.  Thus, the following
   diagrams must commute:
   \begin{mathpar}
@@ -549,8 +648,8 @@ natural transformations, and adjunctions.
       FG(A \otimes_1 B)`
       A \otimes_1 B;
       \q{A,B}`
-      \eta_A \otimes_1 \eta_B`
-      \eta_{A \otimes_1 B}]
+      \varepsilon_A \otimes_1 \varepsilon_B`
+      \varepsilon_{A \otimes_1 B}]
     \efig
     \and
     \bfig
@@ -558,7 +657,7 @@ natural transformations, and adjunctions.
       FG\top_1`
       \top_1`
       \top_1;
-      \eta_{\top_1}`
+      \varepsilon_{\top_1}`
       \q{\top_1}`]
     \efig
     \and
@@ -567,8 +666,8 @@ natural transformations, and adjunctions.
       A \otimes_2 B`
       GFA \otimes_2 GFB`
       GF(A \otimes_2 B);
-      \varepsilon_A \otimes_2 \varepsilon_B`
-      \varepsilon_{A \otimes_2 B}`
+      \eta_A \otimes_2 \eta_B`
+      \eta_{A \otimes_2 B}`
       \p{A,B}]
     \efig
     \and
@@ -577,8 +676,61 @@ natural transformations, and adjunctions.
       \top_2`
       GF\top_2`
       \top_2;
-      \varepsilon_{\top_2}``
+      \eta_{\top_2}``
       p_{\top_2}]
+    \efig
+  \end{mathpar}
+  Note that $\p{}$ and $\q{}$ exist because $(FG,\q{})$ and
+  $(GF,\p{})$ are symmetric monoidal functors.
+\end{definition}
+\begin{definition}
+  \label{def:coSMCADJ}
+  Suppose $(\cat{M}_1,\perp_1,\oplus_1)$ and $(\cat{M}_2,\perp_2,\oplus_2)$
+  are SMCs, and $(F,m)$ is a symmetric comonoidal functor between
+  $\cat{M}_1$ and $\cat{M}_2$ and $(G,n)$ is a symmetric comonoidal
+  functor between $\cat{M}_2$ and $\cat{M}_1$.  Then a
+  \textbf{symmetric comonoidal adjunction} is an ordinary adjunction
+  $\cat{M}_1 : F \dashv G : \cat{M}_2$ such that the unit,
+  $\eta_A : A \to GFA$, and the counit, $\varepsilon_A : FGA \to A$, are
+  symmetric comonoidal natural transformations.  Thus, the following
+  diagrams must commute:
+  \begin{mathpar}
+    \bfig
+    \ptriangle|amm|<1000,500>[
+      A \oplus_1 B`
+      GF(A \oplus_1 B)`
+      GFA \oplus_1 GFB;
+      \eta_{A \oplus_1 B}`
+      \eta_A \oplus_1 \eta_B`
+      \p{A,B}]
+    \efig
+    \and
+    \bfig
+    \Vtriangle|amm|/->`<-`=/[
+      GF\perp_1`
+      \perp_1`
+      \perp_1;
+      \p{\perp_1}`
+      \eta_{\perp_1}`]
+    \efig
+    \and
+    \bfig
+    \qtriangle|mmb|<1000,500>[
+      FG(A \oplus_2 B)`
+      FGA \oplus_2 FGB`
+      A \oplus_2 B;
+      \q{A,B}`
+      \varepsilon_{A \oplus_2 B}`
+      \varepsilon_A \oplus_2 \varepsilon_B]
+    \efig
+    \and
+    \bfig
+    \Vtriangle|amm|/->`=`<-/[
+      FG\perp_2`
+      \perp_2`
+      FG\perp_2;
+      \varepsilon_{\perp_2}``
+      \q{\perp_2}]
     \efig
   \end{mathpar}
   Note that $\p{}$ and $\q{}$ exist because $(FG,\q{})$ and
@@ -586,11 +738,11 @@ natural transformations, and adjunctions.
 \end{definition}
 We will be defining, and making use of the of-course and why-not
 exponentials from linear logic, but these correspond to a symmetric
-monoidal comonad and a symmetric monoidal monad respectively, and so
+monoidal comonad and a symmetric comonoidal monad respectively, and so
 we define these concepts next.  In addition, whenever we have a
 symmetric monoidal adjunction, we immediately obtain a symmetric
 monoidal comonad on the left, and a symmetric monoidal monad on the
-right.
+right; similarly for symmetric comonad adjunctions.
 \begin{definition}
   \label{def:symm-monoidal-monad}
   A \textbf{symmetric monoidal monad} on a symmetric monoidal
@@ -640,7 +792,7 @@ right.
     \bfig
     \Vtriangle/->`=`<-/<600,600>[
       \top`
-jr      T\top`
+      T\top`
       \top;
       \eta_\top``
       \n{\top}]
@@ -674,6 +826,92 @@ jr      T\top`
       \n{\top}`
       T\n{\top}`
       \mu_\top]
+    \efig
+  \end{mathpar}
+\end{definition}
+\begin{definition}
+  \label{def:symm-comonoidal-monad}
+  A \textbf{symmetric comonoidal monad} on a symmetric monoidal
+  category $\cat{C}$ is a triple $(T,\eta, \mu)$, where
+  $(T,\n{})$ is a symmetric comonoidal endofunctor on $\cat{C}$,
+  $\eta_A : A \mto TA$ and $\mu_A : T^2A \to TA$ are
+  symmetric comonoidal natural transformations, which make the following
+  diagrams commute:
+  \begin{mathpar}
+    \bfig
+    \square|ammb|<600,600>[
+      T^3 A`
+      T^2A`
+      T^2A`
+      TA;
+      \mu_{TA}`
+      T\mu_A`
+      \mu_A`
+      \mu_A]
+    \efig
+    \and
+    \bfig
+    \Atrianglepair/=`<-`=`->`<-/<600,600>[
+      TA`
+      TA`
+      T^2 A`
+      TA;`
+      \mu_A``
+      \eta_{TA}`
+      T\eta_A]
+    \efig
+  \end{mathpar}
+  The assumption that $\eta$ and $\mu$ are symmetric
+  comonoidal natural transformations amount to the following diagrams
+  commuting:
+  \begin{mathpar}
+    \bfig
+    \ptriangle|amm|/->`->`<-/<1000,600>[
+      A \oplus B`
+      TA \oplus TB`
+      T(A \oplus B);
+      \eta_A \oplus \eta_B`
+      \eta_A`
+      \n{A,B}]    
+    \efig
+    \and
+    \bfig
+    \Vtriangle/->`=`->/<600,600>[
+      \perp`
+      T\perp`
+      \perp;
+      \eta_\perp``
+      \n{\perp}]
+    \efig
+  \end{mathpar}
+  \begin{mathpar}
+    \bfig
+    \square|ammm|/->`->``/<1050,600>[
+      T^2(A \oplus B)`
+      T(TA \oplus TB)`
+      T(A \oplus B)`;
+      T\n{A,B}`
+      \mu_{A \oplus B}``]
+
+    \square(850,0)|ammm|/->``->`/<1050,600>[
+      T(TA \oplus TB)`
+      T^2 A \oplus T^2 B``
+      TA \oplus TB;
+      \n{TA,TB}``
+      \mu_A \oplus \mu_B`]
+    \morphism(-200,0)<2100,0>[T(A \oplus B)`TA \oplus TB;\n{A,B}]
+    \efig
+    \and
+    \bfig
+    \square|ammb|/->`->`->`->/<600,600>[
+      T^2\perp`
+      T\perp`
+      T\perp`
+      \perp;
+      T\n{\perp}`
+      \mu_\perp`
+      \n{\perp}`
+      \n{\perp}]
     \efig
   \end{mathpar}
 \end{definition}
@@ -761,6 +999,91 @@ Finally the dual concept, of a symmetric monoidal comonad.
       \m{\top}`
       \delta_\top`
       T\m{\top}]
+    \efig
+  \end{mathpar}
+\end{definition}
+\begin{definition}
+  \label{def:symm-comonoidal-comonad}
+  A \textbf{symmetric comonoidal comonad} on a symmetric monoidal
+  category $\cat{C}$ is a triple $(T,\varepsilon, \delta)$, where
+  $(T,\m{})$ is a symmetric comonoidal endofunctor on $\cat{C}$,
+  $\varepsilon_A : TA \mto A$ and $\delta_A : TA \to T^2 A$ are
+  symmetric comonoidal natural transformations, which make the
+  following diagrams commute:
+  \begin{mathpar}
+    \bfig
+    \square|amma|<600,600>[
+      TA`
+      T^2A`
+      T^2A`
+      T^3A;
+      \delta_A`
+      \delta_A`
+      T\delta_A`
+      \delta_{TA}]
+    \efig
+    \and
+    \bfig
+    \Atrianglepair/=`->`=`<-`->/<600,600>[
+      TA`
+      TA`
+      T^2 A`
+      TA;`
+      \delta_A``
+      \varepsilon_{TA}`
+      T\varepsilon_A]
+    \efig
+  \end{mathpar}
+  The assumption that $\varepsilon$ and $\delta$ are symmetric
+  monoidal natural transformations amount to the following diagrams
+  commuting:
+  \begin{mathpar}
+    \bfig
+    \qtriangle|mmb|<1000,500>[
+      T(A \oplus B)`
+      TA \oplus TB`
+      A \oplus B;
+      \m{A,B}`
+      \varepsilon_{A \oplus B}`
+      \varepsilon_A \oplus \varepsilon_B]
+    \efig
+    \and
+    \bfig
+    \Vtriangle|amm|/->`=`<-/[
+      T\perp`
+      \perp`
+      T\perp;
+      \varepsilon_{\perp}``
+      \m{\perp}]
+    \efig    
+  \end{mathpar}
+  \begin{mathpar}
+    \bfig
+    \square|amab|/`->``->/<1050,600>[
+      T(A \otimes B)``
+      T^2(A \otimes B)`
+      T(TA \otimes TB);`
+      \delta_{A \otimes B}``
+      T\m{A,B}]
+    \square(1050,0)|mmmb|/``->`->/<1050,600>[`
+      TA \otimes TB`
+      T(TA \otimes TB)`
+      T^2A \otimes T^2B;``
+      \delta_A \otimes \delta_B`
+      \m{TA,TB}]
+    \morphism(0,600)<2100,0>[T(A \otimes B)`TA \otimes TB;\m{A,B}]
+    \efig
+    \and
+    \bfig
+    \square|amma|/->`->`<-`->/<600,600>[
+      T\perp`
+      \perp`
+      T^2 \perp`
+      T\perp;
+      \m{\perp}`
+      \delta_\perp`
+      \m{\perp}`
+      T\m{\perp}]
     \efig
   \end{mathpar}
 \end{definition}
@@ -968,9 +1291,9 @@ linear exponential why-not denoted $?A = \func{J}\,(\func{H}\,A))$.
   Appendix~\ref{subsec:proof_of_lemma:symmetric_monoidal_monad}.
 \end{proof}
 
-A $\wn-\text{algebra}$ is a pair $(\wn A, t_X : \wn^2 A \mto \wn A)$,
+A $\wn\text{-algebra}$ is a pair $(\wn A, t_X : \wn^2 A \mto \wn A)$,
 and is called \textit{free} if it is an object of the full subcategory
-of all $\wn-\text{algebra's}$ that is in adjunction with the category
+of all $\wn\text{-algebra's}$ that is in adjunction with the category
 $\cat{L}$, such that, the right adjoint is the forgetful functor.  The
 why-not monad must allow for the right structural rules, weakening and
 contraction, to be defined.
@@ -978,10 +1301,11 @@ contraction, to be defined.
 \begin{lemma}[Right Weakening and Contraction]
   \label{lemma:right_weakening_and_contraction}
   Given a coLNL model $\cat{L} : \func{H} \dashv \func{J} : \cat{C}$,
-  and any free algebra, $(\wn A, \mu_A)$, there must be distinguished
-  symmetric monoidal natural transformations $\w{A} : \perp \mto \wn
-  A$ and $\c{A} : \wn A \oplus \wn A \mto \wn A$ that form a
-  commutative monoid, and are algebra morphisms.
+  there must be distinguished symmetric monoidal natural
+  transformations $\w{A} : \perp \mto \wn A$ and $\c{A} : \wn A \oplus
+  \wn A \mto \wn A$ that form a commutative monoid, and are
+  $\wn\text{-algebra}$ morphisms with respect to the canonical
+  definitions of the algebras $\wn A$, $\perp$, $\wn A \oplus \wn A$.
 \end{lemma}
 \begin{proof}
   Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
@@ -1000,8 +1324,7 @@ contraction, to be defined.
     \mto^{\func{J}\h{A,B}} \func{JH}(A \oplus B) \mto^{=} \wn(A \oplus B)
   \end{array}
   \]
-  Furthermore, let $(\wn A,\mu_A)$ be a free ?-algebra.  Then we
-  define the following morphisms:
+  Then we define the following morphisms:
   \[
   \begin{array}{lll}
     \w{A} := \perp \mto^{\j{\perp}} \func{J} 0 \mto^{\func{J}\diamond_{\func{H} A}} \func{JH}A = \wn A\\
@@ -1454,8 +1777,168 @@ contraction, to be defined.
   \end{itemize}
   At this point we have shown that $\w{A} : \perp \mto \wn A$ and
   $\c{A} : \wn A \oplus \wn A \mto \wn A$ are symmetric monoidal
-  naturality transformations.  Now we show that they form a
-  commutative monoid.
+  naturality transformations.  Now we show that for any $\wn A$ the
+  triple $(\wn A,\w{A},\c{A})$ forms a commutative monoid.  This means
+  that the following diagrams must commute:
+  \begin{itemize}
+  \item[Case.]\ \\
+    \begin{diagram}
+      \hSquares|aammmmm|/->`->```->``/[
+        (\wn A \oplus \wn A) \oplus \wn A`
+        \wn A \oplus (\wn A \oplus \wn A)`
+        \wn A \oplus \wn A```
+        \wn A;
+        \alpha_{\wn A,\wn A,\wn A}`
+        \id_{\wn A} \oplus \c{A}```
+        \c{A}``]
+      \btriangle|maa|/->``->/<2407,500>[(\wn A \oplus \wn A) \oplus \wn A`
+        \wn A \oplus \wn A`
+        \wn A;
+        \c{A} \oplus \id_{A}``
+        \c{A}]
+    \end{diagram}
+    The previous diagram commutes, because the following one does (we
+    omit subscripts for readability):
+    \begin{diagram}
+      \scriptsize
+      \square|amma|/->`->``->/<950,500>[
+        (\func{JH}A \oplus \func{JH}A) \oplus \func{JH}A`
+        \func{JH}A \oplus (\func{JH}A \oplus \func{JH}A)`
+        \func{J}(\func{H}A + \func{H}A) \oplus \func{JH}A`
+        \func{J}((\func{H}A + \func{H}A) + \func{H}A);
+        \alpha`
+        \j{} \oplus \id``
+        \j{}]
+
+      \square(950,0)|amma|/->``->`->/<950,500>[
+        \func{JH}A \oplus (\func{JH}A \oplus \func{JH}A)`
+        \func{JH}A \oplus \func{J}(\func{H}A + \func{H}A)`
+        \func{J}((\func{H}A + \func{H}A) + \func{H}A)`
+        \func{J}(\func{H}A + (\func{H}A + \func{H}A));
+        \id \oplus \j{}``
+        \j{}`
+        \func{J}\alpha]
+
+      \square(1900,0)|amma|/->``->`->/<950,500>[
+        \func{JH}A \oplus \func{J}(\func{H}A + \func{H}A)`
+        \func{JH}A \oplus \func{JH}A`
+        \func{J}(\func{H}A + (\func{H}A + \func{H}A))`
+        \func{J}(\func{H}A + \func{H}A);
+        \id \oplus \func{J}\codiag{}``
+        \j{}`
+        \func{J}(\id + \codiag{})]
+
+      \square(0,-500)|amma|/`->`->`->/<950,500>[
+        \func{J}(\func{H}A + \func{H}A) \oplus \func{JH}A`
+        \func{J}((\func{H}A + \func{H}A) + \func{H}A)`
+        \func{JH}A \oplus \func{JH}A`
+        \func{J}(\func{H}A + \func{H}A);`
+        \func{J}\codiag{} \oplus \id`
+        \func{J}(\codiag{} + \id)`
+        \j{}]
+
+      \dtriangle(950,-500)|ama|/`->`->/<1900,500>[
+        \func{J}(\func{H}A + \func{H}A)`
+        \func{J}(\func{H}A + \func{H}A)`
+        \func{JH}A;`
+        \func{J}\codiag{}`
+        \func{J}\codiag{}]
+
+      \place(950,250)[(1)]
+      \place(2375,250)[(2)]
+      \place(475,-250)[(3)]
+      \place(1900,-250)[(4)]
+    \end{diagram}
+    Diagram 1 commutes because $\func{J}$ is a symmetric monoidal
+    functor, diagrams 2 and 3 commute by naturality of $\j{}$, and
+    diagram 4 commutes because $(\func{H}A, \diamond, \codiag{})$ is a
+    commutative monoid in $\cat{C}$, but we leave the proof of this to
+    the reader.
+
+  \item[Case.]\ \\
+    \begin{diagram}
+      \btriangle|maa|/->`->`->/<1000,600>[
+        \wn A \oplus \perp`
+        \wn A \oplus \wn A`
+        \wn A;
+        \id_{\wn A} \oplus \w{A}`
+        \rho_{\wn A}`
+        \c{A}]
+    \end{diagram}
+    The previous diagram commutes, because the following one does:
+    \begin{diagram}
+      \square|amma|/->`->`->`->/<950,500>[
+        \func{JH}A \oplus \func{J}0`
+        \func{J}(\func{H}A + 0)`
+        \func{JH}A \oplus \func{JH}A`
+        \func{J}(\func{H}A + \func{H}A);
+        \j{}`
+        \id \oplus \func{J}\diamond`
+        \func{J}(\id \oplus \diamond)`
+        \j{}]
+
+      \square(950,0)|amma|/->``=`->/<950,500>[
+        \func{J}(\func{H}A + 0)`
+        \func{JH}A`
+        \func{J}(\func{H}A + \func{H}A)`
+        \func{JH}A;
+        \func{J}\rho```
+        \func{J}\codiag{}]
+
+      \square(0,500)|amma|/->`->`=`/<1900,500>[
+        \func{JH}A \oplus \perp`
+        \func{JH}A`
+        \func{JH}A \oplus \func{J}0`
+        \func{JH}A;
+        \rho`
+        \id \oplus \j{\perp}``]
+
+      \place(950,750)[1]
+      \place(475,250)[2]
+      \place(1425,250)[3]      
+    \end{diagram}
+    Diagram 1 commutes because $\func{J}$ is a symmetric monoidal
+    functor, diagram 2 commutes by naturality of $\j{}$, and diagram 3
+    commutes because $(\func{H}A, \diamond, \codiag{})$ is a
+    commutative monoid in $\cat{C}$, but we leave the proof of this to
+    the reader.
+    
+  \item[Case.]\ \\
+    \begin{diagram}
+      \btriangle|maa|/->`->`->/<1000,600>[
+        \wn A \oplus \wn A`
+        \wn A \oplus \wn A`
+        \wn A;
+        \beta_{\wn A,\wn A}`
+        \c{A}`
+        \c{A}]
+    \end{diagram}
+    This diagram commutes, because the following one does:
+    \begin{diagram}
+      \hSquares/->`->`->`->`=`->`->/[
+        \func{JH}A \oplus \func{JH}A`
+        \func{J}(\func{H}A + \func{H}A)`
+        \func{JH}A`
+        \func{JH}A \oplus \func{JH}A`
+        \func{J}(\func{H}A + \func{H}A)`
+        \func{JH}A;
+        \j{}`
+        \func{J}\codiag{}`
+        \beta`
+        \func{J}\beta``
+        \j{}`
+        \func{J}\codiag{}]
+    \end{diagram}
+    The left diagram commutes by naturality of $\j{}$, and the right
+    diagram commutes because $(\func{H}A, \diamond, \codiag{})$ is a
+    commutative monoid in $\cat{C}$, but we leave the proof of this to
+    the reader.
+  \end{itemize}
+
+  Finally, we must show that $\w{A} : \perp \mto \wn A$ and $\c{A} :
+  \wn A \oplus \wn A \mto \wn A$ are $\wn\text{-algebra}$ morphisms.
+  The algebras in play here are $(\wn A,\mu : \wn\wn A \mto \wn A)$,
+  $(\perp, ? : \wn \perp \mto \perp)$.
 \end{proof}
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
 
