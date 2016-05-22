@@ -1,73 +1,188 @@
 \section{Proofs}
 \label{sec:proofs}
-\subsection{Proof of Lemma~\ref{lemma:symmetric_monoidal_monad}}
-\label{subsec:proof_of_lemma:symmetric_monoidal_monad}
-We denote $H;J$ by $?$ throughout the proof, but expand this
+
+\subsection{Proof of Lemma~\ref{lemma:symmetric_comonoidal_isomorphisms}}
+\label{subsec:proof_of_lemma:symmetric_comonoidal_isomorphisms}
+We show that both of the  maps:
+\[
+  \begin{array}{lll}
+    \jinv{R,S} := \func{J}R \oplus \func{J}S \mto^{\eta} \func{JH}(\func{J}R \oplus \func{J}S) \mto^{\func{J}\h{A,B}} \func{J}(\func{HJ}R + \func{HJ}S) \mto^{\J(\varepsilon_R + \varepsilon_S)} \func{J}(R + S)\\
+  \\
+  \jinv{\perp} := \perp \mto^{\eta} \func{JH}\perp \mto^{\func{J}\h{\perp}} \func{J}0
+  \end{array}
+  \]
+are mutual inverses with $\j{R,S} : \func{J}(R + S) \mto \func{J}R
+\oplus \func{J}S$ and $\j{\perp} : \perp \mto \func{J}0$ respectively.
+
+\begin{itemize}
+\item[Case.] The following diagram implies that $\jinv{R,S};\j{R,S} = \id$:
+  \begin{diagram}
+    \square|ammm|/->`->`->`<-/<950,500>[
+      \func{J}R \oplus \func{J}S`
+      \func{JH}(\func{J}R \oplus \func{J}S)`
+      \func{JHJ}R \oplus \func{JHJ}S`
+      \func{J}(\func{HJ}R + \func{HJ}S);
+      \eta`
+      \eta \oplus \eta`
+      \func{J}\h{}`
+      \j{}
+    ]
+    \dtriangle(-950,0)|amm|/=``<-/<950,500>[
+      \func{J}R \oplus \func{J}S`
+      \func{J}R \oplus \func{J}S`
+      \func{JHJ}R \oplus \func{JHJ}S;``
+      \func{J}\varepsilon \oplus \func{J}\varepsilon]
+
+    \qtriangle(-950,-500)/`<-`->/<1900,500>[
+      \func{J}R \oplus \func{J}S`
+      \func{J}(\func{HJ}R + \func{HJ}S)`
+      \func{J}(R + S);`
+      \j{}`
+      \func{J}(\varepsilon + \varepsilon)]        
+  \end{diagram}
+  The two top diagrams both commute because $\eta$ and $\varepsilon$
+  are the unit and counit of the adjunction respectively, and the
+  bottom diagram commutes by naturality of $\j{}$.
+  
+\item[Case.] The following diagram implies that $\j{R,S};\jinv{R,S} = \id$:
+  \begin{diagram}
+    \square|ammm|/->`->`->`->/<950,500>[
+      \func{J}(R + S)`
+      \func{J}R \oplus \func{J}S`
+      \func{JHJ}(R + S)`
+      \func{JH}(\func{J}R \oplus \func{J}S);
+      \j{}`
+      \eta`
+      \eta`
+      \func{JH}\j{}
+    ]
+    \dtriangle(-950,0)|amm|/=``<-/<950,500>[
+      \func{J}(R + S)`
+      \func{J}(R + S)`
+      \func{JHJ}(R + S);``
+      \func{J}\varepsilon]
+
+    \qtriangle(-950,-500)/`<-`->/<1900,500>[
+      \func{J}(R + S)`
+      \func{JH}(\func{J}R \oplus \func{J}S)`
+      \func{J}(\func{HJ}R + \func{HJ}S);`
+      \func{J}(\varepsilon + \varepsilon)`
+      \func{J}\h{}]
+  \end{diagram}
+  The top left and bottom diagrams both commute because $\eta$ and $\varepsilon$
+  are the unit and counit of the adjunction respectively, and the
+  top right diagram commutes by naturality of $\eta$.
+  
+\item[Case.] The following diagram implies that $\jinv{\perp};\j{\perp} = \id$:
+  \begin{diagram}
+    \square|amma|/->`=`->`<-/<950,500>[
+      \perp`
+      \func{JH}\perp`
+      \perp`
+      \func{J}0;
+      \eta``
+      \func{J}\h{\perp}`
+      \j{\perp}]
+  \end{diagram}
+  This diagram holds because $\eta$ is the unit of the adjunction.
+
+\item[Case.] The following diagram implies that $\j{\perp};\jinv{\perp} = \id$:        
+  \begin{diagram}
+    \Atriangle|aaa|/->`->`<-/<950,500>[
+      \func{JHJ}0`
+      \func{J}0`
+      \func{JH}\perp;
+      \func{J}\varepsilon`
+      \func{JH}\j{\perp}`
+      \func{J}\h{\perp}]
+
+    \Dtriangle|aaa|/=`->`/<950,500>[
+      \func{J}0`
+      \func{JHJ}0`
+      \func{J}0;`
+      \eta`]
+
+    \square/->``->`/<1900,1000>[
+      \func{J}0`
+      \perp`
+      \func{J}0`
+      \func{JH}\perp;
+      \j{\perp}``
+      \eta`]
+  \end{diagram}
+  The top-left and bottom diagrams commute because $\eta$ and
+  $\varepsilon$ are the unit and counit of the adjunction
+  respectively, and the top-right digram commutes by naturality of
+  $\eta$.
+\end{itemize}
+% subsection proof_of_lemma~\ref{lemma:symmetric_comonoidal_isomorphisms} (end)
+
+\subsection{Proof of Lemma~\ref{lemma:symmetric_comonoidal_monad}}
+\label{subsec:proof_of_lemma:symmetric_comonoidal_monad}
+We denote $H;J$ by $\wn$ throughout the proof, but expand this
 definition where necessary.  First, it is easy to see that $?$ is
-symmetric monoidal, because it is the composition of two symmetric
+symmetric comonoidal, because it is the composition of two symmetric
 monoidal functors.  Thus, the following diagrams all hold:
 \begin{mathpar}
   \bfig
   \vSquares|ammmmma|/->`->`->``->`->`->/[
-    (\wn A \oplus \wn B) \oplus \wn C`
-    \wn A \oplus (\wn B \oplus \wn C)`
-    \wn (A \oplus B) \oplus \wn C`
-    \wn A \oplus \wn (B \oplus C)`
     \wn ((A \oplus B) \oplus C)`
-    \wn (A \oplus (B \oplus C));
-        {\alpha}_{\wn A,\wn B,\wn C}`
-        \r{A,B} \oplus \id_{\wn C}`
-        \id_{\wn A} \oplus \r{B,C}``
-        \r{A \oplus B,C}`
-        \r{A,B \oplus C}`
-        \wn {\alpha}_{A,B,C}]
+    \wn (A \oplus B) \oplus \wn C`
+    \wn (A \oplus (B \oplus C))`
+    (\wn A \oplus \wn B) \oplus \wn C`
+    \wn A \oplus \wn (B \oplus C))`
+    \wn A \oplus (\wn B \oplus \wn C);
+    m_{A \oplus B,C}`
+    \wn \alpha_{A,B,C}`
+    m_{A,B} \oplus \id_{\wn C}``
+    m_{A,B \oplus C}`
+    \alpha_{\wn A,\wn B,\wn C}`
+    \id_{\wn A} \oplus m_{B,C}]    
   \efig
 \end{mathpar}
-
-\begin{mathpar}
-  \bfig
-  \square|amma|/->`->`<-`->/<1000,500>[
-    \perp \oplus \wn A`
-    \wn A`
-    \wn \perp \oplus \wn A`
-    \wn (\perp \oplus A);
-        {\lambda}_{\wn A}`
-        \r{\perp} \oplus \id_{\wn A}`
-        \wn {\lambda}_{A}`
-        \r{\perp,A}]
-  \efig
-  \and
-  \bfig
-  \square|amma|/->`->`<-`->/<1000,500>[
-    \wn A \oplus \perp`
-    \wn A`
-    \wn A \oplus \wn \perp`
-    \wn (A \oplus \perp);
-        {\rho}_{\wn A}`
-        \id_{\wn A} \oplus \r{\perp}`
-        \wn {\rho}_{A}`
-        \r{A,\perp}]
-  \efig
-\end{mathpar}
-
+%    \and
 \begin{mathpar}
   \bfig
   \square|amma|/->`->`->`->/<1000,500>[
-    \wn A \oplus \wn B`
-    \wn B \oplus \wn A`
-    \wn (A \oplus B)`
-    \wn (B \oplus A);
-        {\beta}_{\wn A,\wn B}`
-        \r{A,B}`
-        \r{B,A}`
-        \wn {\beta}_{A,B}]
+    \wn (\perp \oplus A)`
+    \wn \perp \oplus \wn A`
+    \wn A`
+    \perp \oplus \wn A;
+    m_{\perp,A}`
+    \wn {\lambda}_{A}`
+    m_{\perp} \oplus \id_{\wn A}`
+    {\lambda^{-1}}_{\wn A}]
+  \efig
+  \and
+  \bfig
+  \square|amma|/->`->`->`->/<1000,500>[
+    \wn (A \oplus \perp)`
+    \wn A \oplus \wn \perp`
+    \wn A`
+    \wn A \oplus \perp;
+    m_{A,\perp}`
+    \wn {\rho}_{A}`
+    \id_{\wn A} \oplus m_{\perp}`
+       {\rho^{-1}}_{\wn A}]
   \efig
 \end{mathpar}
+
+\begin{diagram}
+  \square|amma|/->`->`->`->/<1000,500>[
+    \wn (A \oplus B)`
+    \wn A \oplus \wn B`
+    \wn (B \oplus A)`
+    \wn B \oplus \wn A;
+    m_{A,B}`
+    \wn {\beta}_{A,B}`
+        {\beta}_{\wn A,\wn B}`
+        m_{B,A}]
+\end{diagram}
 Next we show that $(\wn,\eta,\mu)$ defines a monad where
 $\eta_A : A \mto ?A$ is the unit of the adjunction, and
 $\mu_A = \func{J}\varepsilon_{\func{H}\,A} : \wn\wn A \mto \wn A$.  It
 suffices to show that every diagram of
-Definition~\ref{def:symm-monoidal-monad} holds.
+Definition~\ref{def:symm-comonoidal-monad} holds.
 \begin{itemize}
 \item[Case.]
   $$\bfig
@@ -134,59 +249,59 @@ Definition~\ref{def:symm-monoidal-monad} holds.
 \end{itemize}
 
 It remains to be shown that $\eta$ and $\mu$ are both
-symmetric monoidal natural transformations, but this easily follows
+symmetric comonoidal natural transformations, but this easily follows
 from the fact that we know $\eta$ is by assumption, and that $\mu$
 is because it is defined in terms of $\varepsilon$ which is a
-symmetric monoidal natural transformation.  Thus, all of the
+symmetric comonoidal natural transformation.  Thus, all of the
 following diagrams commute:
 \begin{mathpar}
   \bfig
-  \dtriangle|mmb|<1000,600>[
+  \ptriangle|amm|/->`->`<-/<1000,600>[
     A \oplus B`
     \wn A \oplus \wn B`
     \wn (A \oplus B);
     \eta_A \oplus \eta_B`
     \eta_A`
-    \r{A,B}]    
+    \n{A,B}]    
   \efig
   \and
   \bfig
-  \Vtriangle/->`=`<-/<600,600>[
+  \Vtriangle/->`=`->/<600,600>[
     \perp`
-    \wn \perp`
+    \wn\perp`
     \perp;
     \eta_\perp``
-    \r{\perp}]
+    \n{\perp}]
   \efig
 \end{mathpar}
 \begin{mathpar}
   \bfig
   \square|ammm|/->`->``/<1050,600>[
-    \wn^2 A \oplus \wn ^2 B`
+    \wn^2(A \oplus B)`
     \wn (\wn A \oplus \wn B)`
-    \wn A \oplus \wn B`;
-    \r{\wn A,\wn B}`
-    \mu_A \oplus \mu_B``]
+    \wn (A \oplus B)`;
+    \wn\n{A,B}`
+    \mu_{A \oplus B}``]
 
   \square(850,0)|ammm|/->``->`/<1050,600>[
     \wn (\wn A \oplus \wn B)`
-    \wn^2(A \oplus B)``
-    \wn (A \oplus B);
-    \wn \r{A,B}``
-    \mu_{A \oplus B}`]
-  \morphism(-200,0)<2100,0>[\wn A \oplus \wn B`\wn (A \oplus B);\r{A,B}]
+    \wn^2 A \oplus \wn^2 B``
+    \wn A \oplus \wn B;
+    \n{\wn A,\wn B}``
+    \mu_A \oplus \mu_B`]
+  \morphism(-200,0)<2100,0>[\wn(A \oplus B)`\wn A \oplus \wn B;\n{A,B}]
   \efig
   \and
   \bfig
-  \square|ammb|/->`->`->`<-/<600,600>[
-    \perp`
-    \wn \perp`
-    \wn \perp`
-    \wn^2\perp;
-    \r{\perp}`
-    \r{\perp}`
-    \wn \r{\perp}`
-    \mu_\perp]
+  \square|ammb|/->`->`->`->/<600,600>[
+    \wn^2\perp`
+    \wn\perp`
+    \wn\perp`
+    \perp;
+    \wn\n{\perp}`
+    \mu_\perp`
+    \n{\perp}`
+    \n{\perp}]
   \efig
 \end{mathpar}
 % subsection proof_of_lemma:symmetric_monoidal_monad (end)
