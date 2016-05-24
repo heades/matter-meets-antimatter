@@ -1974,7 +1974,180 @@ contraction, to be defined.
   Finally, we must show that $\w{A} : \perp \mto \wn A$ and $\c{A} :
   \wn A \oplus \wn A \mto \wn A$ are $\wn\text{-algebra}$ morphisms.
   The algebras in play here are $(\wn A,\mu : \wn\wn A \mto \wn A)$,
-  $(\perp, ? : \wn \perp \mto \perp)$.
+  $(\perp, \r{\perp} : \wn \perp \mto \perp)$, and $(\wn A \oplus \wn
+  A, u_A : \wn (\wn A \oplus \wn A) \mto \wn A \oplus \wn A)$, where
+  $u_A := \wn (\wn A \oplus \wn A) \mto^{\r{\wn A,\wn A}} ?^2 A \oplus
+  ?^2 A \mto^{\mu_A \oplus \mu_A} \wn A \oplus \wn A$.  It suffices to
+  show that the following diagrams commute:
+  \begin{itemize}
+  \item[Case.]\ \\
+    \begin{diagram}
+      \square<950,500>[
+        \wn \perp`
+        \perp`
+        \wn\wn A`
+        \wn A;
+        \r{\perp}`
+        \wn\w{}`
+        \w{}`
+        \mu]
+    \end{diagram}
+    This diagram commutes, because the following fully expanded one does:
+    \begin{diagram}
+      \square|mmma|<2500,500>[
+        \J\H\J 0`
+        \J 0`
+        \J\H\J\H A`
+        \J\H A;
+        \J\varepsilon_0`
+        \J\H\J\diamond`
+        \J\diamond`
+        \J\varepsilon]
+
+      \square(0,500)|amma|/->`->``/<1250,1000>[
+        \J\H\perp`
+        \J 0`
+        \J\H\J 0`;
+        \J\h{\perp}`
+        \J\H\jinv{\perp}``]
+      \square(1250,500)|amma|/->``->`/<1250,1000>[
+        \J 0`
+        \perp``
+        \J 0;
+        \j{\perp}``
+        \jinv{\perp}`]
+
+      \Dtriangle(0,500)|mmm|/`->`=/<1250,500>[
+        \J\H \perp`
+        \J\H\J 0`
+        \J\H\J 0;`
+        \J\H\jinv{\perp}`]
+
+      \morphism(1250,1000)|m|<700,0>[
+        \J\H\J 0`
+        \J\H \perp;
+        \J\H\j{\perp}]
+
+      \morphism(1950,1000)|m|<550,-500>[
+        \J\H \perp`
+        \J 0;
+        \J\h{\perp}]
+
+      \place(1250,250)[(1)]
+      \place(1500,750)[(2)]
+      \place(380,1000)[(3)]
+      \place(2000,1250)[(4)]
+    \end{diagram}
+    Diagram 1 commutes by naturality of $\varepsilon$, diagram 2
+    commutes because $\varepsilon$ is the counit of the symmetric
+    comonoidal adjunction, diagram 3 clearly commutes, and diagram 4
+    commutes because $\j{\perp}$ is an isomorphism
+    (Lemma~\ref{lemma:symmetric_comonoidal_isomorphisms}).
+    
+  \item[Case.]\ \\
+    \begin{diagram}
+      \square|amma|<950,500>[
+        \wn (\wn A \oplus \wn A)`
+        \wn A \oplus \wn A`
+        \wn\wn A`
+        \wn A;
+        u`
+        \wn\c{}`
+        \c{}`
+        \mu]
+    \end{diagram}
+    This diagram commutes because the following fully expanded one does:
+    \begin{center}
+      \tiny
+      \rotatebox{90}{$\bfig
+      \square|amma|/->`->``/<1250,1500>[
+        \J\H\J(\H A + \H A)`
+        \J\H(\J\H A \oplus \J\H A)`
+        \J\H\J\H A`;
+        \J\H\j{}`
+        \J\H\J\codiag{}``]
+      \square(1250,0)|amma|/->``->`/<1250,1500>[
+        \J\H(\J\H A \oplus \J\H A)`
+        \J(\H\J\H A + \H\J\H A)``
+        \J\H\J\H A;
+        \J\h{}``
+        \J\codiag{}`]
+      \morphism/=/<2500,0>[\J\H\J\H A`\J\H\J\H A;]
+
+      \Atriangle/<-`<-`=/<1250,500>[
+        \J\H A`
+        \J\H\J\H A`
+        \J\H\J\H A;
+        \J\varepsilon`
+        \J\varepsilon`]
+
+      \Vtriangle(0,1000)/`->`->/<1250,500>[
+        \J\H\J(\H A + \H A)`
+        \J(\H\J\H A + \H\J\H A)`
+        \J(\H A + \H A);`
+        \J\varepsilon`
+        \J(\varepsilon + \varepsilon)]
+
+      \morphism(1250,1000)|m|<0,-500>[
+        \J(\H A + \H A)`
+        \J\H A;
+        \J\codiag{}]
+
+      \square(0,1500)|amma|/->`->``/<1250,500>[
+        \J\H(\J\H A \oplus \J\H A)`
+        \J(\H\J\H A + \H\J\H A)`
+        \J\H\J(\H A + \H A)`;
+        \J\h{}`
+        \J\H\jinv{}``]        
+
+      \square(1250,1500)|amma|/->``->`/<1250,500>[
+        \J(\H\J\H A + \H\J\H A)`
+        \J\H\J\H A \oplus \J\H\J\H A`
+        \J\H(\J\H A \oplus \J\H A)`
+        \J(\H\J\H A + \H\J\H A);
+        \j{}`
+        `
+        \jinv{}`]
+
+      \square(2500,0)|amma|<1250,1500>[
+        \J(\H\J\H A + \H\J\H A)`
+        \J(\H A + \H A)`
+        \J\H\J\H A`
+        \J\H A;
+        \J(\varepsilon + \varepsilon)`
+        \J\codiag{}`
+        \J\codiag{}`
+        \J\varepsilon]
+
+      \square(2500,1500)|amma|<1250,500>[
+        \J\H\J\H A \oplus \J\H\J\H A`
+        \J\H A \oplus \J\H A`
+        \J(\H\J\H A + \H\J\H A)`
+        \J(\H A + \H A);
+        \J\varepsilon \oplus \J\varepsilon`
+        \jinv{}`
+        \jinv{}`
+        \J(\varepsilon + \varepsilon)]
+
+      \place(1250,250)[(1)]
+      \place(625,750)[(2)]
+      \place(1875,750)[(3)]
+      \place(1250,1250)[(4)]
+      \place(1250,1750)[(5)]
+      \place(3125,1750)[(6)]
+      \place(3125,750)[(7)]
+      \efig$}
+    \end{center}
+  \end{itemize}
+  Diagram 1 clearly commutes, diagram 2 commutes by naturality of
+  $\varepsilon$, diagram 3 commutes by naturality of $\codiag{}$,
+  diagram 4 commutes because $\varepsilon$ is the counit of the
+  symmetric comonoidal adjunction, diagram 5 commutes because $\j{}$
+  is an isomorphism
+  (Lemma~\ref{lemma:symmetric_comonoidal_isomorphisms}), diagram 6
+  commutes by naturality of $\jinv{}$, and diagram 7 is the same
+  diagram as 3, but this diagram is slightly redundant for
+  readability.
 \end{proof}
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
 
