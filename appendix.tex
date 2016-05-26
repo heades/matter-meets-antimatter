@@ -5,14 +5,14 @@
 \label{subsec:proof_of_lemma:symmetric_comonoidal_isomorphisms}
 We show that both of the  maps:
 \[
-  \begin{array}{lll}
-    \jinv{R,S} := \func{J}R \oplus \func{J}S \mto^{\eta} \func{JH}(\func{J}R \oplus \func{J}S) \mto^{\func{J}\h{A,B}} \func{J}(\func{HJ}R + \func{HJ}S) \mto^{\J(\varepsilon_R + \varepsilon_S)} \func{J}(R + S)\\
+\begin{array}{lll}
+  \jinv{R,S} := \func{J}R \oplus \func{J}S \mto^{\eta} \func{JH}(\func{J}R \oplus \func{J}S) \mto^{\func{J}\h{A,B}} \func{J}(\func{HJ}R + \func{HJ}S) \mto^{\J(\varepsilon_R + \varepsilon_S)} \func{J}(R + S)\\
   \\
-  \jinv{\perp} := \perp \mto^{\eta} \func{JH}\perp \mto^{\func{J}\h{\perp}} \func{J}0
-  \end{array}
-  \]
+  \jinv{0} := \perp \mto^{\eta} \func{JH}\perp \mto^{\func{J}\h{\perp}} \func{J}0
+\end{array}
+\]
 are mutual inverses with $\j{R,S} : \func{J}(R + S) \mto \func{J}R
-\oplus \func{J}S$ and $\j{\perp} : \perp \mto \func{J}0$ respectively.
+\oplus \func{J}S$ and $\j{0} : \perp \mto \func{J}0$ respectively.
 
 \begin{itemize}
 \item[Case.] The following diagram implies that $\jinv{R,S};\j{R,S} = \id$:
@@ -73,7 +73,7 @@ are mutual inverses with $\j{R,S} : \func{J}(R + S) \mto \func{J}R
   are the unit and counit of the adjunction respectively, and the
   top right diagram commutes by naturality of $\eta$.
   
-\item[Case.] The following diagram implies that $\jinv{\perp};\j{\perp} = \id$:
+\item[Case.] The following diagram implies that $\jinv{0};\j{0} = \id$:
   \begin{diagram}
     \square|amma|/->`=`->`<-/<950,500>[
       \perp`
@@ -82,18 +82,18 @@ are mutual inverses with $\j{R,S} : \func{J}(R + S) \mto \func{J}R
       \func{J}0;
       \eta``
       \func{J}\h{\perp}`
-      \j{\perp}]
+      \j{0}]
   \end{diagram}
   This diagram holds because $\eta$ is the unit of the adjunction.
 
-\item[Case.] The following diagram implies that $\j{\perp};\jinv{\perp} = \id$:        
+\item[Case.] The following diagram implies that $\j{0};\jinv{0} = \id$:        
   \begin{diagram}
     \Atriangle|aaa|/->`->`<-/<950,500>[
       \func{JHJ}0`
       \func{J}0`
       \func{JH}\perp;
       \func{J}\varepsilon`
-      \func{JH}\j{\perp}`
+      \func{JH}\j{0}`
       \func{J}\h{\perp}]
 
     \Dtriangle|aaa|/=`->`/<950,500>[
@@ -107,7 +107,7 @@ are mutual inverses with $\j{R,S} : \func{J}(R + S) \mto \func{J}R
       \perp`
       \func{J}0`
       \func{JH}\perp;
-      \j{\perp}``
+      \j{0}``
       \eta`]
   \end{diagram}
   The top-left and bottom diagrams commute because $\eta$ and
@@ -314,7 +314,7 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
   We define the following morphisms:
   \[
   \begin{array}{lll}
-    \w{A} := \perp \mto^{\jinv{\perp}} \func{J} 0 \mto^{\func{J}\diamond_{\func{H} A}} \func{JH}A \mto/=/ \wn A\\
+    \w{A} := \perp \mto^{\jinv{0}} \func{J} 0 \mto^{\func{J}\diamond_{\func{H} A}} \func{JH}A \mto/=/ \wn A\\
     \c{A} := \wn A \oplus \wn A \mto/=/ \func{JH}A \oplus \func{JH}A \mto^{\jinv{\func{H}A,\func{H}A}} \func{J}(\func{H}A + \func{H}A) \mto^{\func{J}\codiag{\func{H}A}} \func{JHA} \mto/=/ \wn A
   \end{array}
   \]
@@ -345,7 +345,7 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
     It further expands to the following:
     \[
     \bfig
-    \hSquares/->`->`->``->`->`->/[\perp`\func{J}0`\func{JH}A`\perp`\func{J}0`\func{JH}B;\jinv{\perp}`\func{J}(\diamond_{\func{H}A})`\id_\perp``\func{JH}f`\jinv{\perp}`\func{J}(\diamond_{\func{H}B})]
+    \hSquares/->`->`->``->`->`->/[\perp`\func{J}0`\func{JH}A`\perp`\func{J}0`\func{JH}B;\jinv{0}`\func{J}(\diamond_{\func{H}A})`\id_\perp``\func{JH}f`\jinv{0}`\func{J}(\diamond_{\func{H}B})]
     \efig
     \]
     This diagram commutes, because
@@ -417,21 +417,21 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
           \perp \oplus \perp`
           \J 0`;
           \rho^{-1}`
-          \jinv{\perp}``]
+          \jinv{0}``]
 
         \dtriangle(950,1300)|mma|<950,700>[
           \perp \oplus \perp`
           \J 0 \oplus \perp`
           \J 0 \oplus \J 0;
-          \jinv{\perp} \oplus \id`
-          \jinv{\perp} \oplus \jinv{\perp}`
-          \id \oplus \jinv{\perp}]
+          \jinv{0} \oplus \id`
+          \jinv{0} \oplus \jinv{0}`
+          \id \oplus \jinv{0}]
 
         \ptriangle(950,800)|amm|/`=`->/<950,500>[
           \J 0 \oplus \perp`
           \J 0 \oplus \J 0`
           \J 0 \oplus \perp;``
-          \id \oplus \j{\perp}]
+          \id \oplus \j{0}]
 
         \morphism(1900,1300)|m|/=/<0,-800>[
           \J 0 \oplus \J 0`
@@ -452,7 +452,7 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
       Diagram 1 commutes because $0$ is the initial object, diagram 2
       commutes by naturality of $\j{}$, diagram 3 commutes because
       $\J$ is a symmetric comonoidal functor, diagram 4 commutes
-      because $\j{\perp}$ is an isomorphism
+      because $\j{0}$ is an isomorphism
       (Lemma~\ref{lemma:symmetric_comonoidal_isomorphisms}), diagram 5
       commutes by functorality of $\J$, and diagram 6 commutes by
       naturality of $\rho$.
@@ -489,13 +489,13 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
           \perp``
           \perp`
           \J 0;```
-          \jinv{\perp}]
+          \jinv{0}]
         \morphism(-950,500)/<-/<1900,0>[
           \perp`
           \J 0;
-          \j{\perp}]        
+          \j{0}]        
       \end{diagram}
-      The diagram on the left commutes because $\j{\perp}$ is an
+      The diagram on the left commutes because $\j{0}$ is an
       isomorphism
       (Lemma~\ref{lemma:symmetric_comonoidal_isomorphisms}), and the
       diagram on the right commutes because $0$ is the initial object.
@@ -557,7 +557,7 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
     \[
     \small
     \begin{array}{lll}
-      \quad\quad\quad\t_\perp := \wn \perp \oplus \wn \perp \mto/=/ \J\H\perp \oplus \J\H\perp \mto^{\jinv{}} \J(\H\perp + \H\perp) \mto^{\J\codiag{}} \J\H\perp \mto^{\J\h{\perp}} \J 0 \mto^{\j{\perp}} \perp\\
+      \quad\quad\quad\t_\perp := \wn \perp \oplus \wn \perp \mto/=/ \J\H\perp \oplus \J\H\perp \mto^{\jinv{}} \J(\H\perp + \H\perp) \mto^{\J\codiag{}} \J\H\perp \mto^{\J\h{\perp}} \J 0 \mto^{\j{0}} \perp\\
       \\
       \quad\quad\quad\t_{A,B} := \wn (A \oplus B) \oplus \wn (A \oplus B) \mto^{\r{A,B} \oplus \r{A,B}} (\wn A \oplus \wn B) \oplus (\wn A \oplus \wn B) \mto^{\iso} (\wn A \oplus \wn A) \oplus (\wn B \oplus \wn B)
     \end{array}
@@ -853,7 +853,7 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
         \func{JH}A \oplus \func{J}0`
         \func{JH}A;
         \rho`
-        \id \oplus \jinv{\perp}``]
+        \id \oplus \jinv{0}``]
 
       \place(950,750)[(1)]
       \place(475,250)[(2)]
@@ -935,24 +935,24 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
         \J 0`
         \J\H\J 0`;
         \J\h{\perp}`
-        \J\H\jinv{\perp}``]
+        \J\H\jinv{0}``]
       \square(1250,500)|amma|/->``->`/<1250,1000>[
         \J 0`
         \perp``
         \J 0;
-        \j{\perp}``
-        \jinv{\perp}`]
+        \j{0}``
+        \jinv{0}`]
 
       \Dtriangle(0,500)|mmm|/`->`=/<1250,500>[
         \J\H \perp`
         \J\H\J 0`
         \J\H\J 0;`
-        \J\H\jinv{\perp}`]
+        \J\H\jinv{0}`]
 
       \morphism(1250,1000)|m|<700,0>[
         \J\H\J 0`
         \J\H \perp;
-        \J\H\j{\perp}]
+        \J\H\j{0}]
 
       \morphism(1950,1000)|m|<550,-500>[
         \J\H \perp`
@@ -967,7 +967,7 @@ Suppose $(\func{H},\h{})$ and $(\func{J},\j{})$ are two symmetric
     Diagram 1 commutes by naturality of $\varepsilon$, diagram 2
     commutes because $\varepsilon$ is the counit of the symmetric
     comonoidal adjunction, diagram 3 clearly commutes, and diagram 4
-    commutes because $\j{\perp}$ is an isomorphism
+    commutes because $\j{0}$ is an isomorphism
     (Lemma~\ref{lemma:symmetric_comonoidal_isomorphisms}).
     
   \item[Case.]\ \\

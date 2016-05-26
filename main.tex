@@ -441,7 +441,7 @@ symmetric monoidal functors.
   $(\cat{M}_1,\top_1,\otimes_1,\alpha_1,\lambda_1,\rho_1,\beta_1)$ and
   $(\cat{M}_2,\top_2,\otimes_2,\alpha_2,\lambda_2,\rho_2,\beta_2)$.  Then a
   \textbf{symmetric monoidal functor} is a functor $F : \cat{M}_1 \mto
-  \cat{M}_2$, a map $m_\top : \top_2 \mto F\top_1$ and a natural transformation
+  \cat{M}_2$, a map $m_{\top_1} : \top_2 \mto F\top_1$ and a natural transformation
   $m_{A,B} : FA \otimes_2 FB \mto F(A \otimes_1 B)$ subject to the
   following coherence conditions:
   \begin{mathpar}
@@ -470,7 +470,7 @@ symmetric monoidal functors.
       F\top_1 \otimes_2 FA`
       F(\top_1 \otimes_1 A);
       {\lambda_2}_{FA}`
-      m_{\top} \otimes \id_{FA}`
+      m_{\top_1} \otimes \id_{FA}`
       F{\lambda_1}_{A}`
       m_{\top_1,A}]
     \efig
@@ -482,7 +482,7 @@ symmetric monoidal functors.
       FA \otimes_2 F\top_1`
       F(A \otimes_1 \top_1);
       {\rho_2}_{FA}`
-      \id_{FA} \otimes m_{\top}`
+      \id_{FA} \otimes m_{\top_1}`
       F{\rho_1}_{A}`
       m_{A,\top_1}]
     \efig
@@ -510,7 +510,7 @@ The following is dual to the previous definition.
   $(\cat{M}_1,\perp_1,\oplus_1,\alpha_1,\lambda_1,\rho_1,\beta_1)$ and
   $(\cat{M}_2,\perp_2,\oplus_2,\alpha_2,\lambda_2,\rho_2,\beta_2)$.  Then a
   \textbf{symmetric comonoidal functor} is a functor $F : \cat{M}_1 \mto
-  \cat{M}_2$, a map $m_\perp : F\perp_1 \mto \perp_2$ and a natural transformation
+  \cat{M}_2$, a map $m_{\perp_1} : F\perp_1 \mto \perp_2$ and a natural transformation
   $m_{A,B} : F(A \oplus_1 B) \mto FA \oplus_2 FB$ subject to the
   following coherence conditions:
   \begin{mathpar}
@@ -540,7 +540,7 @@ The following is dual to the previous definition.
       \perp_2 \oplus_2 FA;
       m_{\perp_1,A}`
       F{\lambda_1}_{A}`
-      m_{\perp} \oplus \id_{FA}`
+      m_{\perp_1} \oplus \id_{FA}`
       {\lambda^{-1}_2}_{FA}]
     \efig
     \and
@@ -552,7 +552,7 @@ The following is dual to the previous definition.
       FA \oplus_2 \perp_2;
       m_{A,\perp_1}`
       F{\rho_1}_{A}`
-      \id_{FA} \oplus m_{\perp}`
+      \id_{FA} \oplus m_{\perp_1}`
       {\rho^{-1}_2}_{FA}]
     \efig
   \end{mathpar}
@@ -671,8 +671,8 @@ natural transformations, and adjunctions.
       FG\top_2`
       \top_2`
       \top_2;
-      Fn_{\top_1}`
-      m_{\top_2}`
+      Fn_{\top_2}`
+      m_{\top_1}`
       \varepsilon_{\top_1}`]    
     \efig
     \and
@@ -707,8 +707,8 @@ natural transformations, and adjunctions.
       GF\top_1`
       \top_1`
       \top_1;
-      Gm_{\top_2}`
-      n_{\top_1}`
+      Gm_{\top_1}`
+      n_{\top_2}`
       \eta_{\top_1}`]      
     \efig
   \end{mathpar} 
@@ -752,13 +752,13 @@ natural transformations, and adjunctions.
     %%   \p{\perp_1}`
     %%   \eta_{\perp_1}`]
     \square|amma|/->`<-`->`=/<1000,500>[
-      GF \top_1`
-      G \top_2`
-      \top_1`
-      \top_1;
-      Gm_{\top}`
+      GF \perp_1`
+      G \perp_2`
+      \perp_1`
+      \perp_1;
+      Gm_{\perp_1}`
       \eta_{\perp_1}`
-      n_{\top}`]
+      n_{\perp_2}`]
     \efig
     \and
     \bfig
@@ -793,8 +793,8 @@ natural transformations, and adjunctions.
       FG\perp_2`
       F\perp_1;
       \varepsilon_{\perp_2}``
-      m_{\perp}`
-      Fn_{\perp}]
+      m_{\perp_1}`
+      Fn_{\perp_2}]
     \efig
   \end{mathpar}  
 \end{definition}
@@ -1345,7 +1345,7 @@ $\func{J}$ are symmetric comonoidal functors, and hence, are equipped
 with natural transformations $\h{A,B} : \func{H}(A \oplus B) \mto
 \func{H}A + \func{H}B$ and $\j{R,S} : \func{J}(R + S) \mto \func{J}R
 \oplus \func{J}S$, and maps $\h{\perp} : \func{H}\perp \mto 0$ and
-$\j{\perp} : \func{J}0 \mto \perp$.  We will make heavy use of these
+$\j{0} : \func{J}0 \mto \perp$.  We will make heavy use of these
 maps throughout the sequel.
 
 One useful property of Benton's LNL model is that the maps associated
@@ -1369,13 +1369,13 @@ isomorphisms with respect to the right adjoint.
   \begin{array}{lll}
     \jinv{R,S} := \func{J}R \oplus \func{J}S \mto^{\eta} \func{JH}(\func{J}R \oplus \func{J}S) \mto^{\func{J}\h{A,B}} \func{J}(\func{HJ}R + \func{HJ}S) \mto^{\J(\varepsilon_R + \varepsilon_S)} \func{J}(R + S)\\
   \\
-  \jinv{\perp} := \perp \mto^{\eta} \func{JH}\perp \mto^{\func{J}\h{\perp}} \func{J}0
+  \jinv{0} := \perp \mto^{\eta} \func{JH}\perp \mto^{\func{J}\h{\perp}} \func{J}0
   \end{array}
   \]
   It is easy to see that $\jinv{R,S}$ is natural, because it is
   defined in terms of a composition of natural transformations.  All
-  that is left to be shown is that $\jinv{R,s}$ and $\jinv{\perp}$ are
-  mutual inverses with $\j{R,S}$ and $\j{\perp}$; for the details see
+  that is left to be shown is that $\jinv{R,s}$ and $\jinv{0}$ are
+  mutual inverses with $\j{R,S}$ and $\j{0}$; for the details see
   Appendix~\ref{subsec:proof_of_lemma:symmetric_comonoidal_isomorphisms}.
 \end{proof}
 \noindent
@@ -1468,6 +1468,96 @@ contraction, to be defined.
   Appendix~\ref{subsec:proof_of_lemma:right_weakening_and_contraction}
   for the complete proof.
 \end{proof}
+
+\begin{lemma}[$\wn$-Monoid Morphisms]
+  \label{lemma:monoid-morphism}
+  Suppose $\cat{L} : \func{H} \dashv \func{J} : \cat{C}$ is a coLNL
+  model.  Then if $f : (\wn A, \mu_A) \mto (\wn B, \mu_B)$ is a
+  morphism of free $\wn$-algebras, then it is a monoid morphism.
+\end{lemma}
+\begin{proof}
+  Suppose $\cat{L} : \func{H} \dashv \func{J} : \cat{C}$ is a coLNL
+  model.  Then we know $\wn A = \J\H A$ is a symmetric comonoidal
+  monad by Lemma~\ref{lemma:symmetric_comonoidal_monad}.  Bellin
+  \cite{Bellin:2012} remarks that by Maietti, Maneggia de Paiva and
+  Ritter's Proposition~25 \cite{Maietti2005}, it suffices to show that
+  $\mu_A : \wn\wn A \mto \wn A$ is a monoid morphism.  Thus, the
+  following diagrams must commute:
+  \begin{itemize}
+  \item[Case.]\ \\
+    \begin{diagram}
+      \square|amma|<950,500>[
+        \wn\wn A \oplus \wn\wn A`
+        \wn\wn A`
+        \wn A \oplus \wn A`
+        \wn A;
+        \c{\wn A}`
+        \mu_A \oplus \mu_A`
+        \mu_A`
+        \c{A}]
+    \end{diagram}
+    This diagram commutes because the following fully expanded one
+    does:
+    \begin{diagram}
+      \square|amma|<1000,500>[
+        \J\H\J\H A \oplus \J\H\J\H A`
+        \J(\H\J\H A + \H\J\H A)`
+        \J\H A \oplus \J\H A`
+        \J(\H A + \H A);
+        \jinv{}`
+        \J\varepsilon \oplus \J\varepsilon`
+        \J(\varepsilon + \varepsilon)`
+        \jinv{}]
+
+      \square(1000,0)|amma|<1000,500>[
+        \J(\H\J\H A + \H\J\H A)`
+        \J\H\J\H A`
+        \J(\H A + \H A)`
+        \J\H A;
+        \J\codiag{}`
+        \J(\varepsilon + \varepsilon)`
+        \J\varepsilon`
+        \J\codiag{}]      
+    \end{diagram}
+    The left square commutes by naturality of $\jinv{}$ and the right
+    square commutes by naturality of the codiagonal.
+    
+  \item[Case.]\ \\
+    \begin{diagram}
+      \Atriangle|aaa|[
+        \perp`
+        \wn\wn A`
+        \wn A;
+        \w{\wn A}`
+        \w{A}`
+        \mu_A]
+    \end{diagram}
+    This diagram commutes because the following fully expanded one
+    does:
+    \begin{diagram}
+      \square|amma|/=`->`->`=/<1000,500>[
+        \perp`
+        \perp`
+        \J 0`
+        \J 0;`
+        \jinv{0}`
+        \jinv{0}`]
+
+      \square(0,-500)|amma|/=`->`->`->/<1000,500>[
+        \J 0`
+        \J 0`
+        \J\H\J\H A`
+        \J\H A;`
+        \J\diamond`
+        \J\diamond`
+        \J\varepsilon]
+    \end{diagram}
+    The top square trivially commutes, and the bottom square commutes
+    by uniqueness of the initial map.
+  \end{itemize}
+
+\end{proof}
+
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
 
 \subsection{A Mixed Bi-Linear/Non-Linear Model}
