@@ -1481,81 +1481,9 @@ contraction, to be defined.
   monad by Lemma~\ref{lemma:symmetric_comonoidal_monad}.  Bellin
   \cite{Bellin:2012} remarks that by Maietti, Maneggia de Paiva and
   Ritter's Proposition~25 \cite{Maietti2005}, it suffices to show that
-  $\mu_A : \wn\wn A \mto \wn A$ is a monoid morphism.  Thus, the
-  following diagrams must commute:
-  \begin{itemize}
-  \item[Case.]\ \\
-    \begin{diagram}
-      \square|amma|<950,500>[
-        \wn\wn A \oplus \wn\wn A`
-        \wn\wn A`
-        \wn A \oplus \wn A`
-        \wn A;
-        \c{\wn A}`
-        \mu_A \oplus \mu_A`
-        \mu_A`
-        \c{A}]
-    \end{diagram}
-    This diagram commutes because the following fully expanded one
-    does:
-    \begin{diagram}
-      \square|amma|<1000,500>[
-        \J\H\J\H A \oplus \J\H\J\H A`
-        \J(\H\J\H A + \H\J\H A)`
-        \J\H A \oplus \J\H A`
-        \J(\H A + \H A);
-        \jinv{}`
-        \J\varepsilon \oplus \J\varepsilon`
-        \J(\varepsilon + \varepsilon)`
-        \jinv{}]
-
-      \square(1000,0)|amma|<1000,500>[
-        \J(\H\J\H A + \H\J\H A)`
-        \J\H\J\H A`
-        \J(\H A + \H A)`
-        \J\H A;
-        \J\codiag{}`
-        \J(\varepsilon + \varepsilon)`
-        \J\varepsilon`
-        \J\codiag{}]      
-    \end{diagram}
-    The left square commutes by naturality of $\jinv{}$ and the right
-    square commutes by naturality of the codiagonal.
-    
-  \item[Case.]\ \\
-    \begin{diagram}
-      \Atriangle|aaa|[
-        \perp`
-        \wn\wn A`
-        \wn A;
-        \w{\wn A}`
-        \w{A}`
-        \mu_A]
-    \end{diagram}
-    This diagram commutes because the following fully expanded one
-    does:
-    \begin{diagram}
-      \square|amma|/=`->`->`=/<1000,500>[
-        \perp`
-        \perp`
-        \J 0`
-        \J 0;`
-        \jinv{0}`
-        \jinv{0}`]
-
-      \square(0,-500)|amma|/=`->`->`->/<1000,500>[
-        \J 0`
-        \J 0`
-        \J\H\J\H A`
-        \J\H A;`
-        \J\diamond`
-        \J\diamond`
-        \J\varepsilon]
-    \end{diagram}
-    The top square trivially commutes, and the bottom square commutes
-    by uniqueness of the initial map.
-  \end{itemize}
-
+  $\mu_A : \wn\wn A \mto \wn A$ is a monoid morphism.  For the details
+  see the complete proof in
+  Appendix~\ref{sec:proof_of_lemma:monoid-morphism}.
 \end{proof}
 
 % subsection a_mixed_linear/non-linear_model_for_co-intuitionistic_logic (end)
