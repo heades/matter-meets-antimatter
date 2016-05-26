@@ -648,45 +648,70 @@ natural transformations, and adjunctions.
   diagrams must commute:
   \begin{mathpar}
     \bfig
-    \qtriangle|amm|<1000,500>[
-      FGA \otimes_1 FGB`
-      FG(A \otimes_1 B)`
-      A \otimes_1 B;
-      \q{A,B}`
+    \square|amma|/->`->`->`<-/<1000,500>[
+      FGA \otimes_2 FGB`
+      F(GA \otimes_1 GB)`
+      A \otimes_2 B`
+      FGA \otimes_2 FGB;
+      m_{GA,GB}`
       \varepsilon_A \otimes_1 \varepsilon_B`
+      Fn_{A,B}`
       \varepsilon_{A \otimes_1 B}]
     \efig
     \and
     \bfig
-    \Vtriangle|amm|/->`<-`=/[
-      FG\top_1`
+    %% \Vtriangle|amm|/->`<-`=/[
+    %%   FG\top_1`
+    %%   \top_1`
+    %%   \top_1;
+    %%   \varepsilon_{\top_1}`
+    %%   \q{\top_1}`]
+    \square|amma|/->`<-`->`=/<1000,500>[
+      F\top_1`
+      FG\top_2`
+      \top_2`
+      \top_2;
+      Fn_{\top_1}`
+      m_{\top_2}`
+      \varepsilon_{\top_1}`]    
+    \efig
+    \and
+    \bfig
+    %% \dtriangle|mmb|<1000,500>[
+    %%   A \otimes_2 B`
+    %%   GFA \otimes_2 GFB`
+    %%   GF(A \otimes_2 B);
+    %%   \eta_A \otimes_2 \eta_B`
+    %%   \eta_{A \otimes_2 B}`
+    %%   \p{A,B}]
+    \square|amma|/<-`->`->`->/<1000,500>[
+      GFA \otimes_1 GFB`
+      A \otimes_1 B`
+      G(FA \otimes_2 FB)`
+      GF(A \otimes_1 B);
+      \eta_A \otimes_1 \eta_B`
+      n_{FA,FB}`
+      \eta_{A \otimes_1 B}`
+      m_{A,B}]
+    \efig
+    \and
+    \bfig
+    %% \Vtriangle|amm|/->`=`<-/[
+    %%   \top_1`
+    %%   GF\top_1`
+    %%   \top_1;
+    %%   \eta_{\top_1}``
+    %%   p_{\top_1}]
+    \square|amma|/->`<-`<-`=/<1000,500>[
+      G\top_2`
+      GF\top_1`
       \top_1`
       \top_1;
-      \varepsilon_{\top_1}`
-      \q{\top_1}`]
+      Gm_{\top_2}`
+      n_{\top_1}`
+      \eta_{\top_1}`]      
     \efig
-    \and
-    \bfig
-    \dtriangle|mmb|<1000,500>[
-      A \otimes_2 B`
-      GFA \otimes_2 GFB`
-      GF(A \otimes_2 B);
-      \eta_A \otimes_2 \eta_B`
-      \eta_{A \otimes_2 B}`
-      \p{A,B}]
-    \efig
-    \and
-    \bfig
-    \Vtriangle|amm|/->`=`<-/[
-      \top_2`
-      GF\top_2`
-      \top_2;
-      \eta_{\top_2}``
-      p_{\top_2}]
-    \efig
-  \end{mathpar}
-  Note that $\p{}$ and $\q{}$ exist because $(FG,\q{})$ and
-  $(GF,\p{})$ are symmetric monoidal functors.
+  \end{mathpar} 
 \end{definition}
 \begin{definition}
   \label{def:coSMCADJ}
@@ -701,45 +726,77 @@ natural transformations, and adjunctions.
   diagrams must commute:
   \begin{mathpar}
     \bfig
-    \ptriangle|amm|<1000,500>[
+    %% \ptriangle|amm|<1000,500>[
+    %%   A \oplus_1 B`
+    %%   GF(A \oplus_1 B)`
+    %%   GFA \oplus_1 GFB;
+    %%   \eta_{A \oplus_1 B}`
+    %%   \eta_A \oplus_1 \eta_B`
+    %%   \p{A,B}]
+    \square|amma|/->`->`->`<-/<1000,500>[
       A \oplus_1 B`
       GF(A \oplus_1 B)`
-      GFA \oplus_1 GFB;
+      GFA \oplus_1 GFB`
+      G(FA \oplus_2 FB);
       \eta_{A \oplus_1 B}`
       \eta_A \oplus_1 \eta_B`
-      \p{A,B}]
+      Gm_{A,B}`
+      m_{FA,FB}]
     \efig
     \and
     \bfig
-    \Vtriangle|amm|/->`<-`=/[
-      GF\perp_1`
-      \perp_1`
-      \perp_1;
-      \p{\perp_1}`
-      \eta_{\perp_1}`]
+    %% \Vtriangle|amm|/->`<-`=/[
+    %%   GF\perp_1`
+    %%   \perp_1`
+    %%   \perp_1;
+    %%   \p{\perp_1}`
+    %%   \eta_{\perp_1}`]
+    \square|amma|/->`<-`->`=/<1000,500>[
+      GF \top_1`
+      G \top_2`
+      \top_1`
+      \top_1;
+      Gm_{\top}`
+      \eta_{\perp_1}`
+      n_{\top}`]
     \efig
     \and
     \bfig
-    \qtriangle|mmb|<1000,500>[
+    %% \qtriangle|mmb|<1000,500>[
+    %%   FG(A \oplus_2 B)`
+    %%   FGA \oplus_2 FGB`
+    %%   A \oplus_2 B;
+    %%   \q{A,B}`
+    %%   \varepsilon_{A \oplus_2 B}`
+    %%   \varepsilon_A \oplus_2 \varepsilon_B]
+    \square|amma|/->`->`->`<-/<1000,500>[
       FG(A \oplus_2 B)`
-      FGA \oplus_2 FGB`
-      A \oplus_2 B;
-      \q{A,B}`
+      F(GA \oplus_1 GB)`
+      A \oplus_2 B`
+      FGA \oplus_2 FGB;
+      Fn_{A,B}`
       \varepsilon_{A \oplus_2 B}`
+      m_{GA,GB}`
       \varepsilon_A \oplus_2 \varepsilon_B]
     \efig
     \and
     \bfig
-    \Vtriangle|amm|/->`=`<-/[
+    %% \Vtriangle|amm|/->`=`<-/[
+    %%   FG\perp_2`
+    %%   \perp_2`
+    %%   FG\perp_2;
+    %%   \varepsilon_{\perp_2}``
+    %%   \q{\perp_2}]
+    \square|amma|/->`=`<-`->/<1000,500>[
       FG\perp_2`
       \perp_2`
-      FG\perp_2;
+      FG\perp_2`
+      F\perp_1;
       \varepsilon_{\perp_2}``
-      \q{\perp_2}]
+      m_{\perp}`
+      Fn_{\perp}]
     \efig
-  \end{mathpar}
-  Note that $\p{}$ and $\q{}$ exist because $(FG,\q{})$ and
-  $(GF,\p{})$ are symmetric monoidal functors.
+  \end{mathpar}  
 \end{definition}
 We will be defining, and making use of the of-course and why-not
 exponentials from linear logic, but these correspond to a symmetric
